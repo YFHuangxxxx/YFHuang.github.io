@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>研究方向之语言模型及服务(LMaaS)</title>
+    <link href="/2022/07/11/%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91%E4%B9%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%8F%8A%E6%9C%8D%E5%8A%A1-LMaaS/"/>
+    <url>/2022/07/11/%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91%E4%B9%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%8F%8A%E6%9C%8D%E5%8A%A1-LMaaS/</url>
+    
+    <content type="html"><![CDATA[<p>在知乎上看到一篇文章，在这里附上链接：<a href="https://zhuanlan.zhihu.com/p/538857729?utm_source=wechat_timeline&utm_medium=social&utm_oi=27925374042112&utm_campaign=shareopn">”语言模型即服务“必读论文</a> ，解决了我很多天以来的疑惑，因为包括自己的毕业论文，自己刚刚投完的EMNLP2022，都是我导给了一个大致的方向，然后自己看了些论文，做了些实验，但其实一直都不知道自己的大方向的可以如何用专业名词来概括，以及自己以后是不是要一直研究这个领域，以及这个领域还能研究些什么，这篇文章都解决了我的这些疑问。</p><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><img src="https://pic4.zhimg.com/80/v2-bb3ef100e1ceedb20ca9aa1d80b5234f_1440w.jpg" alt="img"></p><p>以上这张很精美，在未来可能会成为大趋势的图，就来自知乎的那篇文章。LMaaS，即<strong>Language-Model-as-a-Service</strong> 。一直以来，”无法规模化“，”没有通用的解决方案“是让很多AI初创公司广受吐槽的一点。所以现在更适用于工业界的大厂的方法，是把大规模语言模型的推理功能包装成一个API来给用户提供服务。从商业应用层面上来说，仅需部署一个通用的语言模型，即可支持用户适配很多目标任务，即上图所示。</p><p>然而，在我阅读了一小部分论文后，我也知道这在目前来说还仅仅是一种美好的理想，在众多实验中，仅调用模型推理API的方式却通常很难超过在本地微调一个小模型。这篇文章的作者抱着让NLP狠狠出圈发财致富的愿景（当然也是我的最大愿景），最近调研了适用于LMaaS场景的几个方向并维护了一个论文列表，<a href="https://github.com/txsun1997/LMaaS-Papers">https://github.com/txsun1997/LMaaS-Papers</a> ，目前已经收集了40篇相关论文，未来一定会补充更多新工作加进来。</p><h2 id="细分方向"><a href="#细分方向" class="headerlink" title="细分方向"></a>细分方向</h2><p>经过调研，作者将LMaaS的方向细分为以下五个方面：</p><ol><li><strong>Text prompt.</strong> 手工或自动地构造提示语来诱导大模型说出想要的答案</li><li><strong>In-context learning.</strong> 将少量带标签样本放到输入的上下文中，帮助大模型适配到目标任务</li><li><strong>Black-box optimization.</strong> 仅访问大模型的输出概率来使用黑箱优化的手段优化一小部分任务特定的参数</li><li><strong>Feature-based learning.</strong> 将大模型作为特征抽取器，得到样本特征后在本地训练小模型完成任务</li><li><strong>Data generation.</strong> 使用生成式大模型生成特定任务的训练集，利用生成的训练集在本地训练小模型来完成任务</li></ol><p>目前来说，在这五个方向上所做的工作都可以促进LMaaS的发展，我之前的工作就是在text prompt上一直在进行探索，从作者整理的论文列表可以看出来，text prompt和in-context learning是目前研究最多的方向，有不少有意思的工作，但是现阶段想要突破其实我觉得不容易。“相比之下，其余三个方向方兴未艾，大有可为”。我大致看了一下，大概这四十篇文章中有十篇是我看过的文章，很多都是2022年的新工作，最新有到2022年6月份的，但是涉及到多语言的工作还是很少很少，那么接下来暑假的时间就给了我非常好的一些阅读方向，除了text prompt，其余四个方向我也需要了解，或许能为自己的多语言方面的工作提供一些新的思路。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Paper Reading</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>EMNLP2022投稿总结</title>
     <link href="/2022/07/10/EMNLP2022%E6%8A%95%E7%A8%BF%E6%80%BB%E7%BB%93/"/>
     <url>/2022/07/10/EMNLP2022%E6%8A%95%E7%A8%BF%E6%80%BB%E7%BB%93/</url>
