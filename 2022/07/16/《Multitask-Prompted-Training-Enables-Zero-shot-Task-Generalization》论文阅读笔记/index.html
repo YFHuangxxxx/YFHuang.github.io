@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Paper：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2110.08207 Code：https:&#x2F;&#x2F;github.com&#x2F;bigscience-workshop&#x2F;t-zero  这篇论文是我上一篇工作中最主要参考的工作，所以其实已经读过很多遍了，这篇论文由Hugging Face牵头，用一连串数字可以来概括这篇论文：  一共收集了171个多任务数据集，总共创建了1939个prompt，平均每个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记">
+<meta property="og:url" content="http://example.com/2022/07/16/%E3%80%8AMultitask-Prompted-Training-Enables-Zero-shot-Task-Generalization%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Paper：https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2110.08207 Code：https:&#x2F;&#x2F;github.com&#x2F;bigscience-workshop&#x2F;t-zero  这篇论文是我上一篇工作中最主要参考的工作，所以其实已经读过很多遍了，这篇论文由Hugging Face牵头，用一连串数字可以来概括这篇论文：  一共收集了171个多任务数据集，总共创建了1939个prompt，平均每个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-6bf61978a2f8aaf53cb3984c6532156f_1440w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-38f2a0fb3b04301c4c2cd4b9c3eaf9a2_1440w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-a2df064f10fc9c2292e7795c758d2423_1440w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-84a2a47f68a7b3a9d79a0a8fdd94256f_1440w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-6357ab9af7e7003b128d954312025663_1440w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-753ad77f6dd18fab5df4a50ccffd07e8_1440w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-9b2623cb492fa19fc6be8fb97bf1256a_1440w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-648845ff45efb282fec5611350a924fd_1440w.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4de6c05093d345418101ae55a2f3f2c7.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-4da0020f88088c5f396a3196ffc4bcb8_1440w.jpg">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-82c07f76e96ed00d584e0b9aec43f4b6_1440w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-57ca171e6c71b4c54263b2b322a7f40b_1440w.jpg">
+<meta property="article:published_time" content="2022-07-16T15:44:52.000Z">
+<meta property="article:modified_time" content="2022-07-27T18:20:04.089Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Paper Reading">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-6bf61978a2f8aaf53cb3984c6532156f_1440w.jpg">
+  
+  
+  
+  <title>《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YFHuang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/test.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-16 23:44" pubdate>
+          2022年7月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Paper：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2110.08207">https://arxiv.org/abs/2110.08207</a></p>
+<p>Code：<a target="_blank" rel="noopener" href="https://github.com/bigscience-workshop/t-zero">https://github.com/bigscience-workshop/t-zero</a></p>
+<p><img src="https://pic4.zhimg.com/80/v2-6bf61978a2f8aaf53cb3984c6532156f_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这篇论文是我上一篇工作中最主要参考的工作，所以其实已经读过很多遍了，这篇论文由Hugging Face牵头，用一连串数字可以来概括这篇论文：</p>
+<ul>
+<li>一共收集了<strong>171个</strong>多任务数据集，总共创建了<strong>1939个</strong>prompt，平均每个数据集有<strong>11.3个</strong>prompt；</li>
+<li>共有来自<strong>8个</strong>国家、<strong>24家</strong>机构的<strong>36位</strong>人员贡献prompt；</li>
+<li>基于包含prompt的数据集进行多任务学习（模型为11B的T5），Zero-Shot性能大幅超越大16倍的GPT-3模型；</li>
+<li>与Google的同期工作Instruction Tuning（FLAN模型）相比，Zero-Shot性能在各数据集上几乎均有提升或可比，而模型参数<strong>减少10倍</strong>（Google的FLAN模型为137B）；</li>
+</ul>
+<p><img src="https://pic3.zhimg.com/80/v2-38f2a0fb3b04301c4c2cd4b9c3eaf9a2_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>我们可以发现：如此“耗资巨大”的工程，<strong>将prompt+多任务学习紧密结合起来，也许是提升Zero-Shot性能的“完美配方”。</strong></p>
+<p>此外，很多读者也许会发现，这篇论文不就是Instruction Tuning方法吗？</p>
+<p>事实上，本篇论文与Google的Instruction Tuning思想相同，都是将<strong>包含prompt的数据集进行多任务学习</strong>，在下游未见任务进行Zero-Shot性能测试。不过，仍有很多细节和性能不相同，接下来就让我们一起一探究竟吧～</p>
+<h2 id="1、Instruction-Tuning回顾"><a href="#1、Instruction-Tuning回顾" class="headerlink" title="1、Instruction Tuning回顾"></a><strong>1、Instruction Tuning回顾</strong></h2><p>当前，NLP发展正进入第四范式**[2]<strong>——</strong>prompting时代**：预训练语言模型加持下的Prompt Learning。</p>
+<p>CMU博士后研究员刘鹏飞在综述论文**[3]**中定义了Prompt的两种主要形式：</p>
+<ul>
+<li>填充文本字符串空白的完形填空（Cloze）prompt；</li>
+<li>用于延续字符串前缀的前缀 (Prefix) prompt；</li>
+</ul>
+<p>而Google的Instruction Tuning中的Prompt形式更像是一种更明显的指令&#x2F;指示（可以归为第三种Prompt形式）：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-a2df064f10fc9c2292e7795c758d2423_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>Instruction Tuning仍属于prompting的范畴</strong>，其核心要点是：</p>
+<ul>
+<li>构建了大量的多任务数据集；</li>
+<li>为每个数据构建了“指令式”的prompt；</li>
+<li>采用多任务学习机制进行训练；</li>
+<li>更加关注下游任务的Zero-Shot性能；</li>
+</ul>
+<p>需要注意的是：Instruction Tuning采用多任务学习机制，整个LM模型参数是需要tuned的。本篇论文继承了Instruction Tuning思想，所以在阅读论文时候我们重点介绍本篇论文的数据集选择和Prompt设计。</p>
+<p>在这篇论文中，实验研究了两个问题：</p>
+<ul>
+<li><p>首先，多任务提示的训练是否能提高对未完成任务的泛化？</p>
+</li>
+<li><p>第二，在更广泛的提示上进行训练是否能提高对提示措辞的稳健性？</p>
+<p><strong>对于第一个问题，</strong>我们发现多任务训练能够实现zero-shot任务的泛化，表明我们的模型在11个保留任务的数据集中有9个与GPT-3的性能相匹配或超过，尽管它的体积要小16倍。我们还表明，在BIG-bench基准的14个任务中，该模型比大型基线语言模型有13项改进。<strong>对于第二个问题，</strong>我们发现，在每个数据集上训练更多的提示语，可以持续地提高中位数，并减少在保持任务上的性能变化。</p>
+</li>
+</ul>
+<h2 id="2、多任务数据集选择"><a href="#2、多任务数据集选择" class="headerlink" title="2、多任务数据集选择"></a><strong>2、多任务数据集选择</strong></h2><p>我们首先假设NLP数据集被基本划分为任务。<strong>我们用 “任务 “一词来指代由一组特定数据集测试的一般NLP能力。</strong>为了评估对新任务的zero-shot泛化，我们在一个任务的子集上进行训练，并在一组被保留的任务上进行评估。</p>
+<p>不幸的是，<strong>NLP任务的分类是模糊的</strong>，特别是当人们试图分离出一种独特的技能时。例如，许多数据集评估常识性知识，一些多任务工作将常识性知识定义为一个独立的任务。然而，常识数据集的差别很大。</p>
+<p><strong>注意到按任务分组是一个不完美的启发式方法，我们在组织我们的任务分类学时，偏向于根据任务格式，而不是根据文献中的惯例要求技能</strong>（Khashabi等人，2020b；Vu等人，2020；Ye等人，2021）。我们从这些论文中收集所有的数据集，并排除那些非英语的数据集（这也排除了编程语言和结构化注释，如解析树）或如果它们需要特殊的领域知识（如生物医学）。这就产生了<strong>12个任务和62个数据集</strong>，这些数据集在我们的训练和评估混合物中都有公开的提示，截至目前。所有的实验都使用 “huggingface “数据集库中的数据集。</p>
+<p>为了测试zero-shot泛化性能，我们保留了四个任务的所有组成数据集：自然语言推理（NLI）、核心推理解决、句子完成和词义歧义。<strong>我们选择自然语言推理作为保留任务</strong>，是因为人类也会将自然语言推理作为保留任务进行zero-shot泛化。大多数人从来没有接受过明确的训练来对一个前提句子是否包含或违背一个假设句子进行分类，但是他们发现不经过训练就可以直观地执行这项任务（Williams等人，2020）。出于同样的原因，我们也排除了核心推理和词义歧义。我们进一步排除了句子完成的任务，因为它可能与NLI过于相似（附录D.2详细讨论了这一点）。此外，我们不在Brown等人（2020）用于评估的任何数据集上训练我们的主要模型，这样我们的主要结果将是一个公平的零次比较。我们还在附录E中验证了这些任务的数据没有通过预训练语料库而被泄露。</p>
+<p>最后，<strong>我们对BIG-bench的数据集的一个子集进行了进一步的评估</strong>，BIG-bench是一个最近由社区驱动的基准，以创建一个多样化的困难任务集来测试大型语言模型的能力。BIG-bench的子集包括一个面向语言的任务选择，BIG-bench的维护者已经为其准备了初步结果，这些任务构成了T5标记器的词汇量（即只包含英语文本，没有表情符号或其他特殊字符）。<strong>BIG-bench的所有任务都是我们训练中的新任务。</strong></p>
+<p>总的来说，如下图所示，本篇论文在构造多任务数据集（共171个）时，将黄色部分的任务数据作为训练集，而绿色部分的任务数据作为Zero-Shot测试集。其中，BIG-Bench是一个新的基准评测，创建了多样化的困难任务集合来评测大型语言模型的能力。</p>
+<p>数据构建的基本原则就是：Zero-Shot测试集中的数据未在训练集中出现。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-84a2a47f68a7b3a9d79a0a8fdd94256f_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="3、Prompt设计"><a href="#3、Prompt设计" class="headerlink" title="3、Prompt设计"></a><strong>3、Prompt设计</strong></h2><p><img src="https://pic4.zhimg.com/80/v2-6357ab9af7e7003b128d954312025663_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>这里，以QQP任务为例（如上图所示），来介绍本篇论文的Prompt设计，共由两部分模板组成：</p>
+<ul>
+<li>input template：*{Question1}{Question2}Pick one:These questions are duplicates or not duplicates.*</li>
+<li>output template：*{Choices[label]}* 当label&#x3D;0时，输出为Not duplicates</li>
+</ul>
+<p>Hugging Face开发了1个交互式程序用于编写Prompt。为了使模型更加鲁棒，鼓励用户以自己的风格开发创建更加多样化的prompt。共有来自8个国家、24家机构的36位人员参与了prompt贡献。</p>
+<p>Prompt开发地址为：<a href="https://link.zhihu.com/?target=https://github.com/bigscience-workshop/promptsource">https://github.com/bigscience-workshop/promptsource</a> ，感兴趣的小伙伴可以尝试下：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-753ad77f6dd18fab5df4a50ccffd07e8_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>例如,NLI数据集一个的prompt可以通过模板语言jinja构建：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-9b2623cb492fa19fc6be8fb97bf1256a_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>本篇论文最终共收集了1939个prompt，所有构建的prompt集合P3（Public Pool of Prompts）也进行了开源(见论文附录G)。</p>
+<h2 id="4、实验结果"><a href="#4、实验结果" class="headerlink" title="4、实验结果"></a><strong>4、实验结果</strong></h2><p>论文是基于T5+LM模型（基于T5进一步做LM训练）进行训练的，模型参数为11B。经过多任务prompt训练的模型为：</p>
+<ul>
+<li>T0：基于构建的171个多任务数据集进行训练；</li>
+<li>T0+：除T0数据集外，新增GPT-3的验证集；</li>
+<li>T0++：除T0数据集外，新增GPT-3和SuperGLUE的验证集；</li>
+</ul>
+<h3 id="Generalization-to-Held-out-Tasks"><a href="#Generalization-to-Held-out-Tasks" class="headerlink" title="Generalization to Held-out Tasks"></a>Generalization to Held-out Tasks</h3><p><img src="https://pic2.zhimg.com/80/v2-648845ff45efb282fec5611350a924fd_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>作者首先的研究问题是，<strong>多任务提示训练是否能提高对保留任务的泛化能力</strong>。将T0与我们的T5+LM基线在四个暂不执行的任务上进行比较。我们的方法在所有的数据集上都比我们的基线有明显的提高，这表明多任务提示训练比只用相同的模型和提示的语言建模训练有好处。</p>
+<p>接下来，我们将T0与截至目前可用的最大的语言模型的zero-shot性能进行比较，即各种GPT-3模型，最高可达175B参数。我们发现T0在11个保留数据集中的8个匹配或超过了所有GPT-3模型的性能。而T0模型比GPT-3比小16倍，GPT-3预训练过程也可看作是基于prompt进行多任务学习的。</p>
+<p>为了在更多的保留任务上评估我们的模型，作者还在BIG-bench（BIG-bench协作，2021）的一个子集上评估了T0、T0+和T0++的zero-shot性能。</p>
+<p><img src="https://img-blog.csdnimg.cn/4de6c05093d345418101ae55a2f3f2c7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>BIG-bench的任务涵盖了我们的训练任务中没有包括的各种新技能，例如推断物体序列的顺序、解决逻辑网格谜题，以及区分真实陈述和常见的错误概念。BIG-bench的维护者为每个数据集提供了一个提示，我们用它将我们的模型与一系列由谷歌训练并由BIG-bench维护者评估的初步诊断基线模型进行比较。这些模型是在一个标准的语言建模目标上训练的仅有解码器的Transformer语言模型，模型大小不一。我们发现，除了StrategyQA之外，至少有一个T0变体在所有任务上的表现超过了所有的基线模型（图5）。在大多数情况下，<strong>我们模型的性能随着训练数据集数量的增加而提高（即T0++优于T0+，T0+优于T0）</strong>。</p>
+<h3 id="Effect-of-Prompts-from-More-Datasets"><a href="#Effect-of-Prompts-from-More-Datasets" class="headerlink" title="Effect of Prompts from More Datasets"></a>Effect of Prompts from More Datasets</h3><p><img src="https://pic1.zhimg.com/80/v2-4da0020f88088c5f396a3196ffc4bcb8_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>不过实验也发现：增加更多训练集数据会不会一致性提升Zero-Shot性能（如上图所示）。</p>
+<h3 id="Effect-of-More-Prompts-per-Dataset"><a href="#Effect-of-More-Prompts-per-Dataset" class="headerlink" title="Effect of More Prompts per Dataset"></a>Effect of More Prompts per Dataset</h3><p><img src="https://pic3.zhimg.com/80/v2-82c07f76e96ed00d584e0b9aec43f4b6_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>此外，实验也表明：增加更多的Prompt数量，会提升Zero-Shot泛化性能。</p>
+<h2 id="5、T0-vs-FLAN"><a href="#5、T0-vs-FLAN" class="headerlink" title="5、T0 vs FLAN"></a><strong>5、T0 vs FLAN</strong></h2><p>上文提到过，本文的T0模型与Google的FLAN模型均属于Instruction Tuning思想，但仍有一些细节区别：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-57ca171e6c71b4c54263b2b322a7f40b_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>此外：</p>
+<ul>
+<li>T0++模型几乎在所有任务上超越或比肩FLAN模型，T0模型比FLAN模型小10倍。然而相同量级(8B)的FLAN模型，在多任务学习之后的Zero-Shot性能会下降。</li>
+<li>FLAN模型发现prompt个数增加反而会降低性能，而T0模型不会。这说明本篇论文构建的prompt更加多样化，从而使模型更加鲁棒、泛化能力更强。</li>
+</ul>
+<h2 id="6、总结与思考："><a href="#6、总结与思考：" class="headerlink" title="6、总结与思考："></a><strong>6、总结与思考：</strong></h2><p>这篇论文构建的prompt数目多达1939个，虽然有程序界面进行设计，但仍然逃脱不了需要人工参与。</p>
+<p>prompting时代或许更应该关注prompt的高效设计，比如：如何自动挖掘模板。而prompt-tuning怎样更好地融入多任务学习中，也值得进一步探讨。</p>
+<p>此外，本文采用T5这种条件生成模型对所有不同任务进行了统一建模，更让人觉得：当前NLP发展正进入一个“<strong>大一统时代</strong>”：</p>
+<ul>
+<li><strong>框架统一</strong>：不同NLP任务可采用统一的模型框架建模，如Seq2Seq框架基本上可以建模所有NLP任务。</li>
+<li><strong>数据统一</strong>：不同NLP任务的数据可以融合prompt构建统一的数据形式，如指令式的prompt。</li>
+<li><strong>训练统一</strong>：训练方式可采取统一的多任务学习机制。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Paper-Reading/">#Paper Reading</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记</div>
+      <div>http://example.com/2022/07/16/《Multitask-Prompted-Training-Enables-Zero-shot-Task-Generalization》论文阅读笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月16日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/15/%E3%80%8ALanguage-Models-are-Few-Shot-Learners%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《Language Models are Few-Shot Learners》论文阅读笔记">
+                        <span class="hidden-mobile">《Language Models are Few-Shot Learners》论文阅读笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
