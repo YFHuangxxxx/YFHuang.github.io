@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2203.07281 Code: https:&#x2F;&#x2F;github.com&#x2F;archiki&#x2F;GrIPS  摘要在提示中提供自然语言instruction是一种有用的新范式，可以在zero-shot的设置下提高大型语言模型的任务性能。最近的工作有以下两种方法来改善这种指令式的提示：  manual rewirting：手动改写很耗时，并且需要主观">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《GrIPS:Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》论文阅读笔记">
+<meta property="og:url" content="http://example.com/2022/07/17/%E3%80%8AGrIPS-Gradient-free-Edit-based-Instruction-Search-for-Prompting-Large-Language-Models%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2203.07281 Code: https:&#x2F;&#x2F;github.com&#x2F;archiki&#x2F;GrIPS  摘要在提示中提供自然语言instruction是一种有用的新范式，可以在zero-shot的设置下提高大型语言模型的任务性能。最近的工作有以下两种方法来改善这种指令式的提示：  manual rewirting：手动改写很耗时，并且需要主观">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9090169e95554d3d8702c89d493165c3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c95cc23bd42d46c8be3a12e8da9bd69a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0db6771798c043f7a1b073bd228dbc46.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f5d0ca7d5cc24ca08b3f0d8b15b6b470.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/03f1d5f8838541758a3bc6379e075c8a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c95cc23bd42d46c8be3a12e8da9bd69a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b5d942ab091a4b0399afe440328fdc78.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a8f752685c614808bdd7056440352a59.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e96505803b384dd4bd554daaba3efb4e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e96505803b384dd4bd554daaba3efb4e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b4b4f5fbdf0c4052a98d1a3dca13088a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4407aceb9b87428fbe9911556692833a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f0768c67294e42e89a3c4b30a5da1e15.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/29c85babce134090bdfd16e672276c52.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e95e0aa9d3ec4e15898525047e481843.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/901391e603be4cf6a8634234ca51d439.png">
+<meta property="article:published_time" content="2022-07-17T03:11:20.000Z">
+<meta property="article:modified_time" content="2022-07-30T05:47:31.023Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Paper Reading">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/9090169e95554d3d8702c89d493165c3.png">
+  
+  
+  
+  <title>《GrIPS:Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》论文阅读笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YFHuang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/test.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="《GrIPS:Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》论文阅读笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-17 11:11" pubdate>
+          2022年7月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          114 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《GrIPS:Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》论文阅读笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Paper: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.07281">https://arxiv.org/abs/2203.07281</a></p>
+<p>Code: <a target="_blank" rel="noopener" href="https://github.com/archiki/GrIPS">https://github.com/archiki/GrIPS</a></p>
+<p><img src="https://img-blog.csdnimg.cn/9090169e95554d3d8702c89d493165c3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>在提示中提供自然语言instruction是一种有用的新范式，可以在zero-shot的设置下提高大型语言模型的任务性能。最近的工作有以下两种方法来改善这种指令式的提示：</p>
+<ul>
+<li>manual rewirting：手动改写很耗时，并且需要主观解释；</li>
+<li>gradient-based tuning（基于梯度的微调）：对于大型模型来说是非常复杂的，并且需要完全访问模型权重，这对于基于API的模型来说可能是不可用的；</li>
+</ul>
+<p>所以在这项工作中，作者介绍了<strong>Gradient-free Instructional Prompt Search（GRIPS）</strong>，这是一种无梯度的、基于编辑的搜索方法，用于改进大型语言模型的任务指示。<strong>GRIPS接受为人类设计的指令，并自动返回一个经过验证的、经过编辑的提示，同时允许基于API的调整</strong>。在我们的搜索中，使用四种操作（删除、添加、交换、转述）对短语级别的文本进行反复编辑。</p>
+<p>通过InstructGPT模型，GRIPS在NATURAL-INSTRUCTIONS数据集的<strong>8个分类任务上</strong>，平均任务性能提高了4.30个百分点。我们看到，仅有指令的提示和K-shot示例+指令的提示都有提高。最终得到的结论是，按照Mishra等人（2022b）的指南，<strong>GRIPS优于人工改写，在控制可用的计算和数据预算的情况下，也优于纯粹的基于例子的提示。</strong>最后，作者还对编辑过的指令进行了定性分析，包括几个规模的GPT模型。</p>
+<h2 id="Instroduction"><a href="#Instroduction" class="headerlink" title="Instroduction"></a>Instroduction</h2><p>我认为i是对前面abstract更详细的扩写</p>
+<p><u>第一段：第一段介绍prompr-engineering，以及最新范式中prompt的形式：instruction)。</u>最近在提示大型语言模型（LM）方面的进展，如GPT-3（Brown等人，2020），表明预训练的LM可以<strong>通过包含任务描述和一些例子的文本prompt</strong>来执行NLP任务，而不需要特定的任务tuning（Radford等人，2019；Brown等人，2020）。在这种情况下，LM的性能关键<strong>取决于为特定的任务找到最合适的提示，也就是所谓的prompt engineering</strong>（Liu等人，2021b）。这个领域的大部分工作都集中在few-shot learning上，其中模型依赖于包含输入-输出例子对的文本提示（示范性提示）。然而，当提供给人类一组相关的指令或任务描述时，人类往往能够执行一项新的任务，而不一定包括任何例子。在这个方向上，过去的工作探索了一种新的教学提示范式，即通过包括自然语言的instruction，为特定的任务定制提示（Efrat和Levy，2020；Mishra等人，2022a，b）。继Webson和Pavlick（2021）之后，我们<strong>将指示描述为对任务的自然语言描述，包括一个人正确完成任务所需的内容</strong>。</p>
+<p><u>第二段：这一段写改善构建instruction的第一种方法—手工改写。</u>为了通过指令提高模型性能，Mishra等人（2022b）提供了一套指导原则，用于手动改写最初为数据收集目的而为众包工人编写的指令（Efrat and Levy, 2020; Mishra等人，2022a）。然而，<strong>这种改写过程需要大量的人工努力和对instruction的主观解释</strong>。此外，Mishra等人（2022b）的一个基本假设是，指令对人类来说应该是语义一致的。然而，最能提高模型性能的提示有可能在某些方面对人类来说是语义混乱的。</p>
+<p><u>第三段：写改善构建instruction的第一种方法—基于梯度的方法。</u>过去的工作试图通过prompt tuning来自动提高大型语言模型的提示质量（Liu等人，2021b）。现有的提示调整方法<strong>使用基于梯度的方法</strong>，但这些方法有几个明显的<strong>缺点</strong>。<strong>首先，用大型语言模型计算梯度的计算量大得惊人</strong>。<strong>第二，当使用只能通过API访问的模型时，这种方法是完全不可行的，因为模型的梯度和权重不是标准的可访问的</strong>。<strong>第三，这些方法中的大多数输出连续的表示，可能不会直接映射到原始词汇中的标记</strong>（Lester等人，2021；李和梁，2021；秦和Eis-ner，2021）。含有无法解释的矢量表征的提示是有问题的，因为我们无法验证模型是否对其做出合理的反应（Khashabi等人，2021）。对于人类可读的提示，我们至少可以评估哪些词&#x2F;短语触发了某些模型行为，以及模型是否合理地回应了它们（例如，当模型从不连贯的提示中学习时，我们会感到惊讶）。</p>
+<p><u>第四段：提出无梯度的指令式的prompt搜索方法，介绍了这个方法的pipeline。</u>在本文中，我们提出了Gradient-free Instructional Prompt Search（GRIPS），这是一个<strong>通过迭代、基于编辑和无梯度搜索</strong>来改进教学提示的自动程序（如下图所示）。</p>
+<p><img src="https://img-blog.csdnimg.cn/c95cc23bd42d46c8be3a12e8da9bd69a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>与基于梯度的提示调整不同，我们的方法允许我们改进任意（包括基于API的）语言模型的提示说明，同时保持结果说明的可读性（即避免使用连续提示）。我们将指令视为一个参数空间，并通过编辑操作在这个离散的文本空间上进行搜索（Andreas等人，2018）。如上图所示，GRIPS是一种<strong>离散的局部搜索算法，提示语以给定的指令初始化，然后迭代编辑以获得改善下游性能的指令，直到满足停止标准</strong>。在每次迭代中，根据小分值集上的性能选择修改后的指令。<strong>对文本的编辑操作包括删除、添加、交换和准短语</strong>，每项操作都在短语层面上进行，以便探索可能的指令的广阔空间。</p>
+<p><u>第五段：介绍了这个方法所达到的最新成果。</u>在NATURAL-INSTRUCTIONS（Mishra等人，2022a）的八个分类任务中，GRIPS将GPT-2 XL和InstructGPT（GPT-3）模型的平均精度提高了2.36至9.36个百分点。此外，我们搜索得出的指令比Mishra等人(2022b)提出的手工改写得到的指令平均高出1.5个百分点，用于Instruct-GPT curie。<strong>在相同的数据和计算预算下，GRIPS在InstructGPT babbage和curie上的表现分别比搜索好1.54和1.62个百分点</strong>。最后，我们尝试用特定任务的指令（来自NATURAL- INSTRUCTIONS）初始化GRIPS，而不是任务无关指令。虽然GRIPS使用这两种指令都能提高性能，但使用特定任务的指令进行初始化时，性能总体上更高。</p>
+<p><u>Contribution。</u>综上所述，这项工作的贡献如下：</p>
+<ol>
+<li><p>我们提出了GRIPS，一种在教学提示上的自动无梯度搜索，<strong>使GPT模型在NATURAL-INSTRUCTIONS上的准确度提高了2.36到9.36分</strong>。</p>
+</li>
+<li><p>我们证明：(a)<strong>对于InstructGPT模型</strong>，<strong>GRIPS优于人工改写和对示例提示的搜索</strong>；(b)<strong>对于包含指令和示例的提示，GRIPS提高了性能</strong>。</p>
+</li>
+<li><p>当使用少至20个数据点的性能信号（分数集），以及从特定任务或与任务无关的指令进行初始化时，GRIPS可以改进指令。</p>
+</li>
+<li><p>我们证实并加强了Webson和Pavlick（2021）的研究结果，即<strong>模型可以从语义不连贯的指令中受益</strong>，即使有较大的InstructGPT 语言模型。</p>
+</li>
+</ol>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>这就是之前我导想让在related work中做的事情，从刘鹏飞教授的那篇综述中提炼出来关于prompt tuning的方法。</p>
+<h3 id="1-Exemplar-Prompts"><a href="#1-Exemplar-Prompts" class="headerlink" title="1.Exemplar Prompts"></a>1.Exemplar Prompts</h3><p>用于语言模型执行NLP任务的few-shot learning是一个活跃的研究领域。<strong>这一相关问题的prompt主要由一些input-output的例子组成</strong>。这些提示中的附加文本通常是提示-模板本身的一部分（如cloze问题&#x2F;模式），包含关于任务的有限信息。相比之下，我们的工作侧重于指令式的提示，如下所述。</p>
+<h3 id="2-Instructional-Prompts"><a href="#2-Instructional-Prompts" class="headerlink" title="2.Instructional Prompts"></a>2.Instructional Prompts</h3><p>instructional的提示主要包含对基本任务的详细自然语言描述。<strong>最近的工作重点是在数据收集过程中包含给人类注释者的指令的提示</strong>。然而，即使是强大的LM，如GPT-3，也往往难以有效地使用众包指令来完成复杂的NLP任务（Efrat和Levy，2020）。为了弥补这一点，Mishra等人（2022a）将复杂的任务分解为独立的子任务，允许模型使用针对每个子任务的指令来单独执行每个任务。<strong>然而，后续的工作显示，即使是这些分解的指令，仍然比基于例子的提示表现得差</strong>（Mishra等人，2022b）。基于对GPT-3的error的一些分析，他们<strong>提出了手工重写指令的方法</strong>，以提高模型的性能。同样，Webson和Pavlick（2021）在对自然语言推理（NLI）的masked LM性能分析中表明，LM可能难以真正理解指令提示，但他们仅限于参数&lt;1B的小模型。Wei等人（2022年）发现，<strong>大型LM在以巨大的多任务方式对指令和少量提示进行微调后，能够更好地从指令中学习新任务</strong>。最后，Weller等人（2020）提供了一个数据集，其中任务描述被表述为对应于多个段落的问题。这些问题明显较短（12个单词），并且都与三个领域中的一个有关，而NATURAL- INSTRUCTIONS中的指令较长，并且对应于更多的任务（Mishra等人，2022a）。</p>
+<h3 id="3-Prompt-Tuning"><a href="#3-Prompt-Tuning" class="headerlink" title="3.Prompt Tuning"></a>3.Prompt Tuning</h3><p>最近的工作表明，使用<strong>连续vector embbeding可以提高下游任务的性能，而不是将提示局限于自然语言文本</strong>。这些连续的提示更有表现力，因为不需要将tokens映射到真实的单词。然而，<strong>性能的提高是以人类是否理解与可读为代价的</strong>。此外，<strong>连续提示需要额外的学习参数</strong>，这些参数假定来自语言模型的梯度是可用的，其计算成本可能过高，或者对于只能通过API（如GPT-3）访问的模型来说根本不可用。</p>
+<h3 id="4-Prompt-Search"><a href="#4-Prompt-Search" class="headerlink" title="4.Prompt Search"></a>4.Prompt Search</h3><p>一个典型的提示文本包含多个可以改进的元素。Zhao等人（2021年）认为，<strong>训练例子的选择、例子的顺序排列和提示的模板是导致few-shot learning的性能变化的三个要素</strong>。在寻找基于这三个要素的最佳提示方面，已经有大量的研究。Liu等人（2021a）研究了<strong>（1）从训练集中选择可以包含在提示语中的例子</strong>。Lu等人（2022）以及Kumar和Talukdar（2021）也进一步探讨了<strong>（2）决定这些例子的顺序</strong>。许多先前的工作已经研究了为NLP任务<strong>（3）手动编写几个有效的提示模板</strong>（Petroni等人，2019；Brown等人，2020；Schick和Schütze，2021b，a，c）。原则上，所有的提示搜索方法都将提示中的文本视为需要优化的参数空间，与Andreas等人（2018）的早期工作相似。在这些方法中，Jiang等人（2020）和Gao等人（2021）使用了提示模板的自动解读。受这些工作的启发，GRIPS也有对指令中的选定短语进行转述的功能，在§3.2.2中描述。Jiang等人（2020）（也就是LPAQA）特别关注寻找新的模式来表达基于关系的任务的关系，他们的搜索也涉及挖掘特定的语料库来寻找模板中的相邻词。相比之下，<strong>我们的搜索没有利用任何特定的任务属性，因此不受限于任何特定的任务</strong>。同时，Shin等人（2020）在Wallace等人（2019）的基础上，使用基于梯度的搜索来寻找能够形成提示模板的触发词。上述方法侧重于对提示模板的改变，以改变LM处理其输入的方式。在我们的工作中，我们反而专注于设计一种专门用于编辑任务指令的搜索方法，因为这是一个未被充分开发但很有前景的方向。</p>
+<h2 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h2><h3 id="1-Prompt-Modes"><a href="#1-Prompt-Modes" class="headerlink" title="1.Prompt Modes"></a>1.Prompt Modes</h3><p>我们<strong>通过两种提示模式</strong>包括任务指示。<strong>Instruction-Only</strong>和<strong>Instruction+Examples</strong>（如下图所示）。</p>
+<p><img src="https://img-blog.csdnimg.cn/0db6771798c043f7a1b073bd228dbc46.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这里，指令指的是描述任务和标签的句子集合，而提示模式指的是三个组成部分（指令、语境中的例子和测试实例）的选择和安排，它们在前面适当地加上 “指令”、”输入 “和 “输出”。这些提示模式与Mishra等人（2022a）使用的模式相同（详情见附录B）。为了得到每一种提示，我们将其每个组成部分的文本连接起来。例如，指示+例子的提示包含指示，然后是例子，接着是测试实例。</p>
+<h3 id="2-Gradient-free-Instructional-Prompt-Search-GRIPS"><a href="#2-Gradient-free-Instructional-Prompt-Search-GRIPS" class="headerlink" title="2.Gradient-free Instructional Prompt Search (GRIPS)"></a>2.Gradient-free Instructional Prompt Search (GRIPS)</h3><p>虽然指令性提示改善了大型LM的zero-shot任务性能，<strong>但这些提示的离散性和这类模型的巨大计算成本使得它们难以通过梯度更新来优化</strong>。在这项工作中，我们提出了Gradient-free Instructional Prompt Search (GRIPS)，它通过迭代地编辑指令和贪心搜索最佳修改来缓解这一问题（完整的伪代码显示在算法1）。</p>
+<p><img src="https://img-blog.csdnimg.cn/f5d0ca7d5cc24ca08b3f0d8b15b6b470.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这种搜索由模型在一小部分不属于测试集的例子上的表现来指导（称为分数集S，|S| &#x3D; 100，除非另有说明）。分数集可以被认为是每个任务的小型训练集。请注意，分数集中的例子可能有一个倾斜的标签分布，所以我们使用平衡精度作为我们的评分指标，也就是说，我们对整个S的精度进行重新加权，以平等地计算所有的类（下面的BalancedAccuracy）。受Lu等人（2022）的启发，<strong>我们还将模型预测的熵纳入评分函数，以促进产生不同标签的编辑指令</strong>。让Y是一个任务的所有标签的空间，其中y和ˆy分别是ground-truth和模型预测。如果H是熵，α是用于结合准确度和熵的比例因子（我们使用α&#x3D;10），那么得分函数为：</p>
+<p><img src="https://img-blog.csdnimg.cn/03f1d5f8838541758a3bc6379e075c8a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述">。</p>
+<p>如下图所示，GRIPS算法从一个初始的基本指令开始，然后在每次迭代中，通过随机选择并对每个候选者应用l个短语级的编辑操作，产生m个新的候选者。这导致每次迭代中总共有m×l个采样操作（<strong>短语选择在下文第2.1节描述，编辑操作在第2.2节描述</strong>）。然后<strong>根据模型在S上的表现对这些候选者进行评分。如果最佳候选者的分数超过了当前基础指令的分数，那么该候选者就被指定为下一次迭代的基础。否则，就用同一基础指令继续搜索。当S上的得分在P次迭代中没有提高或达到最大的总迭代次数n时，搜索就会停止。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/c95cc23bd42d46c8be3a12e8da9bd69a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在附录C中，<strong>我们考虑在GRIPS中加入模拟退火法</strong>（Pirlot, 1996），这样在搜索过程中，即使分数没有提高，我们也可以探索新的候选。然而，我们并没有看到平均的改善，所以我们总是使用贪心的选择规则。</p>
+<h4 id="2-1-Splitting-Instructions-into-Phrases（短语的选择）"><a href="#2-1-Splitting-Instructions-into-Phrases（短语的选择）" class="headerlink" title="2.1 Splitting Instructions into Phrases（短语的选择）"></a>2.1 Splitting Instructions into Phrases（短语的选择）</h4><p>由于每条指令都是一个句子的集合，编辑操作可以在<strong>单词、短语或句子层面进行</strong>。在我们的初步实验中，我们发现在中间层次，<strong>即短语</strong>，工作是最有帮助的。这可能是因为短语级别的拆分使我们能够保持指令的一般结构，同时为编辑提供足够的灵活性。<strong>为了有效地将每个句子分割成短语，我们使用最先进的基于CRF的成分分析器</strong>（Zhang等人，2020a）。<strong>使用成分树，我们将叶子组合起来，直到我们从一个句子中获得不相交的短语级成分（S、VP、NP和其他短语块）。</strong>这一点通过图1中指示文本中的蓝色方括号进行说明。</p>
+<h4 id="2-2-Edit-Operations（编辑操作）"><a href="#2-2-Edit-Operations（编辑操作）" class="headerlink" title="2.2 Edit Operations（编辑操作）"></a>2.2 Edit Operations（编辑操作）</h4><p>下面，我们描述一下本工作中使用的四种主要编辑操作：</p>
+<p><strong>删除（del）：</strong>我们从指令中删除所有输入短语的出现。<strong>被删除的短语被储存起来，以便随后在添加操作中使用（我觉得这是很聪明的一点）。</strong></p>
+<p><strong>交换（swap）</strong>：我们将两个短语作为输入，用第二个短语替换指令中的第一个短语的所有出现，反之亦然。</p>
+<p><strong>转述（par）</strong>：我们<strong>用HuggingFace（Wolf等人，2020）公开的基于PEGASUS</strong>（Zhang等人，2020b）的意译模型生成的相应意译来替换输入短语的所有出现。</p>
+<p><strong>增加（add）</strong>：我们对前几次迭代中删除的短语进行抽样，并在随机的短语边界处将其添加回指令中。</p>
+<p>我们选择这些编辑操作，因为它们允许我们探索可能的指令的广泛空间，其中包括各种更简单、更少细节的抽象指令。让编辑操作逐渐简化指令是很重要的，因为这让GRIPS有机会实施Mishra等人（2022b）建议的一些准则，这些准则主要是限制指令中的细节和抽象。另一方面，我们也想让GRIPS探索不同的措辞风格，如果已经删除了细节，就把它们重新添加到指令中，因为指令的这些属性可能偶尔还是对模型有用。我们从Kumar等人（2020）的句子简化工作中获得灵感。<strong>在附录G中，我们表明GRIPS确实利用了我们所有的四个编辑操作</strong>。<u>（这本来也是我想问的，既然在前文说是随机选择对短语的编辑操作，如何保证模型确实利用四个所有的四个操作，这里作者还是十分严谨的证明了这一点）</u></p>
+<h2 id="Experimental-Setup"><a href="#Experimental-Setup" class="headerlink" title="Experimental Setup"></a>Experimental Setup</h2><h3 id="1-Dataset"><a href="#1-Dataset" class="headerlink" title="1. Dataset"></a>1. Dataset</h3><p><strong>NATURAL-INSTRUCTIONS数据集</strong>（Mishra等人，2022a）由一组任务组成，<strong>每个任务由任务指令和标记的例子组成</strong>（同时还有一个理由或解释，证明有限的例子集的输出是合理的）。我们使用的是<strong>V2版</strong>，其中的数据集已经以开源的方式进行了扩展，包括更多的任务。（Dataset link: <a target="_blank" rel="noopener" href="https://github.com/allenai/natural-instructions%EF%BC%89%E7%94%B1%E4%BA%8E%E6%88%90%E6%9C%AC%E5%92%8CAPI%E9%85%8D%E9%A2%9D%E7%9A%84%E9%99%90%E5%88%B6%EF%BC%8C%E5%9C%A8%E8%BF%99%E9%A1%B9%E5%B7%A5%E4%BD%9C%E4%B8%AD%EF%BC%8C%E6%88%91%E4%BB%AC%E5%B0%86%E8%87%AA%E5%B7%B1%E9%99%90%E5%88%B6%E5%9C%A8%E8%BF%99%E4%B8%AA%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%AD%E7%9A%84**8%E4%B8%AA%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%85%83%E5%88%86%E7%B1%BB%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%AD%90%E9%9B%86%E4%B8%8A**%E3%80%82%E5%85%B3%E4%BA%8E%E6%9B%B4%E5%A4%9A%E7%9A%84%E7%BB%86%E8%8A%82%EF%BC%8C%E8%AF%B7%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0%E4%B8%AD%E7%9A%84%E9%99%84%E5%BD%95A%E3%80%82">https://github.com/allenai/natural-instructions）由于成本和API配额的限制，在这项工作中，我们将自己限制在这个数据集中的**8个不同的二元分类任务的子集上**。关于更多的细节，请参考文章中的附录A。</a></p>
+<p><strong>测试集。</strong>按照Mishra等人（2022a）的做法，我们<strong>从上述数据集中对例子进行子抽样以创建测试集</strong>。对于主要结果（第5.1节），<strong>测试集由每个任务的300个随机样本组成</strong>。由于财务成本，<strong>第5节中的所有其他分析和消融实验都是在每个任务的100个测试例子的子集上进行评估的</strong>（因此，我们的主表1和后续表格中的数字有所不同）。在所有的测试集中，数据的取样是尽可能的平衡，因为有些任务有高度倾斜的标签。如果一个标签缺乏足够的数据点来完美地平衡数据，我们就使用该标签的所有例子，然后从其他标签中随机抽样来填补这个集合。我们还确保测试集和分数集S（可以理解为训练集）之间没有例子重叠。</p>
+<h3 id="2-Models"><a href="#2-Models" class="headerlink" title="2. Models"></a>2. Models</h3><p>我们使用<strong>参数≥1B的GPT模</strong>型（Radford等人，2018，2019；Brown等人，2020），特别是<strong>GPT-2 XL（1.5B参数）、InstructGPT babbage和curie</strong>。相对于标准的GPT-3模型，InstructGPT模型被专门设计为遵循任务指令，因此是我们工作中的自然选择（Ouyang等人，2022）。鉴于运行详细实验的高成本和API配额限制，我们没有用davinci引擎（最大的模型）进行实验，众所周知，它在一些NLP任务上表现出更强的性能（Brown等人，2020）。</p>
+<p><strong>为了使用这些模型进行分类，我们遵循Zhao等人（2021）的程序，计算标签标记的对数-概率</strong>。<strong>最终的预判是通过对这些标签概率进行argmax来获得的</strong>。 请注意，我们的设置与Mishra等人（2022b,a）不同，我们没有将分类制定为以ROUGE为评价指标的文本生成任务。</p>
+<h3 id="3-Hyperparameters"><a href="#3-Hyperparameters" class="headerlink" title="3. Hyperparameters"></a>3. Hyperparameters</h3><p>搜索中的主要超参数包括：每个candidate的编辑操作数l，每个迭代中的candidate数m，迭代数n，以及用于早期停止的patience P。在我们的实验中，我们设定l&#x3D;1，m&#x3D;5，n&#x3D;10，P&#x3D;2，除非另有提及，否则每个任务的搜索都是以3个不同的种子进行的。有关其他细节，请参考文章中的附录F。</p>
+<h2 id="Results-and-Discussion"><a href="#Results-and-Discussion" class="headerlink" title="Results and Discussion"></a>Results and Discussion</h2><h3 id="1-Effectiveness-of-GRIPS"><a href="#1-Effectiveness-of-GRIPS" class="headerlink" title="1. Effectiveness of GRIPS"></a>1. Effectiveness of GRIPS</h3><p>实验的主要结果显示在下表中：</p>
+<p><img src="https://img-blog.csdnimg.cn/b5d942ab091a4b0399afe440328fdc78.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在不同的任务中，<strong>GRIPS平均提高了GPT-2 XL、InstructGPT babbage和Curie的准确性，分别为9.36、4.29和2.36个百分点</strong>。我们通过对实例和随机种子重新取样10万次的引导法（Efron和Tibshirani，1994）对这些改进进行双侧假设测试。每种方法的准确率在测试数据、种子和任务中取平均值。InstructGPT babbage和curie的准确率提高的p值分别为0.015和0.011，表明GRIPS的改进在p&lt;0.05的水平上具有统计学意义（任务级性能见下图）。</p>
+<p><img src="https://img-blog.csdnimg.cn/a8f752685c614808bdd7056440352a59.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这张图中无阴影的是搜索前的表现，有阴影的点是的搜索后的表现，在不同的任务和模型中使用仅有指令的提示。并且误差条显示的是95%的置信区间。尽管与babbage相比，curie的改进幅度较小，但curie的结果显示出更大的稳定性（见上表中较小的置信区间）。</p>
+<p>虽然上图显示搜索前的准确率以及不同任务的改进幅度有相当大的差异，<strong>但我们发现GRIPS在babbage的所有任务和curie的所有任务（即除任务021和022外的所有任务）中都提高了性能</strong>。我们注意到，准确率的下降可能是由于我们评分函数中的熵项，它有利于产生具有更平衡标签分布的预测的指令。我们的结果也证实了，在仅有指令的情况下，较大的指令GPT模型优于较小的非指令GPT模型（Ouyang等人，2022）。我们看到，在搜索前，从GPT-2 XL到InstructGPT babbage作为基础模型，以及从babbage到Curie，准确性都有明显的跳跃。</p>
+<h3 id="2-GRIPS-Outperforms-Manual-Rewriting"><a href="#2-GRIPS-Outperforms-Manual-Rewriting" class="headerlink" title="2. GRIPS Outperforms Manual Rewriting"></a>2. GRIPS Outperforms Manual Rewriting</h3><p>Mishra等人（2022b）提供了通过改写改进指令式提示的指南。他们的四个关键建议是</p>
+<ol>
+<li>将抽象的句子改写成简明而有针对性的低级指令；</li>
+<li>以列表的形式列举长的指令；</li>
+<li>将否定的句子（包含像do not X这样的短语）改写成语义等同的肯定实例（包含像do Y这样的短语）;</li>
+<li>重新强调输出的限制（与分类任务有关）。后者是通过在每个数据点的输入部分之后增加一行，提及可能的标签集（如 “预期输出：A&#x2F;B”，其中A和B是任务标签）。</li>
+</ol>
+<p>由于Mishra等人(2022b)中的重写指令没有公开，我们根据这些准则进行了自己的重写任务（在附录D中描述）。然后，我们将这些手工改写的提示语与GRIPS自动获得的提示语进行比较。我们使用两种条件进行人工改写：在第一个 “人工改写 “条件下，我们将建议（1）、（2）和（3）结合起来；在第二个 “人工改写+限制输出 “条件下，我们使用所有四个建议。</p>
+<p><img src="https://img-blog.csdnimg.cn/e96505803b384dd4bd554daaba3efb4e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上表显示，<strong>我们的搜索优于所有模型的人工改写，对于GPT-2 XL、InstructGPT babbage和curie，分别提高了5.56、2.29和1.50分</strong>。此外，GRIPS的改进在不同的任务中更为一致。在所有的模型中，GRIPS至少提高了一半任务的性能（在表2的括号中显示），而手动重写在所有条件下提高了不到一半的任务，除了babbage没有增加限制输出。与Mishra等人（2022b）不同，我们发现在提示中包括一个额外的句子来重申标签空间（上表中的Limit Output）会损害InstructGPT模型的性能。而GPT-2 XL的情况则相反，它有一些性能上的提高。这可能是因为Mishra等人（2022b）将分类视为一项生成任务，而我们直接使用语言模型计算标签标记的概率。</p>
+<h3 id="3-Learning-From-Instructions-vs-Examples"><a href="#3-Learning-From-Instructions-vs-Examples" class="headerlink" title="3. Learning From Instructions vs Examples"></a>3. Learning From Instructions vs Examples</h3><p>以前关于提示搜索的工作研究了<strong>k-shot学习的例子的选择和排序</strong>。由于GRIPS能够搜索到更好的指令，因此直接比较这两种搜索的性能成为可能。我们在下面描述这样一个实验，同时保持相同的数据和计算预算，以进行公平的比较。</p>
+<p>我们使用一个简单而有效的算法来进行仅有实例的搜索。在搜索的每一步，我们<strong>从分数集中随机抽出k个输入例子</strong>，然后计算模型在分数集中剩余点上的性能。搜索一直运行到达到最大的迭代次数，然后返回具有最佳性能的例子集并在测试集上进行评估。请注意，k会因任务的不同而不同；我们在1024个标记的空间中尽可能多地适应例子（对我们的任务来说，在8到28之间）。首先，由于我们从分数集中抽出例子，所以我们为纯例子搜索和GRIPS使用了相同数量的数据，并且我们为每个例子使用了相同的分数集。其次，我们可以简单地对提议的例子集进行评分，直到我们达到与GRIPS中执行的模型查询的最大数量相同。</p>
+<p>下表就包含了这种比较的结果。</p>
+<p><img src="https://img-blog.csdnimg.cn/e96505803b384dd4bd554daaba3efb4e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>对于GPT-2 XL来说，只用例子的搜索优于GRIPS。然而，当我们使用InstructGPT模型时，这些模型被设计成能更好地遵循文本指令（Ouyang等人，2022），GRIPS优于范例提示搜索（对于babbage和curie分别为1.54和1.62分）。GRIPS和纯实例搜索的任务级比较见附录E。在这个实验中，我们使用了一个相当简单的只用例子的搜索方法，它使用了与GRIPS相同的资源，但我们注意到，更复杂的方法也可以考虑。相对于我们的例子搜索，可以使用遗传算法（Kumar和Talukdar，2021），为每个测试实例找到不同的例子集（Liu等人，2021a），或者使用不依赖标记分数集的搜索启发式方法（Lu等人，2022）。</p>
+<h3 id="4-Task-Specific-vs-Task-Agnostic-Instructions"><a href="#4-Task-Specific-vs-Task-Agnostic-Instructions" class="headerlink" title="4. Task-Specific vs Task-Agnostic Instructions"></a>4. Task-Specific vs Task-Agnostic Instructions</h3><p>GRIPS是取决于我们用来初始化搜索的指令的。这就提出了一个自然的问题：<strong>初始指令的语义是如何影响搜索和最终性能的。</strong>我们旨在通过比较两种具有不同语义的初始指令的设置来了解这一点，即特定任务和任务无关的指令（例子见下表）。</p>
+<p><img src="https://img-blog.csdnimg.cn/b4b4f5fbdf0c4052a98d1a3dca13088a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>特定任务的指令是来自NATURAL INSTRUCTIONS数据集的指令，包含了<strong>关于任务、预期输出和特定输出正确的条件的信息</strong>。<strong>在任务无关的设置中，初始指令包含一些通用文本和与任务对应的所有可能的标签列表（通过手动阅读每个任务的原始指令获得），但它不包含关于任务的其他有意义的信息。我们在本实验中使用的任务无关指令的模板如下：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/4407aceb9b87428fbe9911556692833a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>下表显示了这种比较的结果。</p>
+<p><img src="https://img-blog.csdnimg.cn/f0768c67294e42e89a3c4b30a5da1e15.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们发现，<strong>GRIPS在特定任务和任务无关设置中都很有效，分别提高了5.30和2.42分</strong>。有趣的是，与特定任务的指令相比，GPT-2 XL在任务不可知的指令下一直表现得更好。另一方面，InstructGPT系统在搜索前后，与任务无关的指令相比，显示出更好的性能。与Webson和Pavlick（2021年）使用基于BERT的LMs相比，我们看到对于InstructGPT模型，（初始）指令的任务相关语义在任务表现中可以发挥重要作用。</p>
+<h3 id="5-GRIPS-is-Effective-for-Smaller-Score-Sets"><a href="#5-GRIPS-is-Effective-for-Smaller-Score-Sets" class="headerlink" title="5. GRIPS is Effective for Smaller Score Sets"></a>5. GRIPS is Effective for Smaller Score Sets</h3><p>虽然我们默认使用一个大小为|S| &#x3D; 100的分数集，但在其他条件相同的情况下，<strong>最好是使用尽可能少的数据</strong>。因此，<strong>我们研究了GRIPS在分数集可用数据有限的情况下的有效性</strong>。我们使用InstructGPT babbage进行搜索，每个任务的分数集中有100、50或20个数据点。结果如图4所示。</p>
+<p><img src="https://img-blog.csdnimg.cn/29c85babce134090bdfd16e672276c52.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们首先观察到，随着分数集大小的减少，搜索的改进幅度也在减少（当|S| &#x3D; 100时，获得4.27分，而当|S| &#x3D; 20时，获得1.0分）。这种趋势是可以预期的，因为在S中使用较少的例子相当于有一个较小的训练集，因此我们预期模型的概括性会更差。对于非常有限的数据设置，我们看到使用少至|S| &#x3D; 20个数据点，准确率提高了1.0点，这仍然是很有用的。另一方面，当有更多的数据可用时，我们的结果表明，将|S|的大小增加到100以上将导致模型性能的进一步改善（尽管我们预计这将在一个点之后趋于平稳）。</p>
+<h3 id="6-Search-Improvements-Correlate-with-Model-Sensitivity-to-Instructions"><a href="#6-Search-Improvements-Correlate-with-Model-Sensitivity-to-Instructions" class="headerlink" title="6. Search Improvements Correlate with Model Sensitivity to Instructions"></a>6. Search Improvements Correlate with Model Sensitivity to Instructions</h3><p><strong>我们观察到，GRIPS在某些任务上比其他任务效果更好。在此，我们试图了解哪些因素可以解释这种差异性（发现实验结果的问题并且去发现问题）</strong>。我们发现，<strong>一个模型对不同指令的敏感性</strong>是解释搜索性能提高的一个重要因素。<strong>对于一个给定的任务和模型，我们将模型的指令敏感性定义为每个候选任务指令在搜索的第一次迭代中获得的分数的标准偏差</strong>。当这个数字较大时，模型的性能对指令的变化更加敏感。有趣的是，在下表中，我们发现，一项任务的指令敏感性与GPT-2 XL和InstructGPT babbage模型的性能改进幅度密切相关（相关性 Pearson’s r &gt; 0.7)（P &lt; 0.05）。</p>
+<p><img src="https://img-blog.csdnimg.cn/e95e0aa9d3ec4e15898525047e481843.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>然而，对于curie，相关性相对较弱（r &#x3D; 0.51），并且在p &lt; 0.05时不显著。总的来说，我们观察到灵敏度值和最终的改进之间有适度到强烈的相关性，<strong>我们鼓励未来的工作在完全运行搜索之前首先检查任务的灵敏度，作为我们方法有效性的一个指标</strong>。</p>
+<h3 id="7-Semantics-of-Searched-Instructions"><a href="#7-Semantics-of-Searched-Instructions" class="headerlink" title="7. Semantics of Searched Instructions"></a>7. Semantics of Searched Instructions</h3><p>前面那张大表包含了任务021、137和195中搜索到的指令的一些例子（其他任务的搜索指令见附录H）。我们在下面对这些例子进行分析，<strong>讨论GRIPS所做的在人类读者看来合理的编辑，以及使指令在语义上不连贯的编辑</strong>。</p>
+<p>对于任务021，我们看到搜索到的指令的一致性有很大的变化。语义上最连贯的指令对应于InstructGPT curie，其中主要的修改是将 “grammatical”缩短为简单的 “errors”。这不仅保留了意思，而且还简化了指令的第一句。对于InstructGPT babbage来说，有两个关键变化：”是正确的 “短语和实体列表被删除。虽然由此产生的指令在某些方面更简单，但在某些方面完全不连贯。对于GPT-2 XL来说，”is correct”短语与 “indicating no”短语的反复重新放置使得指令不连贯，并具有主动误导性（即，<strong>如果正确就通过 “不”来回应，这与原始指令相反</strong>），但这种改变仍然提高了模型性能。</p>
+<p>对于任务137，我们观察到GRIPS在使用 “任务 “的时候，会提前停止，并返回原始指令。在使用GPT-2 XL模型时，GRIPS提前停止并返回原始指令。对于InstructGPT babbage，我们看到GRIPS转述了toxicity的定义和最后一句陈述任务的标签，然而这些改变不一定能简化原始指令。有趣的是，对于Instruct- GPT curie，toxicity的定义被完全删除。最后，我们看到任务195发生了语义不连贯的编辑。<strong>GRIPS一直在重新编辑不连贯的指令，其中关于可能的标签（”正面 “或 “负面”）的信息被删除。虽然这对人类来说可能是反直觉的，但对模型来说却很有效，并导致了性能的提高</strong>。</p>
+<p>这些发现建立在Webson和Pavlick（2021）的结果之上，<strong>他们观察到 “irrelevant(不相关的)”或 “confusing(混乱的)”指令（在人们眼中）的表现与 “good”指令一样好，有时甚至更好</strong>。我们表明，除了Webson和Pavlick（2021）中的∼300M参数的遮蔽LM之外，这一趋势对于具有≥1B参数的较大的自回归LM也是成立的，而且这一趋势对于专门为遵循指示而设计的InstructGPT模型也成立。同时，先前在第5.4节中的观察表明，对于InstructGPT模型来说，用与任务相关的指令进行初始化是有益的，这些指令超出了列出可能的标签。总的来说，我们的结果表明，这些语言模型能够在一定程度上对指令中的语义变化做出明智的反应。与语境中学习机制的研究类似（Xie等人，2022；Razeghi等人，2022；Min等人，2022），<strong>指令如何被模型内部利用在很大程度上仍是未知数，值得进一步研究</strong>。</p>
+<h3 id="8-Effectiveness-of-GRIPS-on-“Instruction-Examples”-Prompts"><a href="#8-Effectiveness-of-GRIPS-on-“Instruction-Examples”-Prompts" class="headerlink" title="8. Effectiveness of GRIPS on “Instruction + Examples” Prompts"></a>8. Effectiveness of GRIPS on “Instruction + Examples” Prompts</h3><p>最后，我们表明<strong>GRIPS也可以应用于指令+例子的提示</strong>，这些提示在测试实例之前包含额外的k个输入-输出例子对。虽然我们在这种情况下仍然搜索任务指令，但在提示中包括例子可以提高基础分数并改变搜索的流程。与前面第三个实验不同的是，我们将<strong>所有任务的例子数k&#x3D;4</strong>，因为更高的k值会使经济成本过大。为了消除提示中的多数标签的bias（Zhao等人，2021年），我们确保每个标签中的例子数量相等，包括在提示中。由于提示中四个例子的选择随这里的随机种子而变化，在我们的API配额下，如果可能的话，我们在这些实验中使用更大数量的种子。</p>
+<p><img src="https://img-blog.csdnimg.cn/901391e603be4cf6a8634234ca51d439.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在上表中，我们比较了GRIPS对指令+例子的提示（k&#x3D;4）与GRIPS对指令-纯提示和纯例子的搜索。我们发现，在这种情况下，我们的搜索对所有模型都是有效的，大约提高了2个点的准确率。对于InstructGPT模型来说，仅有指令和指令+示例模式之间的性能差异出乎意料地小，因为两种模式的准确率相差不到0.1个百分点。然而，对于Babbage和Curie来说，包含指令的提示比仅有示例的提示要好，大约是1.6个百分点。<strong>只有对GPT-2 XL来说，”纯实例 “搜索是最好的方法，这可能是因为这个模型的设计方式不像InstructGPT模型那样可以得到指令</strong>。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>我们介绍了<strong>GRIPS，这是一种自动搜索算法，它可以编辑为人类设计的任务指令，并返回能改善下游任务性能的指令</strong>。我们证明GRIPS对GPT-2 XL、InstructGPT babbage和Curie的纯指令和指令+例子提示是有效的。与手工改写和只用实例搜索的比较表明，GRIPS优于这些方法，表明广泛探索模型指令的空间是提高模型性能的有效方法。我们表明，当用与任务无关的指令进行初始化时，我们的搜索是有效的，而且在分数集中只有20个例子的情况下，它也能发挥作用。定性分析证实，即使是1B+大小的InstructGPT模型也可以通过语义不连贯的指令得到改善。在未来的工作中，如果有更多的资源，看看我们在最强大的InstructGPT davinci引擎上的搜索效果将是非常有趣的。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Paper-Reading/">#Paper Reading</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>《GrIPS:Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》论文阅读笔记</div>
+      <div>http://example.com/2022/07/17/《GrIPS-Gradient-free-Edit-based-Instruction-Search-for-Prompting-Large-Language-Models》论文阅读笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月17日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/18/%E3%80%8ARLPrompt-Optimizing-Discrete-Text-Prompts-With-Reinforcement-Learning%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》论文阅读笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》论文阅读笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/16/%E3%80%8AMultitask-Prompted-Training-Enables-Zero-shot-Task-Generalization%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记">
+                        <span class="hidden-mobile">《Multitask Prompted Training Enables Zero-shot Task Generalization》论文阅读笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
