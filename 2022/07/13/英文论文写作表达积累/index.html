@@ -24,7 +24,7 @@
 <meta property="og:description" content="开一篇文用于记录日常读paper时好的英文表达。 Sentence The target task can be performed conditioning the LLM with task-specific prompts, a small portion of parameters, or features. 在…有着…的条件下 The optimization can be highly">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-13T03:20:26.000Z">
-<meta property="article:modified_time" content="2022-07-30T05:45:24.029Z">
+<meta property="article:modified_time" content="2022-08-03T14:50:45.139Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Writing">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.3k 字
+          9.3k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          70 分钟
+          78 分钟
         
       </span>
     
@@ -345,12 +345,27 @@
 <li>may <strong>prohibitively expensiv</strong>e to compute 过分的昂贵</li>
 <li>our search does not <strong>utilize any task-specific properties</strong> 利用任何特定任务的属性</li>
 </ol>
+<h3 id="Abstract："><a href="#Abstract：" class="headerlink" title="Abstract："></a>Abstract：</h3><ol>
+<li>Prompting <strong>has shown impressive success</strong> in enabling large pretrained language models (LMs) to perform diverse NLP tasks, especially when only few downstream data are available</li>
+<li>many existing work <strong>resorts to</strong> tuning soft prompt <strong>which falls short of</strong> 很多工作致力于… 有….样的缺点</li>
+</ol>
 <h3 id="Introduction："><a href="#Introduction：" class="headerlink" title="Introduction："></a>Introduction：</h3><ol>
 <li><p>在写多语言论文的introduction的时候可以这样借鉴：</p>
 <p>In this paper, we <strong>focus on explicitly training language models in a supervised and massively multi- task fashion</strong>. <strong>Our approach uses</strong> a training mixture consisting of a large set of different tasks speci-fied in natural language prompts. <strong>Our goal is to</strong> induce a model to better generalize to held-out tasks without requiring massive scale, as well as being more robust to the wording choices of the prompts. To convert a large set of natural language tasks into prompted form, we use a simple templating language for structured datasets. <strong>We develop an interface for prompt collection</strong> from public contributors that facilitated the collection of a large multitask mixture with multiple prompts per dataset (Bach et al., 2022). <strong>We then train a variant of the T5 encoder-decoder model</strong> (Raffel et al., 2020; Lester et al., 2021) <strong>on a subset of the tasks</strong> (each with multiple datasets) and <strong>then evaluate tasks and prompts that the model was not trained on</strong>.</p>
 <p><strong>Our experiments study two questions.</strong> First, does multitask prompted training improve generalization to held-out tasks? Second, does training on a wider range of prompts improve robustness to prompt wording? For the first question, <strong>we find that multitask training enables zero-shot task generalization by showing that our model matches or exceeds the performance of GPT-3 (Brown et al., 2020) on 9 out of 11 held-out datasets, despite being about 16× smaller.</strong> We also show that the model improves over a large baseline language model on 13 out of 14 tasks in the BIG-bench benchmark (BIG-bench collaboration, 2021). <strong>For the second question, we find that training on more prompts per dataset consistently improves the median and decreases the variability of performance on held-out tasks.</strong> Training on prompts from a wider range of datasets also generally improves the median but does not consistently decrease the variability.</p>
 </li>
-<li><p>However, <strong>the extent to which this success depends on</strong> the semantic meaningfulness of the prompts has been challenged (Webson and Pavlick, 2021; Logan et al., 2021). Thus, in this work, <strong>we remain agnostic as to why prompts support generalization.</strong></p>
+<li><p>However, <strong>the extent to which this success depends on</strong> the semantic meaningfulness of the prompts has been challenged (Webson and Pavlick, 2021; Logan et al., 2021). Thus, in this work, <strong>we remain agnostic as to why prompts support generalization.</strong> </p>
+</li>
+<li><p>by its nature 就其性质而言</p>
+</li>
+<li><p>the discrete nature of the prompts <strong>render</strong>s the optimization very difficult 其离散的性质让优化变得十分困难</p>
+</li>
+<li><p>RL for prompt optimization <strong>poses new challenges to</strong> learning efficiency</p>
+</li>
+<li><p>…，echoing the recent research 与最近的一些研究结果相符合</p>
+</li>
+<li><p><strong>Previous work either</strong> approximate gradients over z using their continuous LM embeddings (Shin et al., 2020) <strong>or tweak</strong> human-written prompts <strong>with heuristics</strong> </p>
+<p>以前的工作要么使用连续的LM嵌入对z进行近似梯度优化，要么用启发式方法调整人工写的提示取得一些成功。</p>
 </li>
 </ol>
 <h3 id="reult的结果分析："><a href="#reult的结果分析：" class="headerlink" title="reult的结果分析："></a>reult的结果分析：</h3><ol>
@@ -358,6 +373,11 @@
 <li>Search Improvements <strong>Correlate with</strong> Model Sensitivity to Instructions …的改进与模型对指令的敏感度有关（与…有关）</li>
 <li>these findings <strong>build upon</strong> results from … 这些发现建立在…的结果上</li>
 <li>说结果的时候：We find that our search <strong>is effective in this setting across all models</strong>, improving accuracy by roughly 2 points. 可以先算一个平均的准确率大概提高了多少</li>
+<li>our trained prompts <strong>performs better on average with lower variance</strong> than manual prompts,</li>
+<li>some transfer, <strong>as evidenced by</strong> uniformly better performance than random prompt   一些transfer表现出其性能一致地优于随机提示 </li>
+<li>prompts learned from larger models <strong>see sharp performance declines</strong> when applied to … 例如，从较大的模型中学到的提示在应用于较小的模型时，性能急剧下降。</li>
+<li><strong>this opens up a promising and exciting direction for future research</strong></li>
+<li><strong>enabled by</strong> the transferrability across LMs   通过跨LM的转移性</li>
 </ol>
 <h2 id="Word"><a href="#Word" class="headerlink" title="Word"></a>Word</h2><p>大模型的另一种表达：pretrained high-capacity language models</p>
 <p>extract relational data from <strong>text or other modalities</strong>  从文本数据或者一些其它模态的数据</p>

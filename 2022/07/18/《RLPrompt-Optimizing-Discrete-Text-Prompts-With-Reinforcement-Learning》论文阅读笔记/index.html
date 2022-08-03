@@ -16,18 +16,34 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.12548 Code: https:&#x2F;&#x2F;github.com&#x2F;mingkaid&#x2F;rl-prompt">
+    <meta name="description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.12548 Code: https:&#x2F;&#x2F;github.com&#x2F;mingkaid&#x2F;rl-prompt  概述：在使大型预训练语言模型（LM）执行不同的NLP任务方面，prompt已显示出令人印象深刻的成功，特别是在只有少数下游数据可用时。然而，为每个任务自动寻找最佳提示是具有挑战性的。原因如下：  一方面，大多数现有的工作都求助于调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》论文阅读笔记">
 <meta property="og:url" content="http://example.com/2022/07/18/%E3%80%8ARLPrompt-Optimizing-Discrete-Text-Prompts-With-Reinforcement-Learning%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.12548 Code: https:&#x2F;&#x2F;github.com&#x2F;mingkaid&#x2F;rl-prompt">
+<meta property="og:description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.12548 Code: https:&#x2F;&#x2F;github.com&#x2F;mingkaid&#x2F;rl-prompt  概述：在使大型预训练语言模型（LM）执行不同的NLP任务方面，prompt已显示出令人印象深刻的成功，特别是在只有少数下游数据可用时。然而，为每个任务自动寻找最佳提示是具有挑战性的。原因如下：  一方面，大多数现有的工作都求助于调">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/91d69c35edb940e5ac3088a2bf14cf15.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ae3111af41ee4080bbf53af4ffae1f8f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/119deef420c44da7afbfcaed54892ca9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f7d657c107934981aa4ef5bc0f073a27.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ae3111af41ee4080bbf53af4ffae1f8f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4323ced71dec4cb297e7c65ed8cbd636.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0c33b1a81c774368bf2fb857eecb9dc5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/667c1c09ee8d4a3a870566e9dc9be377.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/25bea5e92e474d7dad8176ee5e693e98.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/715cbf5376c44520b5621857ea6a1753.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/148504b68d634a5b8360f53d6bdf8e3d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/306ddce595f14a1da1ec59fbb8c4d2fb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/dbde4a3f57d746d5bda2d1d372ed663b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/860cd9e92b764d9e97d35adce275be56.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bbac81e033b748c4b87d14455df0a550.png">
 <meta property="article:published_time" content="2022-07-18T03:22:02.000Z">
-<meta property="article:modified_time" content="2022-07-28T03:29:37.714Z">
+<meta property="article:modified_time" content="2022-08-03T15:45:03.010Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/91d69c35edb940e5ac3088a2bf14cf15.png">
   
   
   
@@ -219,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          80 字
+          16k 字
         
       </span>
     
@@ -230,7 +246,7 @@
         
         
         
-          1 分钟
+          132 分钟
         
       </span>
     
@@ -275,6 +291,118 @@
                 
                 <p>Paper: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2205.12548">https://arxiv.org/abs/2205.12548</a></p>
 <p>Code: <a target="_blank" rel="noopener" href="https://github.com/mingkaid/rl-prompt">https://github.com/mingkaid/rl-prompt</a></p>
+<p><img src="https://img-blog.csdnimg.cn/91d69c35edb940e5ac3088a2bf14cf15.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p>在使大型预训练语言模型（LM）执行不同的NLP任务方面，prompt已显示出令人印象深刻的成功，特别是在只有少数下游数据可用时。然而，<strong>为每个任务自动寻找最佳提示是具有挑战性的</strong>。原因如下：</p>
+<ul>
+<li>一方面，大多数现有的工作都求助于调整soft prompt（如嵌入），这在可解释性、跨语言模型的可重用性和梯度不可用时的适用性方面存在不足。</li>
+<li>另一方面，离散提示很难优化，而且往往是由 “枚举（如转述）–然后–选择 “的启发式方法创建的，这些方法并没有系统地探索提示空间。</li>
+</ul>
+<p><strong>本文提出了RLPROMPT，一种带有强化学习（RL）的高效离散提示优化方法</strong>。RLPROMPT制定了一个参数有效的策略网络，在经过奖励机制训练后生成所需的离散提示。为了克服大的LM环境中奖励信号的复杂性和随机性，我们加入了有效的奖励稳定化，大大增强了训练效率。RLPROMPT可以灵活地适用于不同类型的LM，如masked模型（如BERT）和left-to-right模型（如GPT），用于分类和生成任务。在少数照片分类和无监督文本风格转移的实验中，显示出比广泛的现有微调或提示方法更优越的性能。有趣的是，<strong>由此产生的优化提示往往是不符合语法的杂乱的文本</strong>；而且令人惊讶的是，这些杂乱的（不符合语法的）的提示可以在不同的LM之间转移，以保持显著的性能，表明LM提示可能不遵循人类语言模式。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><u>感觉最近看的这几篇文章的introduction都是这样写的，先介绍prompt是什么，对很多语言模型来说十分有效，用prompt tuning最关键的问题是什么。</u>提示已经成为一种很有前途的方法，可以使用大型预训练的语言模型（LM）执行广泛的NLP问题，包括left-to-right的语言模型，如GPT（Radford等人，2019年；Brown等人，2020年）和masked的语言模型，如BERT（Devlin等人，2019年），RoBERTa（刘等人，2019年）等。与为每个下游任务昂贵地更新大量LM参数的传统微调相比，prompt将输入与引导LM产生预期输出的额外文本连接起来。<strong>prompt的一个关键问题是如何找到最佳的提示，以提高LM在各种任务中的表现，通常只有少数训练实例</strong>。</p>
+<p><u>然后介绍近些年的工作在这个关键问题上做了哪些努力，也就是一些流行的prompt的优化方法，soft prompt不利于理解，且内部梯度的计算成本高，而discrete prompt优化又十分困难—现有的优化方法：人工改写&#x2F;自动列举后挑选&#x2F;autoprompt都只有有限的有效性，以此来引出自己优化discrete prompt的方法。</u>最流行的提示优化方案之一是调整软提示（即连续嵌入向量），因为它们适合梯度下降（Lester等人，2021；Li和Liang，2021；Vu等人，2021；Gu等人，2021；Liu等人，2021d；Mokady等人，2021； Qian等人，2022；An等人，2022等）。然而，用LM学习的结果连续嵌入，就其性质而言，人类很难理解（Khashabi等人，2021；Lester等人，2021；Hambardzumyan等人，2021；Mokady等人，2021），而且与其他LM的使用不兼容。此外，所需的LM内部梯度的计算成本往往很高，或者对于只部署推理API的LM（如GPT-3）来说根本无法使用。因此，使用由词汇表中的具体标记组成的离散提示往往是可取的。然而，提示语的离散性使优化变得非常困难。以前的工作通常依靠启发式的<strong>人工工程</strong>（Petroni等人，2019；Brown等人，2020；Schick和Schütze，2021a；Tam等人，2021），<strong>或者自动列举多个提示候选词，从中挑选出最好的一个</strong>（Jiang等人，2020；Gao等人，2021；Liu等人，2021b；Prasad等人，2022）。<strong>AutoPrompt</strong>（Shin等人，2020）使用梯度信息来编辑提示标记，它存在训练不稳定以及与基于梯度的软提示一样的适用性问题，在实践中显示出有限的有效性。</p>
+<p><u>引出自己的离散提示优化方法，解释自己的动机与可行性。</u>本文提出了RLPROMPT，一种基于强化学习（RL）的新的离散提示优化方法。<strong>这种方法汇集了广泛的理想特性，可以广泛而有效地用于不同的任务和LMs</strong>（表1）。最重要的是，<strong>RLPROMPT不是直接优化&#x2F;编辑离散提示符（这一直是困难和低效的），而是对策略网络进行参数化，经过训练后，生成所需的提示符</strong>。因此，离散提示优化相当于学习少量的策略参数，我们将其设置为插入到一个冻结的紧凑型LM中的MLP层，如distil-GPT2（HuggingFace，2019）。这种表述也使我们能够采用现成的RL算法（例如，Guo等人，2021年），这些算法以任意的奖励函数学习策略，这些奖励函数是用可用的数据（例如，在少许的分类中）或在没有监督数据可获得时的其他弱信号（例如，在可控文本生成中）定义的。</p>
+<p>另一方面，用于提示优化的RL对学习效率提出了新的挑战：大型黑盒LM提出了一个高度复杂的环境，在收到提示（即行动）之后，在计算奖励之前，必须经过一长串复杂的转换（例如，读取输入和推断输出）。这使得奖励信号极其不稳定，难以学习。为了克服这一困难，我们提出了两种简单而又令人惊讶的有效方法来规范和稳定奖励，并提高优化效率。</p>
+<p><u>最后指出自己的方法通过实验证明相比之前的都有改进性能更好。</u>关于few-shot分类和无监督文本风格转移的实验表明，我们的方法比广泛的微调和提示方法（如表1中的方法）都有改进。由此产生的离散提示也促进了丰富的解释和分析，以获得对LM提示的新见解。我们还表明，自动优化对分类中言语者的不同选择是稳健的。<strong>特别是，优化后的提示语虽然诱发了很强的任务表现，但往往是没有明确的人类可理解含义的胡言乱语文本，这与最近的研究（Webson和Pavlick，2021；Zhao等人，2021；Prasad等人，2022）相呼应，即利用提示语的LM不一定遵循人类语言模式</strong>。<strong>也许令人惊讶的是，那些用一个LM学到的胡言乱语的提示语可以在其他LM中使用，并有明显的表现，这表明那些不同的预训练的LM已经掌握了提示语的共享结构。</strong></p>
+<h2 id="Discrete-Prompt-Optimization-with-RL"><a href="#Discrete-Prompt-Optimization-with-RL" class="headerlink" title="Discrete Prompt Optimization with RL"></a>Discrete Prompt Optimization with RL</h2><p>我们提出了RLPROMPT，这是一个为预训练的LM学习离散标记的提示语的框架，以便在广泛的NLP任务中取得成功。</p>
+<p>离散提示比连续提示更容易解释和使用，但由于对离散tokens的优化难以实现，因此学习起来也更有挑战性。<strong>为了解决这个困难，我们将离散提示的优化制定为一个强化学习（RL）问题，使用一个连续的策略网络来探索提示空间。</strong>该策略网络具有很高的参数效率，只需在一个冻结的紧凑型LM（如distilGPT-2）上训练一个小的MLP层。</p>
+<p>下面，我们将介绍我们的离散提示优化的RL表述（1-2）。之后，我们讨论了我们策略网络的设计（3）。最后，我们描述了我们的奖励工程技术来改善RL训练（4）。</p>
+<h3 id="1-The-Discrete-Prompt-Optimization-Problem"><a href="#1-The-Discrete-Prompt-Optimization-Problem" class="headerlink" title="1.The Discrete Prompt Optimization Problem"></a>1.The Discrete Prompt Optimization Problem</h3><p><u>提出离散提示优化方法中存在的问题。</u></p>
+<p>最近的工作（Brown等人，2020；Jiang等人，2020；Khashabi等人，2021；Gao等人，2021）表明，可以将离散文本提示z与输入x相结合，直接使用预先训练的LM的生成分布<strong>PLM（y|z，x）</strong>执行各种NLP任务，而不需要微调模型。例如，在分类中，LM可以是一个掩码语言模型（MLM），如BERT（Devlin等人，2019），而y是掩码位置的类标签标记（又称positive或negative等动词）；在生成任务中，LM可以是一个left-to-right的模型，如GPT-2（Radford等人，2019），而y是生成文本。我们用Ylm(z, x)来表示由z提示的x上的LM输出。具体过程见下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/ae3111af41ee4080bbf53af4ffae1f8f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们的目标是从词汇表V中找到最佳的离散提示z∗，以最大化Ylm(z∗, x)的一些下游性能指标R。指标R(y)可以是简单的与ground truth y∗的匹配（例如，在分类中，当数据可用时），但也可以是更复杂的，如可控文本生成的成功，它由样式准确性、语言质量和语义保存等质量方面组成。假设提示有固定的长度L，我们将离散文本提示优化的任务写成以下一般格式：</p>
+<p><img src="https://img-blog.csdnimg.cn/119deef420c44da7afbfcaed54892ca9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>z是提示，x是输入，y是输出，R是下游任务指标。然而，上述优化可能是难以实现的，因为z的离散标记不适合基于梯度的优化，而粗暴的搜索空间会以指数形式增长，数量为O(VL)。以前的工作要么使用连续的LM嵌入对z进行近似梯度优化（Shin等人，2020），要么用启发式方法调整人工写的提示（Jiang等人，2020；Mishra等人，2021a；Prasad等人，2022），取得一些成功。</p>
+<h3 id="2-The-Reinforcement-Learning-Formulation"><a href="#2-The-Reinforcement-Learning-Formulation" class="headerlink" title="2.The Reinforcement Learning Formulation"></a>2.The Reinforcement Learning Formulation</h3><p><u>介绍整体RL策略。</u></p>
+<p>为了克服离散提示难以优化的困难，我们将离散文本提示优化表述为一个RL问题，在这个问题中，代理学习逐一选择提示tokens[Z1, …, ZL]以最大化下游奖励R(Ylm(z, x))。在每个时间步骤t，代理收到以前的提示token Z&lt;t，并根据策略π(Zt|Z&lt;t)生成下一个提示token Zt。在代理完成整个token ˆz后，它收到任务奖励R(Ylm(ˆz, x))。用θ对策略进行参数化，我们可以将上述问题重写为</p>
+<p><img src="https://img-blog.csdnimg.cn/f7d657c107934981aa4ef5bc0f073a27.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><strong>与典型的soft prompt tuning方法相比，上述RL公式的关键优势在于不需要梯度访问LM，而是将其视为黑箱函数</strong>。这使我们能够为梯度计算过于昂贵的LM，或仅作为推理API的LM（例如GPT-3），使用任意的奖励函数来优化提示。与以前的离散提示列举&#x2F;解析相比，RL方法在奖励信号的指导下更有效地探索了提示空间。政策制定也带来了额外的灵活性。例如，它可以容纳其他信息，如输入x，导致输入特定的提示（例如，在第2.4节中用于文本风格转移）。</p>
+<p><strong>在训练期间，我们通过从策略网络中取样来探索提示空间。在策略训练完成后，在推理过程中，我们在每一步使用贪心选择tokens，以产生一个确定性的提示。</strong>上述过程中的奖励目标可以用任何现成的RL算法来优化。我们使用<strong>最新soft Q-learning</strong>（SQL，Guo等人，2021），它在各种文本生成问题上显示了先进的学习效率和性能，并有开源的实现。具体来说，我们只使用其政策上的学习组件。感兴趣的读者参考Guo等人（2021）的更多细节。</p>
+<h3 id="3-Efficient-Parameterization-of-Policy"><a href="#3-Efficient-Parameterization-of-Policy" class="headerlink" title="3.Efficient Parameterization of Policy"></a>3.Efficient Parameterization of Policy</h3><p><u>介绍overview中的prompt策略网络（图左边部分）。</u></p>
+<p>我们提出了策略网络πθ的有效参数化，它用一个简单的MLP层来适应一个冻结的预训练的LM（即策略LM），该层包含所有要训练的参数θ。策略LM不需要与我们优化提示的LM（即任务LM）相同，可以是任何具有可访问梯度的LM。在实践中，我们只使用紧凑的模型，如distilGPT-2（Hugging-Face，2019）的策略LM。具体来说，<strong>我们使用LM来提取部分提示的上下文嵌入ˆz&lt;t，应用添加的task-specific MLP层来计算适应的嵌入，并将输出传入模型的原始LM头以获得下一个提示的token的概率</strong>，如下图左侧所示。</p>
+<p><img src="https://img-blog.csdnimg.cn/ae3111af41ee4080bbf53af4ffae1f8f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在训练过程中，我们通过策略LM的反向传播来计算MLP的梯度。<strong>我们的策略网络通过保持LM的冻结来节省参数</strong>，包括其昂贵的LM头。作为一个具体的例子，使用隐藏大小为768的distilGPT-2，我们实现了一个具有1个隐藏层和2048个隐藏状态的慷慨的参数化MLP，只需要3.1M的参数，这只是distilGPT-2的82M参数的一小部分，它本身就是一个非常小的LM。即使改变相对较少的参数，高效的参数化也能在实验中产生良好的性能，效果不错。</p>
+<h3 id="4-Reward-Engineering-and-Stabilization"><a href="#4-Reward-Engineering-and-Stabilization" class="headerlink" title="4.Reward Engineering and Stabilization"></a>4.Reward Engineering and Stabilization</h3><p><u>介绍overview中的奖励工程（图右边部分）。</u></p>
+<p>奖励功能的正确设计，又称<strong>奖励工程</strong>，对于RL的训练效率和成功至关重要（Sutton和Barto，2018）。特别是离散提示优化，由于其高度复杂的奖励函数–获得奖励，每个提示必须经过许多处理步骤（例如，与输入相结合，通过大型黑盒LM，并推断出输出），每个步骤都会引入自己的变化。这使得奖励信号非常不稳定，并且难以评估任务目标的进展。为了解决这些困难，我们提出了<strong>两个简单的奖励工程技术</strong>，可以有效地鼓励和稳定离散提示训练。</p>
+<p><strong>Precise Reward(分片奖励)</strong> 有了一个错误的或脆弱的奖励函数，策略网络可能会使其最大化，而不向预期目标前进。例如，在使用groud truth标签的概率作为奖励函数学习文本分类时，策略网络有时会找到对抗性的提示（Wallace等人，2019年；Xu等人，2022年），导致给定任意输入的某一种单一类别的概率非常高。为了克服这个问题，我们建议设计<strong>分片奖励函数</strong>（Yu等人，2020年；Rengarajan等人，2022年），其中包括平滑和不相交的部分，以更好地表达任务的优先级并提高鲁棒性。<strong>通常，我们可以包括一个密集的、定量的信号（如标签概率）来衡量实现目标的细粒度进展，以及一个稀疏的、定性的信号，只有当达到某些状态（如对所有类别的准确预测）时，才能通过奖励的大幅突然增加来鼓励</strong>。在后面会举例说明文本分类中分片奖励的设计(实验中Few-Shot Text Classification部分）。</p>
+<p><strong>Input-Specific z-Score Reward (输入特定的z-score奖励)</strong> 不同的输入对于推理或预测会有不同程度的困难。因此，Prompted LM可以看到不同输入的不同奖励尺度。例如，在文本风格转换中（实验中Text Style Transfer部分），<strong>有些句子可能只需要改变几个词就能改变风格，因此，LM在这些句子上自然会比其他句子获得更高的奖励，因为其他句子可能需要更多的重写</strong>。因此，直截了当地对所有具有相同奖励规模的输入进行优化，会导致训练偏差和不稳定。为了缓解这个问题，<strong>我们建议使用输入特定的z-score来转换奖励，它通过输入特定的平均值和标准差来规范奖励</strong>。<strong>这可以被看作是对特定环境奖励归一化的类似，这是RL中常用的技术。</strong>在提示优化过程中，我们为每个输入x采样一批提示Z（x），并计算每个提示z∈Z（x）的奖励R（yLM（z，x））。之后，我们计算整个提示Z(x)的奖励分数。使用速记Rx(z)&#x3D;R(yLM(z, x))，我们可以把转换写成下面这样：</p>
+<p><img src="https://img-blog.csdnimg.cn/4323ced71dec4cb297e7c65ed8cbd636.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>为了区分同一批次中不同输入的Z-scores，我们对输入的策略网络设定条件，即πθ（z|x）。</p>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><p>本篇文章所提出的RLPROMPT普遍适用于各种类型的预训练LM，使用不同的提示格式执行不同的NLP任务。我们对我们的方法进行了评估，包括分类和生成两种经典的任务，并对LM 的prompt的新方法进行了丰富分析。</p>
+<h3 id="1-Few-Shot-Text-Classification"><a href="#1-Few-Shot-Text-Classification" class="headerlink" title="1.Few-Shot Text Classification"></a>1.Few-Shot Text Classification</h3><p>用很少的标注实例学习文本分类一直是许多应用中关注的问题（Xu等人，2018；Yu等人，2018）。以前关于提示的工作对这个问题应用了各种方法（Brown等人，2020；Shin等人，2020；Schick和Schütze，2021a；Lester等人，2021）。我们采用典型的提示方法，<strong>将使用提示的LM的分类制定为一个生成问题</strong>，如BERT等MLM的标记填充，或GPT-2等left-to-roght的LM的下一个标记预测。因此，分类相当于选择与一组预先确定的类别标签相对应的标记，也就是verbalizer（例如，积极情绪的标签是great，消极情绪的标签是terrible）。例如，为了使用MLM对输入句子 “Food is delicious”进行情感分类，我们首先将我们的提示和输入填入一个模板”{MASK}{Prompt}{Input}”。之后，我们选择概率最高的verbalizer token填充到[MASK]位置。</p>
+<h4 id="1-1-Reward-Function"><a href="#1-1-Reward-Function" class="headerlink" title="1.1 Reward Function"></a><strong>1.1 Reward Function</strong></h4><p>文本分类任务的目的是将输入的文本x从一组类别C中正确地分配到其ground truth的标签c∗。在提示的背景下，它意味着将最高的概率分配给对应于c∗类（例如，positive的情感类别）的标签 Yc∗（例如，great）。为了减轻前面第四节中讨论的对抗性情况，我们设计了一个分片奖励函数，鼓励提示者对所有类别都敏感。具体来说，我们使用每个类别c∈C的一个例子来计算提示z的奖励，总共有|C|个例子。对于每个例子（xc, yc），我们计算每个标签y的预测分数 Sz(y) :&#x3D; log PLM(y|z, xc)，并将argmax作为预测值ˆyc。之后，我们将ˆyc与ground truth中的 yc进行比较。如果任何预测ˆyc不正确，我们将奖励计算为一个hinge-loss-style的目标，即目标类分数与其他类最高分数之间的差距，写为:</p>
+<p><img src="https://img-blog.csdnimg.cn/0c33b1a81c774368bf2fb857eecb9dc5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>如果所有的预测都是正确的，我们在奖励中引入一个巨大的突然增加，以表达这个prompt的可取性。因此，我们对提示z的奖励函数定义如下:</p>
+<p><img src="https://img-blog.csdnimg.cn/667c1c09ee8d4a3a870566e9dc9be377.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>其中λ2 &gt; λ1是平衡权重。直观地说，只要任何输出ˆyc是不正确的，上面的奖励函数就会保持负值，但当情况相反时，就会提供一个大的正信号。在训练过程中，我们从我们为数不多的训练集中抽取例子xc，并通过对验证集的调整设置λ1 &#x3D; 1.2和λ2 &#x3D; 2.0。</p>
+<p>在实验中，我们通过减去一批例子中的平均奖励，将上述分片奖励与部分z-score规范化结合起来。</p>
+<h4 id="1-2-Dataset"><a href="#1-2-Dataset" class="headerlink" title="1.2 Dataset"></a><strong>1.2 Dataset</strong></h4><p>按照（Gao等人，2021；Hu等人，2021；Sun等人，2022），我们在几个文本分类的benchmarks上进行实验，包括情感分析和话题分类。<strong>对于情感分析</strong>，我们选择<strong>SST-2、Yelp polarity、MR和CR</strong>。<strong>对于主题分类</strong>，我们选择<strong>AG’s News</strong>。数据集的统计数据见下表。</p>
+<p><img src="https://img-blog.csdnimg.cn/25bea5e92e474d7dad8176ee5e693e98.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="1-3-Few-Shot-Setting"><a href="#1-3-Few-Shot-Setting" class="headerlink" title="1.3 Few-Shot Setting"></a><strong>1.3 Few-Shot Setting</strong></h4><p>按照以前的工作（Gao等人，2021年；Min等人，2021年；Sun等人，2022年），我们从原始训练集中每类随机抽取16个样本，形成一个16-shot训练集。我们还从原始训练集中再抽出16个样本，形成验证集，以形成标准的few-shot learning设置（Perez等人，2021）。我们在每个实验中挑选三个在我们的验证集上显示出最高性能的提示语。由于设置的不稳定性和固有的随机性（Henderson等人，2018；Gao等人，2021），我们用5个随机种子对不同的训练集和验证集进行采样。同样，我们用3个随机种子运行每个实验，并报告平均精度和标准偏差。</p>
+<h4 id="1-4-Baselines"><a href="#1-4-Baselines" class="headerlink" title="1.4 Baselines"></a><strong>1.4 Baselines</strong></h4><p>我们将我们的方法与以下的所有训练和提示范式进行比较，在下面的列表中描述（更多实施细节见附录§A.1）。</p>
+<ul>
+<li>Finetuning：在我们为数不多的训练例子上用分类头对整个PLM进行微调。</li>
+<li>Manual Prompt：从（Schick和Schütze，2021a）中抽取手工制作的提示。</li>
+<li>In-context Demo（Brown等人，2020）：每类随机选择一个训练样本，并将其与输入文本连接起来。</li>
+<li>Instructions：按照自然指示协议（Mishra等人，2021b）手动创建任务描述和标签定义，如附录中的表7所示，并将指示预置到输入文本中。</li>
+<li>Prompt Tuning（Lester等人，2021）：一种使用梯度进行提示调谐的软提示方法。</li>
+<li>Black Box Tuning（Sun等人，2022）：混合离散和软提示，以无梯度的方式调整软部分。</li>
+<li>GrIPS（Prasad等人，2022）：作为一种离散提示枚举方法，对指令进行短语级别的编辑，并选择最好的一个。</li>
+<li>AutoPrompt（Shin等人，2020）：将离散的触发标记作为提示，并通过梯度引导的搜索迭代更新提示。</li>
+</ul>
+<h4 id="1-5-Experiment-Setup"><a href="#1-5-Experiment-Setup" class="headerlink" title="**1.5 Experiment Setup **"></a>**1.5 Experiment Setup **</h4><p>我们使用<strong>RoBERTa-large</strong>（Liu等人，2019）作为我们的backbone模型。对于方法，我们设置提示的长度L&#x3D;2，并在与我们的手动提示相同的位置插入提示标记（Schick和Schütze，2021a；Tam等人，2021）。 我们使用<strong>distilGPT2</strong>作为策略网络的冻结基础。更多训练细节请见文章中的附录。</p>
+<h4 id="1-6-Results"><a href="#1-6-Results" class="headerlink" title="**1.6 Results **"></a>**1.6 Results **</h4><p>我们在表3中列出了few-shot的分类结果：<strong>与现有的离散提示优化框架（GrIPS和AutoPrompt）相比</strong>，我们的方法找到了更强大的提示，在所有基准上都取得了大幅提高的准确性；<strong>当与soft prompt tuning比较时</strong>，RLPROMPT实现了更高和更稳定（例如，更低的std-dev）的准确性，因为我们的方法不存在对初始化的敏感性，这是soft prompt tuning在few-shot设置中的常见问题（Gu等人，2021；Vu等人，2021；Su等人，2021；李和梁，2021）；<strong>我们的方法实现了与Black Box Tuning的可比性</strong>，Black Box Tuning是一种混合提示方法，专门tune提示的soft的部分。探索整合以实现离散和软优化是很有趣的。在少数情况下与模型fine-tune的比较表明，我们的方法在大多数基准中取得了更高的性能和更好的稳定性。除了在微调中因参数变化而扰乱LM的原始知识外，提示方法能更好地激发LM的力量，而不损害其固有的通用能力。</p>
+<h3 id="2-Text-Style-Transfer"><a href="#2-Text-Style-Transfer" class="headerlink" title="2.Text Style Transfer"></a>2.Text Style Transfer</h3><p>长期以来，控制生成文本的属性一直是自然语言生成的一个挑战问题（Yu等人，2017；Hu等人，2017）。具体来说，<strong>文本风格转移（TST）的目标是（1）改变输入句子的风格，同时（2）保留其内容，通常无法获得监督的训练数据</strong>。例如，在一个情感转移任务中，给定一个负面的句子 “The food is disgusting”，一个好的输出将是正面的句子 “The food is delicious”。然而，训练数据只包括负面和正面的句子，没有输入-输出关系。</p>
+<p><strong>即使没有监督数据，我们的方法也能以弱监督信号作为奖励函数来学习提示语</strong>，这在以前的提示语优化方法中是不可能的。与之前从头开始训练模型的TST工作（Dai等人，2019；Luo等人，2019；Madaan等人，2020等）或微调预训练的LM（Liu等人，2021e）相比，我们的方法提出了一个更有效的解决方案，<strong>在不更新LM的参数的情况下为其学习离散的提示语</strong>。</p>
+<h4 id="2-1-Reward-Function"><a href="#2-1-Reward-Function" class="headerlink" title="2.1 Reward Function"></a><strong>2.1 Reward Function</strong></h4><p>给定输入句子x，文本风格转移的目标是生成输出y∗，保留x中的信息，同时显示风格属性s∗。按照这些优先次序，<strong>我们将任务奖励定义为内容保存和目标风格强度的简单总和</strong>，正式描述如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/715cbf5376c44520b5621857ea6a1753.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们使用<strong>CTC指标</strong>（Deng等人，2021）<strong>来实现我们的preservation奖励</strong>，CTC指标衡量输入x和输出y之间的双向信息对齐。我们通过与BERTScore（Zhang等人，2019）类似地从RoBERTa-large匹配标记嵌入来计算对齐，这种技术显示出与人类判断的最高相关性。<strong>对于Style奖励</strong>，我们计算了从Yelp训练集学到的BERT基础分类器下的目标风格概率，该分类器在验证集上实现了98.4%的准确性。</p>
+<h4 id="2-2-Dataset"><a href="#2-2-Dataset" class="headerlink" title="2.2 Dataset"></a><strong>2.2 Dataset</strong></h4><p>我们在<strong>Yelp数据集上</strong>测试我们的方法，该数据集包含客户的正面和负面评论。训练集包含266K条正面评论和177K条负面评论，验证集包含38K条和25K条，测试集包含76K条和50K条。我们在一个单独的数据集上进行评估，该数据集由每种情绪的500条评论组成，参考输出由Li等人（2018）收集。</p>
+<h4 id="2-3-Baselines"><a href="#2-3-Baselines" class="headerlink" title="**2.3 Baselines **"></a>**2.3 Baselines **</h4><p>我们将我们的方法与基于训练和提示的基线进行评估。对于训练基线，我们与两个强大的现有方法进行比较，即<strong>Style Transformer和DiRR</strong>。特别是，DiRR用RL和辅助目标对GPT-2（Radford等人，2019）模型进行了微调，因此它可以被看作是我们方法的全模型tuning类似物。对于提示基线，我们选择<strong>（1）Null Prompt（不使用任何提示）</strong>、<strong>（2）Random Prompt</strong>（从词汇中抽取5个标记作为提示）和<strong>（3）Manual Prompt（平均三个人工编写</strong>的模板的性能，一个由Reif等人（2021）编写，两个为本实验编写。</p>
+<h4 id="2-4-Experiment-Setup"><a href="#2-4-Experiment-Setup" class="headerlink" title="**2.4 Experiment Setup **"></a>**2.4 Experiment Setup **</h4><p>对于我们的提示优化方法，我们<strong>用所有5个GPT-2模</strong>型作为任务LM进行实验，<strong>范围从最小的distilGPT-2（HuggingFace，2019）的82M参数到最大的GPT-2 xlarge的1.5B参数</strong>。由于TST在不同的输入中显示出不同的奖励尺度，我们在训练过程中使用输入特定的z-score来规范我们的奖励。为了生成文本ˆy，我们从提示的LM中抽出32个候选输出，并挑选出奖励最高的一个作为最终输出。我们还固定了提示长度L&#x3D;5。为了减少RL初始化和样本选择造成的性能差异，我们对自己方法的每个结果进行了3次RL实验的平均性能。此外，我们对所有的基线进行相同的样本选择，以获得可比的性能。在附录§A.2中描述了更多的训练细节。</p>
+<h4 id="2-5-Evaluation"><a href="#2-5-Evaluation" class="headerlink" title="2.5 Evaluation"></a><strong>2.5 Evaluation</strong></h4><p>按照以前的工作，我们<strong>评估了测试结果的语义保存、风格准确性和流畅性</strong>。我们使用前面讨论过的CTC指标（Deng等人，2021年）<strong>来衡量语义保存</strong>，为了方便起见，我们将其表示为内容。<strong>对于风格准确性（Style）</strong>，我们使用在训练和测试数据上训练的BERT基础分类器来计算输出与目标风格的匹配度，在验证集上有98.4%的准确性。<strong>为了评估流畅性（FL）</strong>，我们使用与Krishna等人（2020）相同的分类器对输出的语法性进行评分。为了评估输出如何平衡和最大化所有方面，我们严格按照Krishna等人（2020）的协议，通过平均句子层面的联合得分来汇总质量维度，定义为</p>
+<p><img src="https://img-blog.csdnimg.cn/148504b68d634a5b8360f53d6bdf8e3d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这要求每个句子都要保留输入内容，具有正确的风格，并且是流畅的。我们还报告了流行的指标，如<strong>内容、风格和流畅性分数的几何平均数（GM）</strong>作为另一种聚合方法，输出和人写的参考文献之间的<strong>BLEU和BERTScore</strong>，以及在训练数据上微调的GPT-2语言模型下的<strong>输出困惑度（PPL）</strong>。</p>
+<h4 id="2-6-Results"><a href="#2-6-Results" class="headerlink" title="2.6 Results"></a><strong>2.6 Results</strong></h4><p>我们在下表中列出了TST的结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/306ddce595f14a1da1ec59fbb8c4d2fb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>并讨论了提示的baseline和我们的方法在使用GPT-2 xlarge时的表现。与Style Transformer和DiRR等训练基线相比，我们的方法显示出略低的语义保留和风格准确性，但有明显更好的流畅性，这导致了更高的整体联合得分（J(-)）和几何平均得分（GM(-)）。这可能是因为我们的方法通过不调整参数，更好地保留了LM的流畅性生成能力。相比之下，对GPT-2模型进行微调的DiRR，尽管在其他方面做得很好，但流畅性较差。相对于提示基线，我们的提示优化明显改善了默认性能。特别是，我们训练的提示语的平均表现比人工提示语要好，方差也小，人工提示语在某些提示语上表现良好，但在其他含义相似的提示语上表现就差得多。作者在后文附录中列出了每个人工提示的性能和我们学习的提示的性能。在我们自己的方法中，<strong>模型的大小对TST的成功起着重要的作用，主要是通过内容保存</strong>。随着模型大小从最小的distilGPT-2到最大的GPT-2 xlarge的增加，内容得分普遍增加，而风格和流畅性保持较高，导致 J（-）和GM（-）得分的提高。</p>
+<h3 id="3-Analysis"><a href="#3-Analysis" class="headerlink" title="3.Analysis"></a>3.Analysis</h3><h4 id="3-1-Fluent-vs-Gibberish-Prompts"><a href="#3-1-Fluent-vs-Gibberish-Prompts" class="headerlink" title="3.1 Fluent vs. Gibberish Prompts"></a>3.1 Fluent vs. Gibberish Prompts</h4><p>我们还研究了提示语的流畅性与下游任务表现的相互作用，因为流畅的提示语对于可解释性是很有价值的，可以洞察到LM可能认为是有用的任务指示。<strong>我们的研究结果表明，针对下游任务的好的优化提示确实常常在语言上不连贯，而是倾向于胡言乱语</strong>。例如，我们学到的一套用于风格转移到正面和负面情绪的提示分别是 “情感不同的判断（-分析）”和 “不同的经验（对比的经验）”，这与语法相差甚远。<strong>这一观察表明，冷冻的LMs对提示的利用也与人类不同</strong>，这与之前在基于提示的模型微调中的发现一致（Webson和Pavlick，2021）。</p>
+<p>为了比较流畅的提示和胡言乱语的提示，我们使用了文本风格转移的任务（§3.2）。而我们的标准提示优化不需要提示的流畅性，我们提议用top-k过滤来优化流畅的提示（Qin等人，2022）。也就是说，我们将我们的政策在每一步t的行动空间限制在GPT-2语言模型下具有前10个概率的标记，条件是以前的提示标记z&lt;t。除此以外，我们用同样的程序训练策略。我们使用GPT-2语言模型下的复杂度来评估提示的流畅性，并在下表中与我们的标准方法（没有流畅性约束）进行比较：</p>
+<p><img src="https://img-blog.csdnimg.cn/dbde4a3f57d746d5bda2d1d372ed663b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>结果显示，<strong>流畅性约束的提示具有明显较低的困惑度，这表明语言的一致性较高</strong>。例如，我们学到的一对用于转正和转负的流畅提示分别是”&lt;|endoftext|&gt;We love and thank “和”&lt;|endoftext|&gt;We are not in”，这些提示对于生成目标情感的句子是有意义的。然而，这些提示语在联合得分J(-)（44.4对61.4）和几何平均得分GM(-)（76.9对84.7）方面得到的任务表现要低得多。在附录中的表8中介绍了所学到的流畅的提示语以及它们的全部表现。</p>
+<h4 id="3-2-Transferring-Prompts-Across-LMs"><a href="#3-2-Transferring-Prompts-Across-LMs" class="headerlink" title="3.2 Transferring Prompts Across LMs"></a>3.2 Transferring Prompts Across LMs</h4><p>与soft prompt相比，离散性提示的一个独特优势是它们可以跨模型转移，因为有共同的文本空间而不是特定模型的潜在空间。<strong>这使我们能够通过比较一个模型的性能来研究不同LM之间的联系，该模型使用从其他模型训练出来的提示语</strong>（<strong>s</strong>）。实验表明，<strong>提示语从较小的模型转移到较大的模型比反之要好</strong>，这表明容量较大的模型可能包含使较小的模型发挥其最佳水平的结构，但反过来并不是这样的。</p>
+<p>具体来说，我们使用文本风格转移（TST）的任务进行研究（§3.2）。我们采用为每个GPT-2模型训练的提示语，并使用它们来执行TST，使用其他每个模型作为文本生成器。我们对每个实验的输出进行评估（每个提示-模型对平均进行5次评估），并将其列在下图的热图中：</p>
+<p><img src="https://img-blog.csdnimg.cn/860cd9e92b764d9e97d35adce275be56.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们还包括用于比较的 “手动提示 “和随机提示，以表示没有任何转移的性能。在较小的模型（如distilGPT-2和GPT-2 small）中，手动提示显示出统一的比学习提示更差的性能，但在较大的模型（如GPT-2 large和xlarge）中通常表现更好，这表明<strong>人写的指令可能更好地激活较大的模型</strong>。总的来说，所有优化的提示看到了一些转移，表现为统一的比随机提示更好，但成功的程度取决于提示训练和文本生成模型。例如，从较大的模型中学到的提示语在应用于较小的模型时性能急剧下降，这表明它们为实现良好性能而激活的LM结构在较小的模型中可能不太存在。另一方面，<strong>从较小的模型中学到的提示语可以更好地转移到较大的模型中</strong>（例如，distilGPT-2到GPT-2 xlarge），实现与使用较小模型本身相似的性能。<strong>这为未来的研究开辟了一个有希望的、令人兴奋的方向–通过跨LM的转移性，我们可以从较小的模型中廉价地学习一个提示，并将其应用于更大、更昂贵的模型进行推理。</strong></p>
+<h4 id="3-3-Robustness-to-Classification-Verbalizers"><a href="#3-3-Robustness-to-Classification-Verbalizers" class="headerlink" title="3.3 Robustness to Classification Verbalizers"></a>3.3 Robustness to Classification Verbalizers</h4><p><strong>有提示的分类已被证明对verbalizer的选择很敏感。</strong>手动设计verbalizer需要领域的专业知识和对基础LMs的理解。以前的研究设计了各种<strong>自动搜索verbalizer</strong>的方法（Schick等人，2020；Shin等人，2020；Gao等人，2021），如基于规则的过滤，似然剪枝，分类器学习，或在词汇空间中列举。在few-shot的分类任务中，我们的RLPROMPT可以用来优化给定任何verbalizer的提示。下表显示了在几个直观的verbalizer上的结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/bbac81e033b748c4b87d14455df0a550.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>我们在RoBERTa-large上进行测试，并在SST-2情感分类数据集上<strong>跨三个RL随机种子</strong>进行实验。考虑到不同的verbalizer对，我们的性能始终在很大程度上优于人工提示，验证了我们的方法对言语者的稳健性。</p>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><h3 id="1-Prompting-Paradigms"><a href="#1-Prompting-Paradigms" class="headerlink" title="1.Prompting Paradigms"></a>1.Prompting Paradigms</h3><ul>
+<li><p>Fine-Tuning</p>
+<p>使用预训练LM的传统方法是在下游数据集上对模型参数进行微调（Devlin等人，2019；Liu等人，2019；Lewis等人，2020；Raffel等人，2020；Radford等人，2019）。虽然推动了广泛的NLP任务的进展，但微调会昂贵地更新所有的模型参数，并且在小数据集中显示出有限的成功。基于提示的微调（Gao等人，2021年；Schick和Schütze，2021年b）使用提示来改善少量的性能，但昂贵的训练问题仍未解决。</p>
+</li>
+<li><p>Manual Prompt</p>
+<p>研究人员首先使用人工制作的填空提示，从强大的预训练的LM中提取知识进行探测分析（Petroni等人，2019；Jiang等人，2020）。后来，Brown等人（2020）表明，使用人工写的提示，大型LM可以在没有任何训练实例的情况下执行一些NLU和NLG任务。同时，其他研究（Raffel等人，2020；Schick和Schütze，2021a；Sanh等人，2021）将各种各样的NLP任务制定为人工提示。</p>
+</li>
+<li><p>Instructions</p>
+<p>与人工提示分开但与之相关的另一条工作路线（Weller等人，2020；Efrat和Levy，2020；Mishra等人，2021b；Wang等人，2022）<strong>利用了提供任务描述而不是填空题的教学提示</strong>。特别是，指令mata-tuning（Mishra等人，2021b；Zhong等人，2021；Wei等人，2022a）在一些有指令和监督数据的任务上训练模型，以便推广到没有训练实例的指令制定的未见过的任务。</p>
+</li>
+<li><p>In-Context Demonstration</p>
+<p>除了zero-shot learning，Brown等人（2020）通过在输入语境中插入训练实例，在zero-shot learning上取得了更显著的成绩。最近的工作（Gao等人，2021；Liu等人，2021b；Lu等人，2021；Min等人，2022）进一步探索了对语境中示范的选择和分析。Reif等人（2021年）提出了增强的zero-shot learning，对于没有监督训练数据的任务，如文本风格转移，插入相关任务的训练实例作为示范。</p>
+</li>
+<li><p>Discrete Prompt Enumeration</p>
+<p>因为离散的提示很难优化，而且容易受到小的设计变化的影响（Zhao等人，2021；Webson和Pavlick，2021；Lu等人。2021），一些现有的工作试图通过用启发式方法增强人类写的提示，如转述（Jiang等人，2020；Gao等人，2021）、编辑（Prasad等人，2022）和重新构架（Mishra等人，2021a），来找到更好的提示语。最后的提示通常被选择来最大化一些下游的性能指标。</p>
+</li>
+<li><p>AutoPrompt</p>
+<p>Shin等人（2020）通过在模型梯度的指导下编辑提示标记来优化离散的提示语。虽然在大量的训练数据中看到了一些成功，但该方法在很大程度上依赖于近似，这导致了不太稳定的训练和对few-shot设置的有限适用性。</p>
+</li>
+<li><p>Soft Prompt Tuning</p>
+<p>用连续嵌入代替离散提示，一组平行工作（Qin和Eisner，2021；Li和Liang，2021；Liu等人，2021d）提出使用基于梯度的调谐来优化soft prompt。soft prompt tuning可以被看作是参数有效转移学习的一个变种（Houlsby等人，2019；He等人，2021；Ding等人，2022），并激发了许多后续工作，提升了其性能（例如。Liu等人，2021c；Gu等人，2021；Vu等人，2021；Clive等人，2021）或探索新的应用（如Tan等人，2022；周等人，2022；Levine等人，2022）。然而，就其性质而言，soft prompt由于其连续形式，人类很难理解（Khashabi等人，2021；Lester等人，2021；Hambardzumyan等人，2021；Mokady等人，2021）。在特定模型的潜在空间中定义，几乎不可能用不同的模型来使用学到的soft prompt。此外，它们的训练通常需要来自它们所提示的模型的梯度信息，这对于作为推理API部署的模型，如GPT-3（Brown等人，2020），计算起来可能很昂贵，或者根本无法获得。Sun等人（2022）和Diao等人（2022）提出了black box tuning，使用无梯度技术更新连续提示，取得了一些成功。</p>
+</li>
+</ul>
+<h3 id="2-Prompting-for-Controllable-Generation"><a href="#2-Prompting-for-Controllable-Generation" class="headerlink" title="2.Prompting for Controllable Generation"></a>2.Prompting for Controllable Generation</h3><p>现有的最先进的可控文本生成模型通常对整个预训练的LM进行微调（例如，Ziegler等人，2019a；Keskar等人，2019；Ziegler等人，2019b；刘等人，2021e）。最近的工作则采用各种提示来引导LM生成具有所需属性的文本，如主题（Guo等人，2021；Qian等人，2022）和（缺乏）毒性（Liu等人。2021a；Perez等人，2022），或者从图像（Mokady等人，2021；Zhou等人，2022）、结构化数据（Li和Liang，2021；An等人，2022）和数字（Wei等人，2022b）等模式中生成。然而，这些工作要么是控制简单的属性，不进行明确的提示优化，要么是可以获得监督的训练数据。</p>
+<p>对于要求更复杂的无监督可控生成任务，如文本风格转移（Hu等人，2017年；Jin等人，2022年），Reif等人（2021年）提出了增强的zero-shot提示，这是一种语境中的演示方法，使用巨大的LM如GPT-3（Brown等人，2020年）取得了一些成功。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>我们提出了RLPROMPT，<strong>一种用强化学习（RL）优化离散文本提示的新方法，它结合了以前prompt learning范式的各种理想特性</strong>。<strong>通过高效的策略网络和有效的奖励工程技术</strong>，我们灵活的方法可以适应不同类型的LM，并在少量分类和无监督文本风格转移的实验中比广泛的微调和提示方法有所改进。</p>
+<p>在离散提示的透明度的支持下，我们的分析显示，<strong>强优化的提示往往是不连贯的胡言乱语，但可以在不同的LM之间转移</strong>，实现类似的性能。这些观察结果开启了提示的许多有希望的可能性。例如，<strong>我们可能能够从较小的模型中廉价地学习提示，并用较大的模型进行推理，以获得更好的性能</strong>。我们很高兴能进一步探索。</p>
 
                 
               </div>
