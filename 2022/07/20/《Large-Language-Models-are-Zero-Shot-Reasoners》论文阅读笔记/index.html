@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.11916 Code: https:&#x2F;&#x2F;github.com&#x2F;kojima-takeshi188&#x2F;zero_shot_cot  概述这是一篇来自东京大学和谷歌的工作，关于预训练大型语言模型（Pretrained large language models, LLMs）的推理能力的探究。 LLMs是一个非常优秀的学习者。随着思考链的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Large Language Models are Zero-Shot Reasoners》论文阅读笔记">
+<meta property="og:url" content="http://example.com/2022/07/20/%E3%80%8ALarge-Language-Models-are-Zero-Shot-Reasoners%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2205.11916 Code: https:&#x2F;&#x2F;github.com&#x2F;kojima-takeshi188&#x2F;zero_shot_cot  概述这是一篇来自东京大学和谷歌的工作，关于预训练大型语言模型（Pretrained large language models, LLMs）的推理能力的探究。 LLMs是一个非常优秀的学习者。随着思考链的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/205fa0c696c74fc59ff1db4606f9ac48.png">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-0e38476f9d6a990fd210435f248a752a_1440w.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-48a83901b7d7060c83ed1411b6fb9bfb_1440w.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/486c74d96660494a84f4157b5ce83e69.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7123ff37086640d796f75bd9de5c6d8a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a6c9d76e18b94cbd946e8b6053bb64e6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b9345c1dcef54ffa9c5de34758643866.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2d94a4081aee406a9902b0d5bbe7550c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7a521df4d4644ff4a31608382f358779.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/98a30fe3f6844db296e1b74f1d9df53e.png">
+<meta property="article:published_time" content="2022-07-20T13:21:36.000Z">
+<meta property="article:modified_time" content="2022-08-06T14:18:08.168Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Paper Reading">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/205fa0c696c74fc59ff1db4606f9ac48.png">
+  
+  
+  
+  <title>《Large Language Models are Zero-Shot Reasoners》论文阅读笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YFHuang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/test.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="《Large Language Models are Zero-Shot Reasoners》论文阅读笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-20 21:21" pubdate>
+          2022年7月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          93 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Large Language Models are Zero-Shot Reasoners》论文阅读笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Paper: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2205.11916">https://arxiv.org/abs/2205.11916</a></p>
+<p>Code: <a target="_blank" rel="noopener" href="https://github.com/kojima-takeshi188/zero_shot_cot">https://github.com/kojima-takeshi188/zero_shot_cot</a></p>
+<p><img src="https://img-blog.csdnimg.cn/205fa0c696c74fc59ff1db4606f9ac48.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这是一篇来自东京大学和谷歌的工作，关于预训练大型语言模型（Pretrained large language models, <em>LLMs</em>）的推理能力的探究。</p>
+<p><strong>LLMs是一个非常优秀的学习者</strong>。随着思考链的提示方式（chain of thought prompting, <em>CoT</em>）的提出，<strong>这种提示方式可以引导模型通过示例中一步一步的推理方式，去解决复杂的多步推理</strong>，在数学推理（arithmetics reasoning）和符号推理（symbolic reasoning）中取得了SOTA的成果。<strong>只要在每个答案前加上 “Let’s think step by step”<strong>，LLMs就是一个体面的zero-shot推理者。 例如，使用175B参数的InstructGPT模型将MultiArith的准确率从17.7%提高到78.7%，将GSM8K的准确率从10.4%提高到40.7%，使用另一个现成的大型模型540B参数的PaLM也有类似幅度的提高。这种单一提示在不同推理任务中的通用性暗示了LLMs未被开发和研究的基本零散能力，</strong>表明高水平的、多任务的广泛认知能力可以通过简单的提示来提取</strong>。我们希望我们的工作不仅可以作为具有挑战性的推理基准的最小的最强的零散的基线，而且还强调了在制作微调数据集或少数几个例子之前仔细探索和分析隐藏在LLM中的巨大的零散的知识的重要性。</p>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h2><p>扩大语言模型的规模是最近自然语言处理（NLP）的关键成分[Vaswani等人，2017，Devlin等人，2019，Raffel等人，2020，Brown等人，2020，Thopilan等人，2022，Rae等人，2021，Chowdhery等人，2022] 。大型语言模型（LLMs）的成功往往归功于（语境中的）few-shot或zero-shot学习。它可以通过简单地对<strong>少数的例子（few-shot）</strong>或<strong>描述任务的指令（zero-shot）</strong>调节模型来解决各种任务。调节语言模型的方法被称为 <strong>“prompting”</strong>[Liu et al., 2021b]，手动[Schick and Schütze, 2021, Reynolds and McDonell, 2021]或自动[Gao et al., 2021, Shin et al., 2020]设计提示成为NLP的一个热门话题。</p>
+<p>与LLMs在直观和单步骤的系统-1[Stanovich和West, 2000]任务中的出色表现相比[Liu等人，2021b]，即使是100B或更多参数规模的语言模型在需要缓慢和多步骤推理的系统-2任务中也曾陷入困境[Rae等人，2021]。为了解决这一缺陷，Wei等人[2022]、Wang等人[2022]提出了<strong>chain of thought（CoT），为LLM提供分步推理的例子，而不是标准的问题和答案的例子</strong>。这样的思维链演示有助于模型生成一个推理路径，将复杂的推理分解成多个简单的步骤。值得注意的是，有了CoT，推理性能就能更好地满足扩展规律，并随着语言模型的大小而跳跃式增长。例如，当与540B参数的PaLM模型[Chowdhery等人，2022]相结合时，在几个基准推理任务中，思维链提示比标准的几发提示明显提高了性能，例如GSM8K（17.9% → 58.1%）。</p>
+<p>虽然CoT提示的成功[Wei等人, 2022]，以及其他许多特定任务的提示工作[Gao等人, 2021, Schick和Schütze, 2021, Liu等人, 2021b]，经常被归因于LLMs的few-shot学习能力[Brown等人, 2020]，<strong>但我们通过添加一个简单的提示，Let’s think step by step，以促进在回答每个问题前的逐步思考（见图1），表明LLMs是体面的zero-shot推理者。</strong>尽管简单，我们的Zero-shot-CoT还是成功地以零次推理的方式生成了一条合理的推理路径，并在标准的zero-shot推理方法失败的情况下达到了正确答案。重要的是，<strong>我们的Zero-shot-CoT是通用的和任务无关的</strong>，不像之前的大多数特定任务的提示工程，其形式是例子（few-shot）或模板（zero-shot）[Liu et al., 2021b]：它可以促进各种推理任务的逐步回答，包括算术（MultiArith [Roy and Roth, 2015], GSM8K [Cobbe et al, 2021]、AQUA-RAT[Ling等人，2017]和SVAMP[Patel等人，2021]）、符号（Last letter和Coin flip）、常识推理（CommonSenseQA[Talmor等人，2019]和Strategy QA[Geva等人，2021]）和其他逻辑推理任务（Date understanding和Tracking Shuffled Objects from BIG-bench[big, 2021]），而无需修改每个任务的提示。</p>
+<p>我们在下图中对Zero-shot-CoT与其他提示方法的baseline进行了经验评估。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-0e38476f9d6a990fd210435f248a752a_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>虽然我们的Zero-shot-CoT在精心制作的特定任务步骤的例子中表现不佳，但Zero-shot-CoT与zero-shot基线相比取得了巨大的分数提高，例如在MultiArith上从17.7%提高到78.7%，在GSM8K上从10.4%提高到40.7%，<strong>采用175B参数的InstructGPT模型</strong>。我们还用另一个现成的大型模型–540B参数的PaLM来评估Zero-shot-CoT，在MultiArith和GSM8K上显示出类似的改进幅度。重要的是，在我们的单一固定提示下，zero-shot的LLM有一个明显更好的缩放曲线，可以与few-shot的CoT基线相比。**我们还表明，除了Few-shot-CoT需要人为地设计多步骤推理提示外，如果提示例题类型和任务问题类型不匹配，它们的性能就会恶化，这表明对每个任务提示设计的高度敏感性。相比之下，这种单一提示在不同推理任务中的通用性暗示了LLM未被开发和未被研究的zero-shot的基本学习能力，如通用逻辑推理等更高层次的广泛认知能力[Chollet, 2019]**。虽然充满活力的LLMs领域是从优秀的少数学习者的前提下开始的[Brown et al., 2020]，但我们希望我们的工作能鼓励更多的研究来揭示隐藏在这些模型中的高层次和多任务的zero-shot能力。</p>
+<h2 id="2-Background"><a href="#2-Background" class="headerlink" title="2 Background"></a>2 Background</h2><p>我们简要回顾了构成这项工作基础的两个核心初步概念：<strong>大型语言模型（LLMs）和提示的出现</strong>，以及<strong>多步骤推理的chain of thought（CoT）提示</strong>。</p>
+<p><strong>Large language models and prompting</strong>  语言模型（LM），是一个旨在估计文本上的概率分布的模型。最近，通过更大的模型规模（从几百万[Merity等人，2016]到几亿[Devlin等人，2019]到几千亿[Brown等人，2020]参数）和更大的数据（例如网络文本语料库[Gao等人，2020]）进行的扩展改进，使预先训练的大型语言模型（LLM）能够在许多下游的NLP任务中表现出惊人的能力。除了经典的 “预训练和微调 “范式[Liu et al., 2021b]，扩展到100B+参数的模型表现出有利于few-shot learning的特性[Brown et al., 2020]，通过上下文学习的方式，人们可以使用被称为提示的文本或模板来强烈引导生成输出所需任务的答案，从而开始了一个 <strong>“pretrain and prompt”的时代</strong>[Liu et al., 2021a]。<strong>在工作中，我们把这种对少数任务例子有明确条件的提示称为few-shot prompt，而把其他只有模板的提示称为zero-shot prompt</strong>。</p>
+<p><strong>Chain of thought prompting</strong> 多步算术和逻辑推理的baseline尤其挑战大型语言模型的扩展规律[Rae等人，2021]。chain of thought（CoT）提示[Wei等人，2022]，是一个few-shot提示的实例，提出了一个简单的解决方案，<strong>将少许例子中的答案修改为逐步的答案</strong>，并在这些困难的基准测试中取得了显著的性能提升，特别是当与PaLM[Chowdhery等人，2022]这样的非常大的语言模型结合时。图1的最上面一行显示了标准的few-shot提示和（few-shot）CoT提示。值得注意的是，在处理这种困难的任务时，few-shot learning被认为是既定的，而在最初的工作中甚至没有报告zero-shot的baseline的表现[Wei等人，2022]。为了区别于我们的方法，我们将Wei等人[2022]的方法在本工作中称为Few-shot-CoT。</p>
+<h2 id="3-Zero-shot-Chain-of-Thought"><a href="#3-Zero-shot-Chain-of-Thought" class="headerlink" title="3 Zero-shot Chain of Thought"></a>3 Zero-shot Chain of Thought</h2><p>我们<strong>提出了Zero-shot-CoT</strong>，一种基于模板的CoT推理的zero-shot 的提示方法。它与原来的CoT提示法[Wei等人, 2022]不同，因为它不需要分步的few-shot的例子，它与之前的大多数模板提示法[Liu等人, 2021b]不同，因为它本身是任务无关的，用一个模板就能引起广泛任务的多跳推理。我们方法的核心思想很简单，如图1所述：<strong>添加Let’s think step by step，或类似的文本，以提取分步推理。</strong></p>
+<h3 id="1-Two-stage-prompting"><a href="#1-Two-stage-prompting" class="headerlink" title="1.Two-stage prompting"></a>1.Two-stage prompting</h3><p>虽然Zero-shot-CoT在概念上很简单，但其微妙之处在于它使用了两次提示，如下图所解释。这是由于zero-shot提示的baseline（见图1中的左下角）已经使用了 “The answer is”的提示形式，来提取正确格式的答案。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-48a83901b7d7060c83ed1411b6fb9bfb_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>few-shot prompting，standard或CoT，通过明确地设计few-shot的例子的答案以这样的格式结束（见图1的右上角），避免了需要这样的答案提取提示。总之，Few-shot-CoT[Wei等人，2022]需要对每个任务的几个具有特定答案格式的提示例子进行仔细的人为工程设计，而Zero-shot-CoT不需要这种工程设计，但需要对LLM进行两次提示。</p>
+<p><strong>1st prompt: reasoning extraction</strong> 上图左侧：对原问题添加文字提示，使用LLM生成推理过程。</p>
+<p>**2nd prompt: answer extraction **上图右侧：将LLM生成的推理过程加入到原问题中，并且添加生成答案的提示，使用LLM生成问题的最终答案。当然在实验中，我们根据答案的格式，会使用稍微不同的答案触发句。例如，对于多选题问答，我们使用 “Therefore, among A through E, the answer is”，而对于需要数字答案的数学问题，我们使用 “Therefore, the answer (arabic numerals) is”。最后，语言模型将提示文本作为输入，生成句子ˆy并解析最终答案</p>
+<h2 id="4-Experiment"><a href="#4-Experiment" class="headerlink" title="4 Experiment"></a>4 Experiment</h2><p><strong>Tasks and datasets</strong>  四类推理任务的12个数据集：算术、常识、符号和其他逻辑推理任务。</p>
+<p>算术推理，我们考虑以下六个数据集：（1）SingleEq，（2）AddSub，（3）MultiArith，（4）AQUA- RAT，（5）GSM8K，以及（6）SVAMP。前三个来自经典的数学世界问题库[Koncel-Kedziorski等人，2016]，后三个来自较新的基准测试。SingleEq和AddSub包含比较容易的问题，不需要多步计算就能解决任务。MultiArith、AQUA-RAT、GSM8k和SVAMP是更具挑战性的数据集，需要多步推理来解决。</p>
+<p>常识推理，我们使用CommonsenseQA和StrategyQA。CommonsenseQA提出的问题具有复杂的语义，通常需要基于先前的知识进行推理。StrategyQA要求模型推断出一个隐含的多跳推理来回答问题。</p>
+<p>符号推理，我们使用 Last Letter Concatenation 和 Coin Flip。最后一个字母连接法要求模型将每个单词的最后一个字母连接起来。我们在每个样本中使用随机选择的四个名字。硬币翻转要求模型回答在人们翻转或不翻转硬币之后，硬币是否仍然是正面朝上。我们创建了四次翻转或不翻转试验的样本。虽然这些任务对人类来说很容易，但语言模型通常表现出平坦的缩放曲线。</p>
+<p>逻辑推理任务，从BIG-bench工作中选择了两个评估集[big, 2021]。</p>
+<p><strong>Models</strong>  一共实验了13个模型：Instruct-GPT3和GPT3，有四种不同的模型大小（ada、babbage、curie和davinci），GPT-2，GPT-Neo，GPT-J，T0，以及OPT。LM的大小从0.3B到175B不等。我们既包括标准的（如GPT-3和OPT），也包括指令后续变体（如Instruct-GPT3和T0）。</p>
+<p>**Baselines ** 主要将我们的Zero-shot-CoT与标准的Zero-shot prompt进行比较，以验证其CoT推理的有效性。对于Zero-shot实验，与Zero-shot-CoT类似的答案提示被作为默认使用。为了更好地评估LLM在推理任务上的zero-shot能力，我们还将我们的方法与[Wei等人，2022]中的Few-shot和Few-shot-CoT基线进行了比较，使用了相同的语境中的例子。在整个实验中，我们对所有的方法都使用了greedy decoding。因此，对于zero-shot的方法，其结果是确定的。对于few-shot的方法，由于上下文例子的顺序可能会影响结果[Lu等人，2022]，我们在所有方法和数据集中只用固定的种子运行一次实验，以便与zero-shot方法进行公平的比较。Wei等人[2022]的研究表明，在CoT实验中，例子的顺序并没有造成大的差异。</p>
+<p>**Answer cleansing ** 在模型通过答案提取输出一个文本后，我们的方法只提取答案文本中首先满足答案格式的部分。例如，如果答案提示在算术任务中输出 “可能是375和376”，我们就提取第一个数字 “375”，并将其设置为模型预测值。在多选题的情况下，我们遇到的第一个大字母被设置为预测值。标准零点法也遵循同样的思路。对于Few-shot和Few-shot-CoT方法，我们遵循[Wang et al., 2022]，首先从模型输出中提取 “The answer is “之后的答案文本，并应用相同的答案清洗来解析答案文本。如果在模型输出中没有找到 “答案是”，我们就从文本的后面进行搜索，并将第一个满足答案格式的文本设置为预测值。</p>
+<h3 id="1-Results"><a href="#1-Results" class="headerlink" title="1.Results"></a>1.Results</h3><h4 id="1-1-Zero-shot-CoT-vs-Zero-shot"><a href="#1-1-Zero-shot-CoT-vs-Zero-shot" class="headerlink" title="1.1 Zero-shot-CoT vs. Zero-shot"></a>1.1 Zero-shot-CoT vs. Zero-shot</h4><p>下表总结了我们的方法（Zero-shot-CoT）和每个数据集的标准zero-shot提示（Zero-shot）的准确性。<strong>Zero-shot-CoT大大超过了六个算术推理任务中的四个（MultiArith, GSM8K, AQUA, SVAMP）、所有符号推理和所有其他逻辑推理任务</strong>（来自BIG-bench [big, 2021]）。例如，Zero-shot-CoT在MultiArith上取得了从17.7%到78.7%的得分，在GSM8K上取得了从10.4%到40.7%的得分。我们的方法在其余两个算术推理任务（SingleEq和AddSub）中表现平平，这是意料之中的，因为它们不需要多步骤推理。</p>
+<p><img src="https://img-blog.csdnimg.cn/486c74d96660494a84f4157b5ce83e69.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>每个数据的左边表示生成答案的时候提示了答案的类型（数值：The answer (arabic numerals) is、选项：Among A through E, the answer is等），右边表示的是直接提示模型生成答案（The answer is）。可以发现，对答案类型的提示并没有对模型的效果起到很大的提升。但是加入了推理过程之后，模型的效果有显著的提升。这说明了模型具有很强的推理能力，但是对计算能力不够。让模型将推理过程输出出来，能够辅助模型计算最终结果。</p>
+<p>在常识推理任务中，Zero-shot-CoT并没有提升性能。这是意料之中的，因为Wei等人[2022]也报告说，即使Few-shot-CoT在Lambda（135B）上也没有提供性能提升，但在与大得多的PaLM（540B）模型结合时，确实改善了StrategyQA，这可能也适用于我们的情况。更重要的是，我们观察到许多生成的CoT本身在逻辑上是正确的，或者只包含人类可以理解的错误（见下表）</p>
+<p><img src="https://img-blog.csdnimg.cn/7123ff37086640d796f75bd9de5c6d8a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这表明Zero-shot-CoT确实引起了更好的常识性推理，即使任务指标并没有直接反映它。作者在附录B中提供了由Zero-shot-CoT为每个数据集生成的样本。</p>
+<h4 id="1-2-Comparison-with-other-baselines"><a href="#1-2-Comparison-with-other-baselines" class="headerlink" title="1.2 Comparison with other baselines"></a>1.2 Comparison with other baselines</h4><p>表2比较了Zero-shot-CoT和baseline在两个算术推理基准（MultiArith和GSM8K）上的表现。</p>
+<p><img src="https://img-blog.csdnimg.cn/a6c9d76e18b94cbd946e8b6053bb64e6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>标准提示（第1块）和CoT提示（第2块）之间的巨大差距表明，这些任务在没有引起多步骤推理的情况下是困难的。在指导GPT-3（175B）和PaLM（540B）模型（第4块）上都证实了重大改进。虽然Zero-shot-CoT的性能自然低于Few-shot-CoT，但在每个任务有8个例子的情况下，它的性能大大超过了标准的Few-shot提示法。<strong>对于GSM8K，Zero-shot-CoT与Instruct GPT-3（175B）的性能也优于微调的GPT-3和标准的大模型（PaLM，540B）的few-shot提示</strong>，这在Wei等人[2022]的报告中有所提及（第三部分）。</p>
+<h4 id="1-3-Error-Analysis"><a href="#1-3-Error-Analysis" class="headerlink" title="1.3 Error Analysis"></a>1.3 Error Analysis</h4><p>为了更好地理解Zero-shot-CoT的行为，我们手动调查了由Instruct-GPT3生成的带有Zero-shot-CoT提示的随机选择的例子。例子见附录C，其中的一些观察结果包括：</p>
+<p>(1) 在常识推理（CommonsenseQA）中，即使最后的预测不正确，Zero-shot-CoT也经常产生灵活合理的CoT。当模型发现难以缩小到一个答案时，Zero-shot-CoT经常输出多个答案选择（例子见上表4）。</p>
+<p>(2）在算术推理（MultiArith）中，Zero-shot-CoT和Few-shot-CoT在错误模式方面表现出很大的差异。首先，它倾向于在得到正确的预测后输出不必要的推理步骤，这导致预测变为不正确的预测。Zero-shot-CoT有时也不开始推理，只是重新表述输入的问题。相反，当生成的CoT包括三元运算时，例如（3+2）∗4，Few-shot-CoT往往会失败。</p>
+<h4 id="1-4-Does-model-size-matter-for-zero-shot-reasoning"><a href="#1-4-Does-model-size-matter-for-zero-shot-reasoning" class="headerlink" title="1.4 Does model size matter for zero-shot reasoning?"></a>1.4 Does model size matter for zero-shot reasoning?</h4><p>表3比较了各种语言模型在MultiArith数据集上的性能。</p>
+<p><img src="https://img-blog.csdnimg.cn/b9345c1dcef54ffa9c5de34758643866.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在没有CoT推理的情况下，随着模型规模的增加，性能不会增加或增加缓慢，也就是说，曲线大多是平的。相反，随着模型规模的增大，性能在CoT推理的作用下急剧增加，如Original GPT-3和Instruct GPT-3。当模型规模较小时，CoT推理并不有效。这一结果与Wei等人[2022]中的few-shot实验结果一致。我们还手动调查了生成的CoT的质量，大规模的模型显然表现出更好的推理能力。</p>
+<h4 id="1-5-How-does-prompt-selection-affect-Zero-shot-CoT"><a href="#1-5-How-does-prompt-selection-affect-Zero-shot-CoT" class="headerlink" title="1.5 How does prompt selection affect Zero-shot-CoT?"></a>1.5 How does prompt selection affect Zero-shot-CoT?</h4><p>我们验证了Zero-shot-CoT对输入提示的鲁棒性。表5总结了使用八个不同模板的性能。</p>
+<p><img src="https://img-blog.csdnimg.cn/2d94a4081aee406a9902b0d5bbe7550c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>结果表明，如果文本是以鼓励CoT推理的方式写的，那么性能就会提高。然而，准确率的差异是很大的，这取决于句子。在这个实验中，”Let’s think step by step”取得了最好的结果。有趣的是，人们发现，不同的模板鼓励模型以相当不同的方式表达推理（见附录B，每个模板的输出示例）。</p>
+<h4 id="1-6-How-does-prompt-selection-affect-Few-shot-CoT"><a href="#1-6-How-does-prompt-selection-affect-Few-shot-CoT" class="headerlink" title="1.6 How does prompt selection affect Few-shot-CoT?"></a>1.6 How does prompt selection affect Few-shot-CoT?</h4><p>表6显示了使用不同数据集的例子时Few-shot-CoT的性能。CommonsenseQA对AQUA-RAT和 CommonsenseQA对MultiArith。</p>
+<p><img src="https://img-blog.csdnimg.cn/7a521df4d4644ff4a31608382f358779.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这两种情况下的领域是不同的，但前者的答案格式是相同的。令人惊讶的是，来自不同领域（从常识到算术）但具有相同答案（多选）格式的CoT例子，相对于Zero-shot-CoT或Few-shot-CoT的可能改进，提供了比Zero-shot（对AQUA-RAT）更高的性能增益。相比之下，当使用不同答案类型的例子时（对MultiArith而言），性能增益就变得很低了，这证实了之前的工作[Min等人，2022]，即<strong>LLM主要利用few-shot的例子来推断重复格式，而不是推断任务本身的内容。然而，在这两种情况下，结果都比Zero-shot-CoT差，肯定了Few-shot-CoT中特定任务样本工程的重要性。</strong></p>
+<h2 id="5-Discussion-and-Related-Work"><a href="#5-Discussion-and-Related-Work" class="headerlink" title="5 Discussion and Related Work"></a>5 Discussion and Related Work</h2><h4 id="1-Reasoning-Ability-of-LLMs"><a href="#1-Reasoning-Ability-of-LLMs" class="headerlink" title="1.Reasoning Ability of LLMs"></a>1.Reasoning Ability of LLMs</h4><p>一些研究表明，预训练的模型通常不擅长推理[Brown等人，2020年，Smith等人，2022年，Rae等人，2021年]，但通过使其产生逐步推理，其能力可以大幅提高，可以通过微调[Rajani等人。2019, Cobbe et al., 2021, Zelikman et al., 2022, Nye et al., 2022]或少量提示[Wei et al., 2022, Wang et al., 2022, Chowdhery et al., 2022]（表7）。</p>
+<p><img src="https://img-blog.csdnimg.cn/98a30fe3f6844db296e1b74f1d9df53e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>与大多数先前的工作不同，我们专注于zero-shot提示，并表明在各种需要复杂的多跳思维的任务中，<strong>单一的固定触发提示大大增加了LLM的zero-shot推理能力</strong>（表1），特别是当模型被放大时（表3）。它还能在不同的任务中产生合理和可理解的CoT（附录B），即使最后的预测是错误的（附录C）。与我们的工作类似，Reynolds和McDonell[2021]证明了一个提示，”Let’s solve this problem by splitting it into steps”，会促进一个简单算术问题的多步推理。然而，他们将其作为一个特定任务的例子，并没有对不同的推理任务与baseline进行定量评估。Shwartz等人[2020]提议将常识性问题分解为一系列的信息寻求问题，如”[X]的定义是什么”。它不需要演示，但每项推理任务都需要大量的人工提示工程。我们的结果强烈地表明，LLMs是得体的zero-shot推理者，而之前的工作[Wei等人，2022]往往只强调few-shot学习和特定任务的语境学习，例如，没有zero-shot baseline的报告。我们的方法不需要耗时的微调或昂贵的样本工程，并且可以与任何预先训练好的LLM相结合，作为所有推理任务的最强的zero-shot方基线。</p>
+<h4 id="2-Zero-shot-Abilities-of-LLMs"><a href="#2-Zero-shot-Abilities-of-LLMs" class="headerlink" title="2.Zero-shot Abilities of LLMs"></a>2.Zero-shot Abilities of LLMs</h4><p>Radford等人[2019]表明，LLMs在许多系统-1任务中具有出色的zero-shot能力，包括阅读理解、翻译和总结。Sanh等人[2022]、Ouyang等人[2022]表明，可以通过明确地微调模型以遵循指令来提高LLM的这种zero-shot能力。虽然这些工作的重点是LLM的zero-shot性能，但我们关注的是系统-1任务之外的许多系统-2任务，鉴于平坦的缩放曲线，这被认为是对LLM的巨大挑战。此外，Zero-shot-CoT与instruction tuning是正交的；它增加了Instruct GPT3和vanilla GPT3的zero-shot性能。</p>
+<h4 id="3-From-Narrow-task-specific-to-Broad-multi-task-Prompting"><a href="#3-From-Narrow-task-specific-to-Broad-multi-task-Prompting" class="headerlink" title="3.From Narrow (task-specific) to Broad (multi-task) Prompting"></a>3.From Narrow (task-specific) to Broad (multi-task) Prompting</h4><p>大多数提示都是针对任务的。虽然少数的提示是自然的，由于任务特定的内涵样本[Brown等人，2020年，Wei等人，2022年]，大多数的提示也集中在每个任务的工程（的模板）[Liu等人，2021b，Reynolds和McDonell，2021]。借用Chollet[2019]的术语，即建立在智力的分层模型上[McGrew, 2005, Johnson and Bouchard Jr,2005]，这些提示可以说是在激发LLMs的 “狭义概括 “或特定任务技能。<strong>另一方面，我们的方法是一个多任务的提示，激发了LLMs的 “广义概括 “或广泛的认知能力，如逻辑推理或系统2本身</strong>。我们希望我们的工作可以作为一个参考，不仅可以加速对LLMs的逻辑推理研究，而且可以发现LLMs的其他广泛的认知能力。</p>
+<h4 id="4-Training-Dataset-Details"><a href="#4-Training-Dataset-Details" class="headerlink" title="4.Training Dataset Details"></a>4.Training Dataset Details</h4><p><strong>该工作的一个局限性是缺乏用于LLM的训练数据集细节的公开信息</strong>，例如GPT模型的001 vs 002，原始GPT3 vs Instruct- GPT[Ouyang等人，2022]，以及PaLM模型的数据[Chowdhery等人，2022]。然而，最近所有的大型模型（InstructGPT 001或002、Original GPT3和PaLM）从zero-shot到zero-shot-CoT的性能大增，以及在算术和非算术任务中的一致改进，表明这些模型不太可能是简单的记忆，而是为通用问题的解决捕捉了一种任务无关的多步骤推理能力。虽然大多数结果是基于InstructGPT的，因为它是性能最好的开放性LLM，但关键结果在PaLM上重现，InstructGPT的数据集细节（Ouyang等人[2022]的附录A和B）也证实它不是专门为多步骤推理设计的。</p>
+<h4 id="5-Limitation-and-Social-Impact"><a href="#5-Limitation-and-Social-Impact" class="headerlink" title="5.Limitation and Social Impact"></a>5.Limitation and Social Impact</h4><p>我们的工作是基于大型语言模型的提示方法。LLMs已经在网络上各种来源的大型语料库中进行了训练，并显示出捕捉和放大训练数据中发现的偏差。prompt是一种寻求利用语言模型捕捉到的有利于各种任务的模式的方法，因此它也有同样的缺点。也就是说，<strong>我们的方法是一种更直接的方式来探究预先训练好的LLM内部的复杂推理，消除了之前的few-shot方法中的语境学习的混杂因素，并可以导致对LLM中的bias进行更无bias的研究</strong>。</p>
+<h2 id="6-Conclusion"><a href="#6-Conclusion" class="headerlink" title="6 Conclusion"></a>6 Conclusion</h2><p>我们提出了Zero-shot-CoT，这是一种单一的zero-shot提示，可以在各种推理任务中激发大型语言模型的CoT，与之前工作中需要手工制作每个任务的zero-shot提示例子的zero-shot提示（in-context）方法相反。我们的简单方法不仅是困难的多步骤系统-2推理任务的最小和最强的zero-shot提示baseline，这些任务长期以来逃避了LLM的缩放规律，而且还鼓励社区进一步发现类似的多任务提示，以激发广泛的认知能力，如逻辑推理，而不是狭窄的特定任务技能。</p>
+<p><strong>我的想法：</strong> 在探究不同prompt对实验结果的影响的时候，前5项的效果都远高于后3项，这里前5项都提到了分步推理，而后3项没有，这说明模型是可以理解自然语言，能够”知道“分步推理的意思。这样让模型更接近人类思考方式的提示是否也可以扩展到别的任务上；并且这篇论文生成解释的质量也可以进行进一步的调研，文中只给出了答案的正确率，并没有给出解释的正确率，虽然按照论文给出的例子来看还是很不错的。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Paper-Reading/">#Paper Reading</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>《Large Language Models are Zero-Shot Reasoners》论文阅读笔记</div>
+      <div>http://example.com/2022/07/20/《Large-Language-Models-are-Zero-Shot-Reasoners》论文阅读笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月20日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/07/28/%E3%80%8ABig-Model-Systems-and-Application%E3%80%8B%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0-L1-NLP-BM-basics/" title="《Big Model Systems and Application》课程笔记---L1_NLP_BM_basics">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《Big Model Systems and Application》课程笔记---L1_NLP_BM_basics</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/07/18/%E3%80%8ARLPrompt-Optimizing-Discrete-Text-Prompts-With-Reinforcement-Learning%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》论文阅读笔记">
+                        <span class="hidden-mobile">《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》论文阅读笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

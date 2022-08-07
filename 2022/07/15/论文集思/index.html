@@ -24,7 +24,7 @@
 <meta property="og:description" content="idea：《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式的prompt也可以引入学习权重，而不是简单的进行集合。 《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Larg">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-15T09:30:27.000Z">
-<meta property="article:modified_time" content="2022-08-03T15:32:14.820Z">
+<meta property="article:modified_time" content="2022-08-07T03:57:42.435Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          3.2k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          16 分钟
+          27 分钟
         
       </span>
     
@@ -280,12 +280,16 @@
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》(RLPrompt)</p>
 <p>这篇文章中的结论也是优化后的提示语虽然诱发了很强的任务表现，但往往是没有明确的人类可理解含义的杂乱的文本，这与之前的研究相呼应，即利用提示语的LM不一定遵循人类语言模式。.Our results show that good optimized prompts for the downstream task indeed are often not linguistically coherent, but instead tend to be gibberish；The observation suggests that frozen LMs also make use of prompts differently from humans, in line with previous discoveries in prompt-based model fine-tuning (Webson and Pavlick, 2021).冷冻的LMs对提示的利用也与人类不同 <strong>语言模型对prompt的利用与人类不同？</strong></p>
 <p>实验的3.2  <strong>从较小的模型中学到的提示语可以更好地转移到较大的模型中</strong>（例如，distilGPT-2到GPT-2 xlarge），实现与使用较小模型本身相似的性能。<strong>这为未来的研究开辟了一个有希望的、令人兴奋的方向–通过跨LM的转移性，我们可以从较小的模型中廉价地学习一个提示，并将其应用于更大、更昂贵的模型进行推理。</strong></p>
+<p>《Large Language Models are Zero-Shot Reasoners》 <strong>Let’s think step by step</strong></p>
+<p>encourages more research into uncovering high-level and <strong>multi-task zero-shot capabilities hidden inside those models</strong>.  在对于所有类似推理的任务都可以加上“Let’s think step by step”，说明模型是可以像人类一样思考的，那其他任务会不会也有这种最好的引导模型的方式，并且得到一个重要结论，在few-shot小样本学习的过程中模型学的不是例子中的内容，而是答案的格式</p>
 <h3 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》</p>
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》关于对prompting paradigms的介绍可以借鉴</p>
 <h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》介绍instruction都有哪些优化方法</p>
 <p>更广一些：《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》介绍prompt的优化方法：从soft prompt到discrete prompt的优化方法都各有什么缺点</p>
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》</p>
 <p><strong>Discrete Prompt Optimization with RL&#x2F;1.The Discrete Prompt Optimization Problem</strong> <u>更详细的提出离散提示优化方法的问题。一些公式以及表述内容都很值得借鉴</u></p>
+<h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><p>《Large Language Models are Zero-Shot Reasoners》	关于大模型和提示的介绍</p>
+<p><strong>Large language models and prompting</strong> A language model (LM), is a model that looks to estimate the probability distribution over text. Recently, scaling improvements through larger model sizes (from a few million [Merity et al., 2016] to hundreds of millions [Devlin et al., 2019] to hundreds of billions [Brown et al., 2020] parameters) and larger data (e.g. webtext corpora [Gao et al., 2020]) have enabled pre-trained large language models (LLMs) to be incredibly adept at many downstream NLP tasks. Besides the classic “pre-train and fine-tune” paradigm [Liu et al., 2021b], models scaled to 100B+ parameters exhibit properties conducive to few-shot learning [Brown et al., 2020], by way of in context learning, where one can use a text or template known as a prompt to strongly guide the generation to output answers for desired tasks, thus beginning an era of “pre-train and prompt” [Liu et al., 2021a]. In work, we call such prompts with explicit conditioning on few task examples as few-shot prompts, and other template-only prompts as zero-shot prompts.<br>Chain</p>
 <h3 id="方法methodology"><a href="#方法methodology" class="headerlink" title="方法methodology"></a>方法methodology</h3><p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》写法很可以借鉴 1.提出离散提示优化方法的问题2.提出自己的方法的overview 3.介绍overview的左边部分机制 4.介绍overview右边部分的机制</p>
 
                 
