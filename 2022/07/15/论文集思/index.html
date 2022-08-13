@@ -16,15 +16,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="idea：多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning 《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式的prompt也可以引入学习权重，而不是简单的进行集合。 《GrI">
+    <meta name="description" content="idea：多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning？ 社会性 性别问题 stories makes us human 《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="论文集思">
 <meta property="og:url" content="http://example.com/2022/07/15/%E8%AE%BA%E6%96%87%E9%9B%86%E6%80%9D/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="idea：多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning 《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式的prompt也可以引入学习权重，而不是简单的进行集合。 《GrI">
+<meta property="og:description" content="idea：多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning？ 社会性 性别问题 stories makes us human 《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-15T09:30:27.000Z">
-<meta property="article:modified_time" content="2022-08-09T03:53:48.844Z">
+<meta property="article:modified_time" content="2022-08-11T18:00:44.644Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k 字
+          9.2k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          102 分钟
+          77 分钟
         
       </span>
     
@@ -273,7 +273,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="idea："><a href="#idea：" class="headerlink" title="idea："></a>idea：</h1><p><strong>多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning</strong></p>
+                <h1 id="idea："><a href="#idea：" class="headerlink" title="idea："></a>idea：</h1><p><strong>多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning？</strong></p>
+<p>社会性 性别问题 stories makes us human</p>
 <p>《How Can We Know What Language Models Know》(LPAQA)</p>
 <p><strong>在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式的prompt也可以引入学习权重，而不是简单的进行集合。</strong></p>
 <p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》用无梯度的搜索编辑算法（对指令进行删除 增加 交换 转义）</p>
@@ -285,93 +286,44 @@
 <p>encourages more research into uncovering high-level and <strong>multi-task zero-shot capabilities hidden inside those models</strong>.  在对于所有类似推理的任务都可以加上“Let’s think step by step”，说明模型是可以像人类一样思考的，那其他任务会不会也有这种最好的引导模型的方式，并且得到一个重要结论，在few-shot小样本学习的过程中模型学的不是例子中的内容，而是答案的格式</p>
 <p>《Training language models to follow instructions with human feedback》</p>
 <p>模型仍然会产生不良的或有偏见的输出、编造事实，并在没有明确提示的情况下产生性和暴力相关的内容。<strong>并且由于训练数据的缘故，InstructGPT也因此更偏向于英语圈的文化价值观。</strong>此外，这种遵循用户指令训练还有一个副作用：模型更容易被命令去生成某些不良的输出，从而造成滥用。<strong>为了解决这个问题，就需要模型能够自己学会拒绝某些指令，如何能让模型学会拒绝一些指令？目前还暂时无解。</strong></p>
-<p>（</p>
-<p><strong>2.3 Multilingual Learning</strong></p>
-<p><strong>2.3.1 有趣的方向</strong></p>
-<p>除了更多的 Multilingual 预训练模型以及针对更多下游任务的应用不断出现（e.g. “mLUKE: The Power of Entity Representations in Multilingual Pretrained Language Models”），我认为比较有趣的和值得探索的有以下几个方面：</p>
-<p>\1. “Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models” 提出了更严格的多任务框架来预测多语模型 Zero-shot cross-lingual transfer 的表现，不需要在目标 low-resource language 评估，甚至在 low-resource language 完全没有标注数据作为测试集时，即可预测模型的零资源跨语言迁移效果。</p>
-<p>\2. 关于预训练多语模型为什么表现好，仍是一个没有定论的问题。：“Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure”再次指出词表 overlap（anchor）并不是 pretrained multilingual model 跨语言能力的原因，Constituent 的顺序也不是，而语义的组合才是。而之前有研究关于 word anchor 有类似或者相反的结论。</p>
-<p>\3. 关于如何预训练更好的多语模型和覆盖更多样的语言，除了在同一语系（如 indo-European language）中使用 subword 或者 character 可以有多共享的词汇作为“anchor”（比如“Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation”）。</p>
-<p>对于差异很大的语言，比如中文和英文，我认为还应该设法让模型学到不同语言间共享的语法结构，比如类似 Universal Dependency（UD）的结构，在我们之前的工作（“Frustratingly Simple but Surprisingly Strong：Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing”）中 UD 被证明对 zero-shot cross-lingual semantic parsing 帮助巨大。</p>
-<p><strong>2.3.2 Special Theme</strong></p>
-<p>这次 ACL 的 special theme 就是 “Language Diversity: from Low-Resource to Endangered Languages”，在 rising star talk上Sebastian Ruder 做了 “Scaling NLP Systems to the Next 1000 Languages”的演讲。确实，对于语料极少语言的 NLP 问题是从社会影响和公平性角度极为重要的问题。</p>
-<p><strong>3『用好大模型』</strong></p>
-<p>学术界没有大量的计算资源来预训练模型，不过仍有许多极有价值的问题适合去做，比如其中一大类就是如何用好预训练模型。How to use large-scale models ？</p>
-<p><strong>3.1 Decoding &#x2F; Sampling</strong></p>
-<p>对于极大规模的模型，在大部分场景下无法 fine-tune，如何设计更加有效的 Decoding 和 Sampling，以直接利用模型的生成能力是研究的重点。比如 Ryan Cotterell 在“Typical decoding for natural language generation”提出的 sampling 算法能生成更自然的语言并且减少重复生成的问题。</p>
-<p>如何设计更好的constrained decoding 算法来实现 controllable generation 仍是重点，比如“COLD Decoding: Energy-based Constrained Text Generation with Langevin Dynamics” ，以及我比较喜欢的 constrained decoding 做 IE 的方法 “Multilingual Autoregressive Entity Linking”（我们的工作“SEQZERO: Few-shot Compositional Semantic Parsing with Sequential Prompts and Zero-shot Models.”也用了类似的方法）。</p>
-<p>另外，non-autoregressive generation&#x2F;multi-stage generation 也还是常用的方式（我在之前的工作“Planning and Generating Natural and Diverse Disfluent Texts as Augmentation for Disfluency Detection.”做过类似尝试）。</p>
-<p><strong>3.2 Prompt</strong></p>
-<p>基于 prompt 的方式已经成为一种主要的利用大规模模型的方法（清华的 OpenPrompt 拿了 best demo 奖)，除了常见的 prompt，in-context learning （类似 GPT3 给定 few-shot 输入输出样例子）之外，利用生成的 explanations 去帮助模型得到更好的结果，以及将 instructions 作为 prompt 的一部分，这些都成了常用的进一步提升生成结果的方法。会议 &#x2F; tutorial &#x2F; talk 中提到的一些有趣的论文有：</p>
+<p>尝试去解决探索的问题：</p>
+<p><strong>1.Multilingual</strong></p>
 <ul>
-<li>“Noisy channel language model prompting for few-shot text classification”</li>
-<li>“Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?”</li>
-<li>“Can Explanations Be Useful for Calibrating Black Box Models?”</li>
-<li>“The Unreliability of Explanations in Few-Shot In-Context Learning”</li>
-<li>“Cross-Task Generalization via Natural Language Crowdsourcing Instructions”</li>
-<li>“Maieutic Prompting: Logically Consistent Reasoning with Recursive Explanations”</li>
+<li>“Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models” <strong>提出了更严格的多任务框架来预测多语模型 Zero-shot cross-lingual transfer 的表现</strong>，不需要在目标 low-resource language 评估，甚至在 low-resource language 完全没有标注数据作为测试集时，即可预测模型的零资源跨语言迁移效果。</li>
+<li><strong>关于预训练多语模型为什么表现好，仍是一个没有定论的问题</strong>。：“Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure”再次指出词表 overlap（anchor）并不是 pretrained multilingual model 跨语言能力的原因，Constituent 的顺序也不是，而语义的组合才是。而之前有研究关于 word anchor 有类似或者相反的结论。</li>
+<li><strong>关于如何预训练更好的多语模型和覆盖更多样的语言，除了在同一语系（如 indo-European language）中使用 subword 或者 character 可以有多共享的词汇作为“anchor”</strong>（比如“Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation”）。</li>
+<li><strong>对于差异很大的语言，比如中文和英文，我认为还应该设法让模型学到不同语言间共享的语法结构</strong>，比如类似 Universal Dependency（UD）的结构，在我们之前的工作（“Frustratingly Simple but Surprisingly Strong：Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing”）中 UD 被证明对 zero-shot cross-lingual semantic parsing 帮助巨大。</li>
+<li>“<strong>Language Diversity: from Low-Resource to Endangered Languages</strong>”，在 rising star talk上Sebastian Ruder 做了 “Scaling NLP Systems to the Next 1000 Languages”的演讲</li>
 </ul>
-<p><strong>3.2 Effiecient Models</strong></p>
-<p>如何设计更高效的模型（模型压缩，quantization，adapter 等）仍是热点，比如：</p>
+<p><strong>2.大模型无法完成的</strong></p>
 <ul>
-<li>“Structured Pruning Learns Compact and Accurate Models”</li>
-</ul>
-<p><strong>3.3 Language Models as KG</strong></p>
-<p>把大模型视为 knowledge base，它可以帮助我们生成有助于解决任务的知识进而帮助任务本身：</p>
-<ul>
-<li>“Generated Knowledge Prompting for Commonsense Reasonin”</li>
-</ul>
-<p><strong>3.4 Language Models to Generate Data</strong></p>
-<p>大模型强大的生成能力或者 zero-shot&#x2F;few-shot 能力可以帮助生成标注数据以及生成数据作为数据扩增的方式，比如“Generating Data to Mitigate Spurious Correlations in Natural Language Inference Datasets” （我们 EMNLP 2020 的工作“Planning and Generating Natural and Diverse Disfluent Texts as Augmentation for Disfluency Detection”也可以算是最早用预训练模型（GPT2）生成扩增数据的工作之一了，那时 BART 和 T5 刚出来，还没有 GPT3）。</p>
-<p><strong>3.4 Zero&#x2F;few-shot Learning &amp; Learning with Limited Data</strong></p>
-<p>大模型时代我们可以更好地在有限数据的场景下学习（limitted data learning）或者 few&#x2F;zero-shot learning。两个极其火爆的 tutorial 是了解相关工作的极好材料：</p>
-<ul>
-<li>“Learning with Limited Text Data”：我老板 Diyi Yang 介绍了 data augmentation 的相关工作（欢迎关注我们最近的工作“SUBS：Subtree Substitution for Compositional Semantic Parsing”），Colin Raffel 提出了一个统一的框架来理解各种 semi-supervised learning 方法，Ankur Parikh 从 multilinguality 的视角下做了介绍（感谢 Ankur Parikh  在 Google 内部对我们 ACL TableFormer 工作的审核，我们在致谢中提到了他）。</li>
-<li>“Zero- and Few-Shot NLP with Pretrained Language Models” 具体介绍了prompting&#x2F;in-context learning，instructions&#x2F;task descriptions, adapter, meta-training, evaluation, pretraining.</li>
+<li><p><strong>Ambiguity： ** Y</strong>ejin Choi 提到 Ambiguity 是自然语言的内在性质，自然语言理解不是严格的分类问题<strong>（“language understanding is not categorization”），我们应该接受无处不在的 ambiguity，NLP 最基本的任务 POS Tagging 中 POS 的定义在随时间而变化；给定不同的场景（context），两句话的 NLI 关系可能由蕴含变为相斥（“Partial-input baselines show that NLI models can ignore context, but they don’t.”）；</strong>情感分类由最初的只有 postive negtive 标签，到引入了 neutral 的标签；由于标注者的个体不同，人的标注不可避免会有 ambiguity 和 bias<strong>（“Annotators with Attitudes: How Annotator Beliefs And Identities Bias Toxic Language Detection”）；</strong>自动问答中也有 AmbigQA、SituatedQA 这样的数据集（Eunsol Choi 在 rising star talk 中再次强调了同一个问题的答案可能随时间temporal、地点 geographical 等背景的变化而变化<strong>）；</strong>nonmonotonic reasoning 中，引入新的知识后，原有的推论和逻辑会被推翻<strong>。最近 temporal modeling 本身也成为比较火的领域（如 TKGC，时序 &#x2F;event 数据的建模等）；另外</strong>模型如何理解 ambiguous 的数据，以及利用 ambiguous 的数据提升模型也有很多有趣的工作**，Swabha Swayamdipta 在 rising star talk 中着重介绍了用 training dynamics 发现 ambiguous，并生成 ambiguous 数据来帮助提升模型（OOD）泛化能力的工作（“WANLI：Worker and AI Collaboration for Natural Language Inference Dataset Creation”）。</p>
+</li>
+<li><p><strong>Reasoning &#x2F; Logic &#x2F; Structure</strong>：在“the next big ideas” talk 中，逻辑&#x2F;推理&#x2F;结构这些大模型本质的缺陷再次被着重强调。Heng Ji 强调了结构在 multilingual transfer（例如我们之前的“Frustratingly Simple but Surprisingly Strong: Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing”文章）, 长文本理解，多模态泛化中都应发挥更关键的作用；Dan Roth 提到知识的解构（decompose），重组（compose）和规划（plan）的决策过程是实现推理（如temporal&#x2F;numerical reasoning）的关键， 如何利用各种各样的 Incidental supervision signal（比如 Comparable texts&#x2F;Language-world mapping）是学习这个决策（decision）过程的途径。感觉有点类似 Zhiting Hu 的 Panoramic Learning—training AI agents with ALL types of experiences 了哈哈哈；“符号主义真的还需要吗？”的争论仍在继续，一方面 Hang Li 等仍在强调逻辑的重要性（用类似 MoE 的方式组合 Neural Prediction 和 Symbolic Prediction）；一方面 Yejin Choi 在 keynote 中 Continuum 部分所说，<strong>随着大模型的成功，“语言（language），知识（knowledge），推理（reasoning）”应该在大模型时代融为一体，而我们之前过分强调了形式和逻辑的作用（“Reasoning is intuitive inference where logic plays a marginal role”），用形式语言和逻辑 cover 掉所有自然语言中的 variation 是永远不可能的</strong>。</p>
+</li>
+<li><p><strong>Out-of-distribution （OOD）Generalization &amp; Robustness</strong>：大模型在 out-of-distribution data 上泛化的能力仍是模型实际应用中最应该关心的问题之一；<strong>在语言中 Compositionality 关注度明显提升</strong>，在和 Luke 的聊天中他提到他们最近的 code pretrained model 规模增大的情况下 compositional generalization 也会有明显的提升，在和 Jacob Andreas 的交流中他还是强调了数据在compositionality 的作用（包括数据扩增，利用大模型生成数据等），Sash（Alexander Rush）貌似最近也对 compositionality 极感兴趣，可惜没找到机会和他聊天；此外，利用大模型逐步 prompting 是最近比较火热的提升 compositionality 方式；关于 Robustness，利用 out-of-distribution&#x2F;perturbed data 来 attack 模型来检验或者提升模型仍然持续有文章出现（比如我们的“TableFormer：Robust Transformer Modeling for Table-Text Encoding”）。</p>
+</li>
+<li><p><strong>Long Document Understanding &#x2F; Generation：</strong>这里包括 Corpus &#x2F; Discourse &#x2F; Story &#x2F; Screenplay &#x2F; long dialogue&#x2F; Movie &#x2F; TV series 等的理解和生成；<strong>大模型对长文本的理解和生成仍是最大的问题之一。</strong>一种解决方案是提升模型允许编码的序列长度和改进 self-attention 效率，一种是先 retrieve 出来重要的短文本再编码，另外一种就通过结构进行多层级编码或解码。在“the next big ideas”演讲中，Heng Ji 重新强调了 corpus-level IE 的重要性，Mirella Lapata 强调了故事的重要性。</p>
+</li>
+<li><p><strong>Knowledge</strong>：关于在大模型时代的知识图谱（KG），Heng Ji 基本提到了可能的用法：1）To pretrained LM 2）GNN 3）Structural constraints during inference 4）Structure alignment via weak supervision and self-supervised learning；<strong>大模型本身也可以当作知识库（生成知识）或者帮助 KG 的构建</strong>，比如 Yejin Choi 也有一系列 commonsense KG 构建和使用的工作；Semi-parametric 的方法也成了主流之一，retrieval-augmented 的方法已经被广泛应用于理解和生成任务，这方面依然不断有有趣的工作出现，如“Training Language Models with Memory Augmentation”；另外，“Semiparametric Methods in NLP: Decoupling Logic from Knowledge” workshop 也是我最喜欢的 workshop 之一，除了 cover 到大部分相关方向，Deepmind 提到的用 retrievel 的方式做蛋白质结构预测的工作，让许久不做 biology 的我着实眼前一亮。</p>
+</li>
+<li><p><strong>Problem Definition &#x2F; Dataset Creation &#x2F; Evaluation：</strong>Edaurd Hovy 在 big ideas 演讲里提到了应该从问题本身思考，找出有什么 wrong&#x2F;worst case&#x2F;never seen cases，明白”why things go wrong”，再寻找解决方案。这也是我一直以来认为在研究和工程中应该遵循的方式，<strong>好好做 error analysis，发现问题，再对症下药；</strong> <strong>另一方面，做 NLP 最重要的不应该是模型本身，人（human）应该调动主管能动性去更好地定义问题，构建数据集，进行更好的evaluation（evaluation仍然是generation中老大难的问题）</strong>。</p>
+</li>
 </ul>
 <hr>
-<p><strong>4『大模型无法完成的』</strong></p>
-<p>另外学术界更关注的还是大模型做不了的、由模型或者问题本身性质决定的问题，以及预训练框架的本质缺陷。</p>
-<p><strong>4.1 Ambiguity</strong></p>
-<p>Yejin Choi 在 KeyNote 中提到的 Ambiguity 现象可以 cover 到很大一部分问题。她提到 Ambiguity 是自然语言的内在性质，自然语言理解不是严格的分类问题（“language understanding is not categorization”），我们应该接受无处不在的 ambiguity，NLP 最基本的任务 POS Tagging 中 POS 的定义在随时间而变化；给定不同的场景（context），两句话的 NLI 关系可能由蕴含变为相斥（“Partial-input baselines show that NLI models can ignore context, but they don’t.”）。</p>
-<p>情感分类由最初的只有 postive negtive 标签，到引入了 neutral 的标签；由于标注者的个体不同，人的标注不可避免会有 ambiguity 和 bias（“Annotators with Attitudes: How Annotator Beliefs And Identities Bias Toxic Language Detection”）；自动问答中也有 AmbigQA、SituatedQA 这样的数据集（Eunsol Choi 在 rising star talk 中再次强调了同一个问题的答案可能随时间temporal、地点 geographical 等背景的变化而变化）。</p>
-<p>nonmonotonic reasoning 中，引入新的知识后，原有的推论和逻辑会被推翻。最近 temporal modeling 本身也成为比较火的领域（如 TKGC，时序 &#x2F;event 数据的建模等）。</p>
-<p>另外模型如何理解 ambiguous 的数据，以及利用 ambiguous 的数据提升模型也有很多有趣的工作，Swabha Swayamdipta 在 rising star talk 中着重介绍了用 training dynamics 发现 ambiguous，并生成 ambiguous 数据来帮助提升模型（OOD）泛化能力的工作（“WANLI：Worker and AI Collaboration for Natural Language Inference Dataset Creation”）。</p>
-<p><strong>4.2 Reasoning &#x2F; Logic &#x2F; Structure</strong></p>
-<p>在“the next big ideas” talk 中，逻辑&#x2F;推理&#x2F;结构这些大模型本质的缺陷再次被着重强调。Heng Ji 强调了结构在 multilingual transfer（例如我们之前的“Frustratingly Simple but Surprisingly Strong: Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing”文章）, 长文本理解，多模态泛化中都应发挥更关键的作用。</p>
-<p>Dan Roth 提到知识的解构（decompose），重组（compose）和规划（plan）的决策过程是实现推理（如temporal&#x2F;numerical reasoning）的关键， 如何利用各种各样的 Incidental supervision signal（比如 Comparable texts&#x2F;Language-world mapping）是学习这个决策（decision）过程的途径。感觉有点类似 Zhiting Hu 的 Panoramic Learning—training AI agents with ALL types of experiences 了哈哈哈。</p>
-<p>“符号主义真的还需要吗？”的争论仍在继续，一方面 Hang Li 等仍在强调逻辑的重要性（用类似 MoE 的方式组合 Neural Prediction 和 Symbolic Prediction）。</p>
-<p>一方面 Yejin Choi 在 keynote 中 Continuum 部分所说，随着大模型的成功，“语言（language），知识（knowledge），推理（reasoning）”应该在大模型时代融为一体，而我们之前过分强调了形式和逻辑的作用（“Reasoning is intuitive inference where logic plays a marginal role”），用形式语言和逻辑 cover 掉所有自然语言中的 variation 是永远不可能的。</p>
-<p><strong>4.3 Out-of-distribution （OOD）Generalization &amp; Robustness</strong></p>
-<p>大模型在 out-of-distribution data 上泛化的能力仍是模型实际应用中最应该关心的问题之一。</p>
-<p>在语言中 Compositionality 关注度明显提升，在和 Luke 的聊天中他提到他们最近的 code pretrained model 规模增大的情况下 compositional generalization 也会有明显的提升，在和 Jacob Andreas 的交流中他还是强调了数据在compositionality 的作用（包括数据扩增，利用大模型生成数据等），Sash（Alexander Rush）貌似最近也对 compositionality 极感兴趣，可惜没找到机会和他聊天。</p>
-<p>此外，利用大模型逐步 prompting 是最近比较火热的提升 compositionality 方式。更具体的细节可以看<strong>我的讲述 compositionality 的文章以及我们的两篇 NAACL 工作</strong>：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIwNzc2NTk0NQ==&mid=2247529465&idx=1&sn=f5397459a76163b3a84d3eaedc1d33d3&scene=21#wechat_redirect">十年内就能实现通用人工智能？先把组合泛化研究明白吧！</a></p>
-<p>关于 Robustness，利用 out-of-distribution&#x2F;perturbed data 来 attack 模型来检验或者提升模型仍然持续有文章出现（比如我们的“TableFormer：Robust Transformer Modeling for Table-Text Encoding”）。</p>
-<p><strong>4.4 Long Document Understanding &#x2F; Generation</strong></p>
-<p>这里包括 Corpus &#x2F; Discourse &#x2F; Story &#x2F; Screenplay &#x2F; long dialogue&#x2F; Movie &#x2F; TV series 等的理解和生成</p>
-<p>大模型对长文本的理解和生成仍是最大的问题之一。一种解决方案是提升模型允许编码的序列长度和改进 self-attention 效率，一种是先 retrieve 出来重要的短文本再编码，另外一种就通过结构进行多层级编码或解码。在“the next big ideas”演讲中，Heng Ji 重新强调了 corpus-level IE 的重要性，Mirella Lapata 强调了故事的重要性。</p>
-<p><strong>4.5 Knowledge</strong></p>
-<p>关于在大模型时代的知识图谱（KG），Heng Ji 基本提到了可能的用法：1）To pretrained LM 2）GNN 3）Structural constraints during inference 4）Structure alignment via weak supervision and self-supervised learning。</p>
-<p>大模型本身也可以当作知识库（生成知识）或者帮助 KG 的构建，比如 Yejin Choi 也有一系列 commonsense KG 构建和使用的工作。</p>
-<p>Semi-parametric 的方法也成了主流之一，retrieval-augmented 的方法已经被广泛应用于理解和生成任务，这方面依然不断有有趣的工作出现，如“Training Language Models with Memory Augmentation”。</p>
-<p>另外，“Semiparametric Methods in NLP: Decoupling Logic from Knowledge” workshop 也是我最喜欢的 workshop 之一，除了 cover 到大部分相关方向，Deepmind 提到的用 retrievel 的方式做蛋白质结构预测的工作，让许久不做 biology 的我着实眼前一亮。</p>
-<p><strong>4.6 Problem Definition &#x2F; Dataset Creation &#x2F; Evaluation</strong></p>
-<p>Edaurd Hovy 在 big ideas 演讲里提到了应该从问题本身思考，找出有什么 wrong&#x2F;worst case&#x2F;never seen cases，明白”why things go wrong”，再寻找解决方案。这也是我一直以来认为在研究和工程中应该遵循的方式，好好做 error analysis，发现问题，再对症下药。</p>
-<p>另一方面，做 NLP 最重要的不应该是模型本身，人（human）应该调动主管能动性去更好地定义问题，构建数据集，进行更好的evaluation（evaluation仍然是generation中老大难的问题）。</p>
-<hr>
-<p><strong>5『Large LM的目的：更好地为人类所用(help people instead of replacing people)』</strong></p>
-<p><strong>5.1 Interactive Learning &#x2F; Human-in-the-loop &#x2F; Human-AI Collaboration</strong></p>
-<p>Eduard Hovy 在 big ideas 的演讲中提到了除了相对客观的在 LM 或者 web 中的知识（Commonsense knowledge about Schema mined from web&#x2F;LM）人以及社会的知识也极为重要（Commonsense knowledge about people and people in groups：roles）。</p>
-<p>并且人应该去指导模型达成想要的目标。我想这也是interactive learning，human-in-the-loop learning 作为热门研究话题要达到的一部分目的。比如有趣的工作有 Ensol Choi的“Simulating Bandit Learning from User Feedback for Extractive Question Answering”，以及 Yejin 提到的“Reframing human-ai collaboration for generating free-text explanations”。</p>
-<p><strong>5.2 SocialNLP</strong></p>
-<p>我老板 Diyi Yang 给的 rising star talk 详细讲述了人和社会因素应该在 NLP 中发挥更大的作用（很高兴见证终身成就奖老板 Bonnie 主持 Rising Star 老板的 talk）。另外 Diyi 的 outstanding paper “Inducing Positive Perspectives with Text Reframing”定义了“积极转述”这个很有社会影响的问题，很开心对这个工作有过微小的贡献。</p>
-<p><strong>5.3 Complex Tasks</strong></p>
-<p>随着大模型能力越来越强，可能可以做一些人类非常关心的，更复杂的，使我们成为人的任务，比如 Mirella Lapta 提到的 story understanding 和 story telling，我非常喜欢她提到的类似“stories make us human”的观点。</p>
-<p><strong>5.4 安全性&#x2F;隐私</strong></p>
-<p>大模型的安全性问题仍然是重点，federated learning 在这次 ACL 中有一个workshop“Federated Learning for Natural Language Processing”。Privacy 方面也持续有文章值得关注，比如“Are Large Pre-Trained Language Models Leaking Your Personal Information?”。</p>
-<p><strong>5.5 Personalization</strong></p>
-<p>Personalization 在工业界（搜索，推荐，广告）和学术界关注度都很高， 比较吃惊的是和Jason Eisner的聊天中他提到最近他也对Personalization很感兴趣并期待和工业界合作。</p>
-<p>）</p>
+<p><strong>3.Large LM的目的：更好地为人类所用(help people instead of replacing people)</strong></p>
+<ul>
+<li><p><strong>Interactive Learning &#x2F; Human-in-the-loop &#x2F; Human-AI Collaboration：</strong>Eduard Hovy 在 big ideas 的演讲中提到了除了相对客观的在 LM 或者 web 中的知识（Commonsense knowledge about Schema mined from web&#x2F;LM）<strong>人以及社会的知识也极为重要</strong>（Commonsense knowledge about people and people in groups：roles）；<strong>并且人应该去指导模型达成想要的目标。</strong>我想这也是interactive learning，<strong>human-in-the-loop learning 作为热门研究话题要达到的一部分目的。比如有趣的工作有 Ensol Choi的“Simulating Bandit Learning from User Feedback for Extractive Question Answering”，以及 Yejin 提到的“Reframing human-ai collaboration for generating free-text explanations”</strong>。</p>
+</li>
+<li><p><strong>SocialNLP：</strong>我老板 Diyi Yang 给的 rising star talk 详细讲述了人和社会因素应该在 NLP 中发挥更大的作用（很高兴见证终身成就奖老板 Bonnie 主持 Rising Star 老板的 talk）。另外 Diyi 的 outstanding paper “Inducing Positive Perspectives with Text Reframing”<strong>定义了“积极转述”这个很有社会影响的问题</strong>，很开心对这个工作有过微小的贡献。</p>
+</li>
+<li><p><strong>Complex Tasks：</strong>随着大模型能力越来越强，<strong>可能可以做一些人类非常关心的，更复杂的，使我们成为人的任务，比如 Mirella Lapta 提到的 story understanding 和 story telling，我非常喜欢她提到的类似“stories make us human”的观点</strong>。</p>
+</li>
+<li><p><strong>安全性&#x2F;隐私：</strong> <strong>大模型的安全性问题仍然是重点</strong>，federated learning 在这次 ACL 中有一个workshop“Federated Learning for Natural Language Processing”。Privacy 方面也持续有文章值得关注，比如“Are Large Pre-Trained Language Models Leaking Your Personal Information?”。</p>
+</li>
+<li><p><strong>Personalization：</strong>Personalization 在工业界（搜索，推荐，广告）和学术界关注度都很高， 比较吃惊的是和Jason Eisner的聊天中他提到最近他也对Personalization很感兴趣并期待和工业界合作。</p>
+</li>
+</ul>
 <h1 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h1><h3 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》</p>
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》关于对prompting paradigms的介绍可以借鉴</p>
 <h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》介绍instruction都有哪些优化方法</p>
