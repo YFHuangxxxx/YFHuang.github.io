@@ -24,7 +24,7 @@
 <meta property="og:description" content="idea：多任务 zero-shot 多语言 prompt  ？脉冲神经网络&#x2F;强化学习&#x2F;lifelong learning？ 社会性 性别问题 stories makes us human 《How Can We Know What Language Models Know》(LPAQA) 在写指令式的prompt的时候可以通过实验找到最适合不同的下游任务的句式，多样化的指令式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-07-15T09:30:27.000Z">
-<meta property="article:modified_time" content="2022-08-11T18:00:44.644Z">
+<meta property="article:modified_time" content="2022-08-17T04:03:14.412Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.2k 字
+          10k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          77 分钟
+          84 分钟
         
       </span>
     
@@ -286,10 +286,12 @@
 <p>encourages more research into uncovering high-level and <strong>multi-task zero-shot capabilities hidden inside those models</strong>.  在对于所有类似推理的任务都可以加上“Let’s think step by step”，说明模型是可以像人类一样思考的，那其他任务会不会也有这种最好的引导模型的方式，并且得到一个重要结论，在few-shot小样本学习的过程中模型学的不是例子中的内容，而是答案的格式</p>
 <p>《Training language models to follow instructions with human feedback》</p>
 <p>模型仍然会产生不良的或有偏见的输出、编造事实，并在没有明确提示的情况下产生性和暴力相关的内容。<strong>并且由于训练数据的缘故，InstructGPT也因此更偏向于英语圈的文化价值观。</strong>此外，这种遵循用户指令训练还有一个副作用：模型更容易被命令去生成某些不良的输出，从而造成滥用。<strong>为了解决这个问题，就需要模型能够自己学会拒绝某些指令，如何能让模型学会拒绝一些指令？目前还暂时无解。</strong></p>
+<p> 《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of<br>  Language Structure》</p>
+<p>关于三个成分的消融实验，constituent order（就是一些主谓宾成分的顺序）不是跨语言转换的关键，而composition（固定结构搭配 也就是语义 比如说small viliage）是所有语言之间最重要的共同点。</p>
 <p>尝试去解决探索的问题：</p>
 <p><strong>1.Multilingual</strong></p>
 <ul>
-<li>“Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models” <strong>提出了更严格的多任务框架来预测多语模型 Zero-shot cross-lingual transfer 的表现</strong>，不需要在目标 low-resource language 评估，甚至在 low-resource language 完全没有标注数据作为测试集时，即可预测模型的零资源跨语言迁移效果。</li>
+<li>“Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models” <strong>提出了更严格的多任务框架来预测多语模型 Zero-shot cross-lingual transfer 的表现</strong>，不需要在目标 low-resource language 评估，甚至在 low-resource language 完全没有标注数据作为测试集时，即可预测模型的zero-shot跨语言迁移效果。</li>
 <li><strong>关于预训练多语模型为什么表现好，仍是一个没有定论的问题</strong>。：“Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure”再次指出词表 overlap（anchor）并不是 pretrained multilingual model 跨语言能力的原因，Constituent 的顺序也不是，而语义的组合才是。而之前有研究关于 word anchor 有类似或者相反的结论。</li>
 <li><strong>关于如何预训练更好的多语模型和覆盖更多样的语言，除了在同一语系（如 indo-European language）中使用 subword 或者 character 可以有多共享的词汇作为“anchor”</strong>（比如“Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation”）。</li>
 <li><strong>对于差异很大的语言，比如中文和英文，我认为还应该设法让模型学到不同语言间共享的语法结构</strong>，比如类似 Universal Dependency（UD）的结构，在我们之前的工作（“Frustratingly Simple but Surprisingly Strong：Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing”）中 UD 被证明对 zero-shot cross-lingual semantic parsing 帮助巨大。</li>
@@ -326,13 +328,21 @@
 </ul>
 <h1 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h1><h3 id="related-work"><a href="#related-work" class="headerlink" title="related work"></a>related work</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》</p>
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》关于对prompting paradigms的介绍可以借鉴</p>
+<p>《Frustrating Simple but Surprisingly strong:Using Language-Independent<br>  Features for Zero-shot Cross-lingual Semantic Parsing》关于对多语言跨语言语义理解的方法的介绍可以借鉴</p>
+<p>《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of<br>  Language Structure》关于多语言预训练模型以及探究多语言预训练模型的写法可以借鉴</p>
 <h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>《GrIPS: Gradient-free, Edit-based Instruction Search for Prompting Large Language Models》介绍instruction都有哪些优化方法</p>
 <p>更广一些：《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》介绍prompt的优化方法：从soft prompt到discrete prompt的优化方法都各有什么缺点</p>
 <p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》</p>
 <p><strong>Discrete Prompt Optimization with RL&#x2F;1.The Discrete Prompt Optimization Problem</strong> <u>更详细的提出离散提示优化方法的问题。一些公式以及表述内容都很值得借鉴</u></p>
 <h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><p>《Large Language Models are Zero-Shot Reasoners》	关于大模型和提示的介绍</p>
-<p><strong>Large language models and prompting</strong> A language model (LM), is a model that looks to estimate the probability distribution over text. Recently, scaling improvements through larger model sizes (from a few million [Merity et al., 2016] to hundreds of millions [Devlin et al., 2019] to hundreds of billions [Brown et al., 2020] parameters) and larger data (e.g. webtext corpora [Gao et al., 2020]) have enabled pre-trained large language models (LLMs) to be incredibly adept at many downstream NLP tasks. Besides the classic “pre-train and fine-tune” paradigm [Liu et al., 2021b], models scaled to 100B+ parameters exhibit properties conducive to few-shot learning [Brown et al., 2020], by way of in context learning, where one can use a text or template known as a prompt to strongly guide the generation to output answers for desired tasks, thus beginning an era of “pre-train and prompt” [Liu et al., 2021a]. In work, we call such prompts with explicit conditioning on few task examples as few-shot prompts, and other template-only prompts as zero-shot prompts.<br>Chain</p>
+<p><strong>Large language models and prompting</strong> A language model (LM), is a model that looks to estimate the probability distribution over text. Recently, scaling improvements through larger model sizes (from a few million [Merity et al., 2016] to hundreds of millions [Devlin et al., 2019] to hundreds of billions [Brown et al., 2020] parameters) and larger data (e.g. webtext corpora [Gao et al., 2020]) have enabled pre-trained large language models (LLMs) to be incredibly adept at many downstream NLP tasks. Besides the classic “pre-train and fine-tune” paradigm [Liu et al., 2021b], models scaled to 100B+ parameters exhibit properties conducive to few-shot learning [Brown et al., 2020], by way of in context learning, where one can use a text or template known as a prompt to strongly guide the generation to output answers for desired tasks, thus beginning an era of “pre-train and prompt” [Liu et al., 2021a]. In work, we call such prompts with explicit conditioning on few task examples as few-shot prompts, and other template-only prompts as zero-shot prompts.</p>
 <h3 id="方法methodology"><a href="#方法methodology" class="headerlink" title="方法methodology"></a>方法methodology</h3><p>《RLPrompt:Optimizing Discrete Text Prompts With Reinforcement Learning》写法很可以借鉴 1.提出离散提示优化方法的问题2.提出自己的方法的overview 3.介绍overview的左边部分机制 4.介绍overview右边部分的机制</p>
+<h3 id="Study-Design"><a href="#Study-Design" class="headerlink" title="Study Design"></a>Study Design</h3><p>《Cross-Lingual Ability of Multilingual Masked Language Models: A Study of Language Structure》可以借鉴</p>
+<p>In this section, we introduce the design of our study, including the three language structure properties, and the overall setup. We also detail the pre-training and fine-tuning settings for better re- production.</p>
+<h3 id="conclusion"><a href="#conclusion" class="headerlink" title="conclusion"></a>conclusion</h3><p>这项工作提出了… (用…方法来完成…任务)</p>
+<p>我们表明，实验结果表明… （…特征可以显著提高…的性能）</p>
+<p>在未来，… 我们计划…</p>
+<p>《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of<br>  Language Structure》写的很标准的introduction 可以借鉴</p>
 
                 
               </div>

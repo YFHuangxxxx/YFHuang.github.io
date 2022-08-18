@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2203.08430v1  摘要本文主要从语言结构的角度很好的研究了为什么多语的语言模型在跨语言的任务上能够表现出很好的性能。 多语言预训练的语言模型，如mBERT和XLM-R，已经显示出令人印象深刻的跨语言能力。令人惊讶的是，它们都使用了多语言屏蔽语言模型（MLM），没有任何跨语言的监督或对齐数据。尽管取得了令人鼓舞的结果，我们仍然缺乏对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure》论文阅读笔记">
+<meta property="og:url" content="http://example.com/2022/08/06/%E3%80%8ACross-Lingual-Ability-of-Multilingual-Masked-Language-Models%EF%BC%9AA-Study-of-Language-Structure%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Paper: https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2203.08430v1  摘要本文主要从语言结构的角度很好的研究了为什么多语的语言模型在跨语言的任务上能够表现出很好的性能。 多语言预训练的语言模型，如mBERT和XLM-R，已经显示出令人印象深刻的跨语言能力。令人惊讶的是，它们都使用了多语言屏蔽语言模型（MLM），没有任何跨语言的监督或对齐数据。尽管取得了令人鼓舞的结果，我们仍然缺乏对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4e597ce08aea4cdaa02e1b0243c7e1c9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/137d42c311d84f13933428c627c42dc0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6085661816e6433c983f3cbfcf0820b1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/422e8e3dc73e409aaf403e21bb1e89df.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fd6457de323d48f28b67497b49dc7737.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d1944288d8f64506aa49543b5aef2ca1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ea918ce7f9a2465599318c7467b0117c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7eb36b2d760e4395af1ae08953201bab.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fa2e8706bff3477ba77ef1172df1d524.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ab15d09c7397474bb94584017fd5ba1b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d611d97bbded4100b797aaa71852e19f.png">
+<meta property="article:published_time" content="2022-08-06T03:45:23.000Z">
+<meta property="article:modified_time" content="2022-08-17T04:03:17.949Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Paper Reading">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/4e597ce08aea4cdaa02e1b0243c7e1c9.png">
+  
+  
+  
+  <title>《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure》论文阅读笔记 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YFHuang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/test.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure》论文阅读笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-06 11:45" pubdate>
+          2022年8月6日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          98 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure》论文阅读笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Paper: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.08430v1">https://arxiv.org/abs/2203.08430v1</a></p>
+<p><img src="https://img-blog.csdnimg.cn/4e597ce08aea4cdaa02e1b0243c7e1c9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>本文主要从语言结构的角度很好的研究了为什么多语的语言模型在跨语言的任务上能够表现出很好的性能。</p>
+<p>多语言预训练的语言模型，如mBERT和XLM-R，已经显示出令人印象深刻的跨语言能力。令人惊讶的是，它们<strong>都使用了多语言屏蔽语言模型（MLM）</strong>，没有任何跨语言的监督或对齐数据。尽管取得了令人鼓舞的结果，我们<strong>仍然缺乏对为什么多语言MLM会出现跨语言能力的清晰理解</strong>。在我们的工作中，<strong>我们认为跨语言能力来自于语言之间的共同性</strong>。具体来说，<strong>我们研究了三种语言属性：成分顺序、构成和词语共现。</strong>首先，我们通过修改源语言的属性来创造一种人工语言。然后，我们通过对目标语言的跨语言转移结果的变化来研究修改后的属性的贡献。<strong>我们在六种语言和两个跨语言的NLP任务（文本的必然性，句子检索）上进行了实验。我们的主要结论是，成分顺序（constituent order）和词的共现性（word co-occurrence）的贡献是有限的，而成分对于跨语言转移的成功更为关键。</strong></p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>zero-shot跨语言转移的目的是通过重用从源语言中学到的知识为目标语言建立模型。通过这种方式，模型可以在多语言以及低资源语言场景中有效实施。传统上，它是通过两步的pipeline解决的（Ruder等人，2019）：<strong>首先建立一个共享的多语言文本表征，然后在其基础上使用源语言的监督数据来训练特定的任务模型。</strong>随着最近多语言语言模型的出现，该领域的标准范式已经转向预训练的微调范式。多语言预训练语言模型，如mBERT（Devlin等人，2019）和XLM-R（Conneau等人，2020a），已被证明对跨语言转移有效，在大量的下游任务和语言上有更好的结果（Pires等人，2019；Conneau等人，2020a）。</p>
+<p>最令人惊讶的是，mBERT和XLM-R都是在不使用任何平行语料库的情况下训练的。以前的工作（Pires等人，2019；Wu和Dredze，2019）将这一成功归功于共享的anchor word。但最近的工作（Conneau等人，2020b；K等人，2020）表明，即使语料库来自不同的领域，或者没有任何共同的词汇，跨语言转移仍然可能出现。<strong>对于跨语言模型来说，共享跨语言编码器的权重是关键，而是否有语言特定的词嵌入或语言身份标记并不重要。这让我们更加好奇，什么样的语言共同属性可以使跨语言转换成功。</strong></p>
+<p>在我们的工作中，我们研究了三种语言结构属性。1<strong>）构词顺序（Constituent order）。</strong>具体来说，我们研究了三种常见的构词顺序：<strong>动词和宾语的顺序，助词和名词短语的顺序，形容词和名词的顺序</strong>。<strong>2）构成（Composition）</strong>。构成是指我们可以把两个或几个简单的意义结合起来，建立一个新的更复杂的意义。例如，两个词可以组成一个短语，而更多的成分可以形成一个句子的递归。<strong>3) 词语共现（Word co-occurrence）。</strong>我们采用词包假设，研究一个句子中的单词共现。</p>
+<p>我们使用图1来更好地显示两个句子之间的成分相似性。虽然<strong>英文句子和中文句子的词序不同</strong>，但它们都是先分为名词短语和动词短语，然后将动词短语分为三个部分，这三个部分的意思相同，但顺序不一致。</p>
+<p><img src="https://img-blog.csdnimg.cn/137d42c311d84f13933428c627c42dc0.png" srcset="/img/loading.gif" lazyload alt="图1"></p>
+<p>为了更好地分析这三个属性的贡献，<strong>我们使用控制变量法</strong>。在源语言和目标语言之间成功转移的基础上，<strong>我们只改变或删除源语言中的一个结构属性</strong>。我们通过测试从修改后的源语言到目标语言的跨语言转移的性能变化来衡量这一属性的重要性。结果表明，成分顺序和词的共现性的影响很小，而组成成分的影响更大。</p>
+<p>主要贡献归纳如下：</p>
+<p><strong>(1) 我们从语言结构的共同属性分析了跨语言能力的来源，并提出了三个候选答案；</strong></p>
+<p><strong>(2)我们采用了控制变量法，只修改语料库中的目标属性，而保持其他设置相同，从而更好地量化了所研究的属性的贡献；</strong></p>
+<p><strong>(3) 我们的实验清楚地表明，成分的顺序和词语的overlap（词语共现）对跨语言能力的贡献非常有限，而语义的组合才是跨语言转移的关键。</strong></p>
+<h2 id="Study-Design"><a href="#Study-Design" class="headerlink" title="Study Design"></a>Study Design</h2><p>在这一节中，我们介绍了我们的研究设计，包括三个语言结构属性，以及整体设置。我们还详细介绍了预训练和微调设置，以便更好地进行结果的复现。</p>
+<h3 id="1-Dissecting-Language-Structure"><a href="#1-Dissecting-Language-Structure" class="headerlink" title="1.Dissecting Language Structure"></a>1.Dissecting Language Structure</h3><p><u>先介绍所要研究的三个语言结构属性的概念是什么。</u></p>
+<h4 id="1）Constituent-Order"><a href="#1）Constituent-Order" class="headerlink" title="1）Constituent Order"></a>1）Constituent Order</h4><p>在constituent树中，语法规则中的constituent通常是有顺序的。例如在英语中，”S-&gt;NP VP “意味着我们应该把名词短语放在句子的开头，把动词短语放在它的后面。有很多语言学研究来总结和比较不同语言的成分顺序，如WALS（Dryer和Haspelmath，2013）。我们主要研究三个WALS特征，83A（<strong>宾语和动词的顺序</strong>），85A（<strong>副词和名词的顺序</strong>）和87A（<strong>形容词和名词的顺序</strong>）。</p>
+<h4 id="2）Composition"><a href="#2）Composition" class="headerlink" title="2）Composition"></a>2）Composition</h4><p>composition<strong>是指把两个或几个意思结合起来，建立一个新的更复杂的意思</strong>。如图1所示，”two “和 “papers “可以构成一个新的含义 “two papers”。而我们可以进一步将其与 “读 “结合起来，形成 “读两篇论文”。<strong>为了更好地剖析语言结构，我们研究中的composition没有顺序。通过递归地组合意义，我们可以用有限的词来表达无限的意义。</strong>这个组合过程形成了一个无序的树。</p>
+<h4 id="3）Word-Co-Occurrence"><a href="#3）Word-Co-Occurrence" class="headerlink" title="3）Word Co-Occurrence"></a>3）Word Co-Occurrence</h4><p>在我们的论文中，我们研究的是句子层面上的词表的overlap。一些词经常在一个上下文窗口或一个句子中共同出现。如图1所示，<strong>具有相同含义的句子的词共同出现在不同语言中也可能是相似的，这可能是跨语言能力的来源。</strong></p>
+<p><u>我觉得这一段可能解释这三个词解释的更好一些。</u>大多数语言的自然语言句子都是由一串有序的词组成的。但不同的语言可能有不同的词序。我们认为，大多数关于词序的研究，例如WALS的研究，都是在研究constituent order。<strong>术语 “word order”假设任何词都可以有任何相邻的词。但是，”constituent order”的假设是，有些词应该总是组合在一起，形成一个构词，而组间的顺序是研究的对象。</strong>两个成分中的词不太可能是相邻的词。基于此，<strong>我们将 “word order”分解为两个概念 “constituent order”和 “composition”。</strong> <strong>“composition”是指将单词归入短语、句子和句子的规则。如果我们去掉所有的词序信息，我们将只有一组无序的词，我们把这个特征命名为co-occurrence。</strong>词袋假设只取co-occurence信息，在主题建模和词的嵌入方面取得了巨大的成功。我们也希望研究它对MLM的跨语言能力的影响。</p>
+<h3 id="2-Overall-Setup"><a href="#2-Overall-Setup" class="headerlink" title="2.Overall Setup"></a>2.Overall Setup</h3><p><u>介绍实验的整体设置（包括预训练和微调策略）。</u></p>
+<h4 id="1）Bilingual-Pre-training"><a href="#1）Bilingual-Pre-training" class="headerlink" title="1）Bilingual Pre-training"></a>1）Bilingual Pre-training</h4><p>按照以前的研究（Conneau等人，2020b；K等人，2020），我们的实验只在源语言（英语）和目标语言（多种语言）的语料库中进行。<strong>通过只涉及一对语言，我们可以确保特定目标语言的性能只受源语言的影响，而不用担心第三语言的干扰。</strong>在我们的工作中，我们选择英语作为源语言，因为它有最好的成分分析器，而且大多数跨语言的基准只有英语训练数据。</p>
+<h4 id="2）Only-Modify-Source-Language"><a href="#2）Only-Modify-Source-Language" class="headerlink" title="2）Only Modify Source Language"></a>2）Only Modify Source Language</h4><p>我们认为<strong>跨语言能力的来源是语言之间的共性</strong>，它可以通过修改语言对中的任何一种语言而被破坏。我们决定只修改源语言，而不对目标语言进行修改。这使得目标语言的结果可以相互比较，并确保结果的变化只来自语言属性的变化，而不是目标语言的修改。<strong>通过保持其他设置不变，只修改源语言，我们排除了外在因素的干扰。</strong>这种设置遵循了控制变量法，可以进行更精确的量化。</p>
+<h4 id="3）Consistent-in-Pre-training-and-Evaluation"><a href="#3）Consistent-in-Pre-training-and-Evaluation" class="headerlink" title="3）Consistent in Pre-training and Evaluation"></a>3）Consistent in Pre-training and Evaluation</h4><p><strong>我们通过创造一种新的语言来研究不同的共性。</strong>所以我们在预训练和下游评估中都做了修改。这种一致性有助于将我们的结论推广到100种人类自然语言之外的新语言。<strong>例如，新的语言可以是其他模式，如图像、音频和视频。或者像Python、Java和Lisp这样的编程语言。我们可能有一天会遇到外星生物，并可以访问他们的未标记的文本语料库。我们仍然希望跨语言研究能够帮助我们理解他们的语言。<u>（这简直是一个好大胆的想法）</u></strong></p>
+<h3 id="3-Multilingual-Masked-Language-Model"><a href="#3-Multilingual-Masked-Language-Model" class="headerlink" title="3.Multilingual Masked Language Model"></a>3.Multilingual Masked Language Model</h3><p>我们的multilingual masked language model预训练遵循标准设置，如mBERT、XLM-R。具体来说，我们屏蔽了15%的输入标记，其中80%被替换为屏蔽标记，10%保留原词，10%被随机替换为从多语种词汇中抽取的多语种词汇。训练目标是恢复被屏蔽的标记。我们使用每种语言的整个维基百科作为预训练数据，<strong>模型参数在不同语言间共享</strong>。与标准的多语言预训练模型不同，<strong>我们实验中的词汇不是跨语言共享的。</strong>为了消除干扰因素，我们的词汇是使用BPE（Sennrich等人，2016）在每种语言上单独学习的，因为（Conneau等人，2020b；K等人，2020）已经证明，共享词汇对跨语言转移的影响非常有限。注意跨语言共享的softmax预测层仍被保留。</p>
+<h4 id="1）Implementation-Details"><a href="#1）Implementation-Details" class="headerlink" title="1）Implementation Details"></a>1）Implementation Details</h4><p>我们在每个实验中使用基础规模模型，这是一个具有12层、12个头和GELU激活函数的Transformer（Vaswani等人，2017）。每种语言的词汇量为32k，嵌入维度为768，前馈层的隐藏维度为3072，辍学率为0.1。我们使用Adam优化器和多项式衰减学习率调度器，学习率为3×10-4，在训练中使用10k个线性warm-up步骤。我们用8个NVIDIA 32GB V100 GPU训练每个模型，使用总批处理量2048，采用梯度累积策略。我们在16万步时停止预训练，每8千步在下游任务上评估预训练的模型，并报告最佳结果。</p>
+<h3 id="4-Downstream-Cross-lingual-Evaluation"><a href="#4-Downstream-Cross-lingual-Evaluation" class="headerlink" title="4.Downstream Cross-lingual Evaluation"></a>4.Downstream Cross-lingual Evaluation</h3><p><u>介绍评估基准中的数据集和评估的更多细节。</u></p>
+<p>我们考虑<strong>XTREME基准</strong>（Hu等人，2020）中的跨语言自然语言推理（XNLI）数据集（Conneau等人，2018）和Tatoeba数据集（Artetxe和Schwenk，2019）来评估性能。</p>
+<h4 id="1）XNLI"><a href="#1）XNLI" class="headerlink" title="1）XNLI"></a>1）XNLI</h4><p>这是一个标准的跨语言文本关联度数据集，它问的是一个前提句是否包含、矛盾或对同一语言的假设句是中性的。我们使用zero-shot跨语言转移设置，首先用源语言（英语）微调预训练的模型，然后用目标语言直接测试模型。XNLI是一个三类分类任务，以准确性为衡量标准。测试集中的三个类别是均匀分布的，所以随机猜测的得分是33.33%。</p>
+<h4 id="2）Tatoeba"><a href="#2）Tatoeba" class="headerlink" title="2）Tatoeba"></a>2）Tatoeba</h4><p>是一个跨语言的句子检索数据集，由涵盖122种语言的多达1,000个英语对齐的句子对组成。Tatoeba使用源到目标的Top-1准确率作为其衡量标准。请注意，Tatoeba只有测试集，所以我们直接使用预训练的模型，而不进行微调。</p>
+<h4 id="3）Evaluation-Details"><a href="#3）Evaluation-Details" class="headerlink" title="3）Evaluation Details"></a>3）Evaluation Details</h4><p>对于XNLI，特定任务层是一个两层线性映射，其间有tanh函数，它将[cls]标记作为输入。在微调过程中，我们使用Adam优化器和linear decay学习率调度器，学习率为7×10-6，线性warm-up步骤为12.5k。我们对每个模型进行微调，批次大小为32，持续10个epochs，每3k步对英语设计集进行评估，以选择最佳模型。我们报告了四个随机种子的平均结果。对于Tatoeba，我们使用第8层句子的平均集合子词代表（不包括特殊标记）作为XTREME设置后的句子代表（Hu等人，2020）。<strong>评估的方法是根据余弦相似度为其他语言的每个句子找到最相似的相邻的句子。</strong></p>
+<h2 id="Constituent-Order"><a href="#Constituent-Order" class="headerlink" title="Constituent Order"></a>Constituent Order</h2><p><u>然后开始介绍针对这几个结构属性具体控制变量的实验中是怎么做的，以及通过实验得到的分析与结论。</u></p>
+<p>之前的工作（Pires et al., 2019）认为，相同constituent order的语言之间的跨语言转移性能比不同contituent order的语言好10%-20%。因此，我们进一步进行控制变量实验来研究contituent order的影响。首先，我们介绍了我们所研究的contituent order和实验设置。然后，我们通过实验结果分析了contituent order的影响。我们的主要结论是：成分顺序的贡献率约为1%。</p>
+<h4 id="1-Constituent-Order-Modification"><a href="#1-Constituent-Order-Modification" class="headerlink" title="1.Constituent Order Modification"></a>1.Constituent Order Modification</h4><p>继（Naseem等人，2012年；Pires等人，2019年）之后，我们使用WALS中与顺序相关的特征子集来研究成分顺序。具体来说，我们研究了:</p>
+<ul>
+<li><strong>宾语和动词的顺序</strong>。对应于WALS中的83A和成分树中的语法 “VP-&gt;VB NP”。在WALS中定义了两种语序，OV代表宾语-动词语序，VO代表动词-宾语语序。英语是一种OV语言，我们通过将语法改为 “VP-&gt;NP VB “来将其改为VO。请注意，我们将所有以VB（VBZ，VBD）开头的标签都视为VB。</li>
+<li><strong>介词和名词短语的顺序</strong>。对应于WALS中的85A和成分树中的语法 “PP-&gt;IN NP”。WALS中定义了两种顺序，介词（Pre）为介词-名词短语顺序，后置词（Post）为名词短语-后置词顺序。英语是一种介词语言，我们通过将语法改为 “PP-&gt;NP IN”，将介词改为后置词。</li>
+<li><strong>形容词和名词的顺序。</strong> 对应于WALS中的87A和成分树中的 “NP-&gt;JJ NN “语法。在WALS中定义了两种顺序，AN表示形容词-名词顺序，NA表示名词-形容词顺序。英语是一种AN语言，我们通过将语法改为 “NP-&gt;NN JJ “来将其改为NA。</li>
+</ul>
+<p>具体来说，我们使用<strong>斯坦福大学CoreNLP</strong>（Manning等人，2014）<strong>中的构词法解析工具来获得构词树。</strong>对于每个与顺序相关的特征，我们过滤出满足该特征语法的父节点和子节点。例如，宾语和动词的顺序的语法是 “VP-&gt;VB NP”。我们过滤出父节点，其成分标签为VP，并只过滤出两个子节点，其成分标签分别为VB和NP。然后我们将改变这两个子节点的顺序。在我们递归地检查和修改所有的树节点后，我们按顺序遍历树，得到修改了成分顺序的句子。在图2中，我们展示了修改成分顺序的例子。</p>
+<p><img src="https://img-blog.csdnimg.cn/6085661816e6433c983f3cbfcf0820b1.png" srcset="/img/loading.gif" lazyload alt="图2"></p>
+<p>考虑到文字、类型学特征和预训练资源的差异，我们<strong>选择西班牙语、俄语、印度语、土耳其语、泰语和越南语作为目标语言</strong>。</p>
+<p>与分析目标语言的constituent order和结果不同（Pires等人，2019），我们遵循控制变量的原则，直接在语料库中修改constituent order。通过这种方式，我们可以确保结果的差异只来自constituent order的修改。</p>
+<h4 id="2-Effect-of-Constituent-Order-Table"><a href="#2-Effect-of-Constituent-Order-Table" class="headerlink" title="2.Effect of Constituent Order Table"></a>2.Effect of Constituent Order Table</h4><p>表1和表2显示了在XNLI和Tatoeba上的结果。通过对三个特征的修改和对六种不同目标语言（都是在英语上训练，只有目标语言上是不同的）的测试结果，我们可以得出以下三个结论：</p>
+<p><strong>1）修改constituent order对源语言几乎没有影响。</strong>如图1所示，在源语言中修改constituent order几乎没有改变其XNLI的结果（基本上是0.3%）。这意味着我们的修改并不影响语言的整体意义。修改后的语言对于人类和模型来说仍然是一种合理的语言。</p>
+<p><img src="https://img-blog.csdnimg.cn/422e8e3dc73e409aaf403e21bb1e89df.png" srcset="/img/loading.gif" lazyload alt="表1"></p>
+<p><strong>2）将源语言的constituent order改为与目标语言相同，可以提高跨语言的转移。</strong>在表1和表2中，我们发现<strong>修改constituent order在大多数低资源语言上取得了一致的收益</strong>。例如，修改土耳其语的83A，在XNLI上获得0.79%的收益，在Tatoeba上获得5.6%的收益；修改印度语的85A，在XNLI上获得0.74%的收益，在Tatoeba上获得4.4%的收益；修改越南语的87A，在XNLI上获得0.31%的收益，在Tatoeba上获得2.5%的收益。<strong>然而，这种模式在高资源语言中并不十分稳定</strong>。例如，西班牙语中的87A在XNLI上只增加了0.08%，而在Tatoeba上却减少了5.4%。</p>
+<p><img src="https://img-blog.csdnimg.cn/fd6457de323d48f28b67497b49dc7737.png" srcset="/img/loading.gif" lazyload alt="表2"></p>
+<p><strong>3）修改constituent order对跨语言转移的总体效果是有限的。</strong>无论做什么修改，在六种不同的目标语言上的结果都显示出非常有限的变化（在XNLI上基本在1%以内，在Tatoeba上为8%）。这进一步表明，constituent order对跨语言转移的影响有限。换句话说，constituent order不是语言结构的关键组成部分。至于变化的幅度，在Tatoeba上比在XNLI上略高。我们认为有两个主要原因。首<strong>先，Tatoeba的平均句子长度低于XNLI，所以修改的效果会被放大。第二，Tateoba没有训练数据，zero-shot评价非常不稳定。</strong>例如，（Phang等人，2020）一开始通过在XNLI上对模型进行微调，取得了超过20%的收益。</p>
+<h4 id="3-Comparison-to-Previous-Work"><a href="#3-Comparison-to-Previous-Work" class="headerlink" title="3.Comparison to Previous Work"></a>3.Comparison to Previous Work</h4><p>我们的工作与Pires等人2019年的 “冲突 “结论是由于实验设计的不同。在关于宾语和动词顺序的实验中，Pires等人2019年将源语言改为完全不同的语言，并在目标语言上测试。例如，在英语（VO）或印地语（OV）上训练，在法语（VO）上测试。他们发现，从VO到VO的转移比从OV到VO的转移要好得多。而我们的实验使用的是修改过的英语。我们认为，在他们的实验中，动词和宾语顺序并不是源语言的唯一区别。<strong>例如，大多数欧洲语言是VO，大多数中亚语言是OV。同一地区的语言比不同地区的语言更相似</strong>。我们的工作进行控制变量实验，可以更好地分析成分顺序的重要性。</p>
+<h2 id="Composition-The-Key-to-Zero-Shot-Cross-Lingual-Transfer"><a href="#Composition-The-Key-to-Zero-Shot-Cross-Lingual-Transfer" class="headerlink" title="Composition: The Key to Zero-Shot Cross-Lingual Transfer"></a>Composition: The Key to Zero-Shot Cross-Lingual Transfer</h2><p>在这一节中，我们分别研究了consituent order、composition和word co-occurrence的贡献。我们首先介绍了如何从语料库中一步步地完全去除consituent order和composition，然后对结果进行分析。随后，通过控制composition保留率，我们进一步量化了其对跨语言转移的贡献。</p>
+<h3 id="1-Language-Ablation-of-Removing-Constituent-Order-and-Composition"><a href="#1-Language-Ablation-of-Removing-Constituent-Order-and-Composition" class="headerlink" title="1.Language Ablation of Removing Constituent Order and Composition"></a>1.Language Ablation of Removing Constituent Order and Composition</h3><p>首先，我们介绍几个实验设置：</p>
+<p><strong>Constituent重排：移除Constituent Order。</strong>在去除constituent order时，我们应该注意保持composition不被触动。如图3所示，我们对contituent tree中<strong>同一中间节点的子节点</strong>进行重排，同时保留节点间的父子关系不变。<strong>（注意一定是中间节点，而不是叶子节点，这样可以保证单词之间的composition：比如small village是不变的）</strong>通过将其结果与基线进行比较，我们可以量化constituent order的贡献。</p>
+<p><img src="https://img-blog.csdnimg.cn/d1944288d8f64506aa49543b5aef2ca1.png" srcset="/img/loading.gif" lazyload alt="图3"></p>
+<p><strong>Word Shuffle: 去除constituent order和composition。</strong>为了进一步消除composition，我们对句子中的词进行随机的重排。这<strong>种 “洗词 “操作将同时去除constituent order和composition。</strong>通过与 “constituent重排 “的结果相比较，我们可以量化composition的贡献。</p>
+<p><strong>Baseline Without Pre-training: 去除constituent order、composition和word co-occrence。</strong>我们还提供了XNLI中的 “Without Pre-training”基线和Tatoeba中的 “Word Embedding Average”基线，通过与 “Word Shuffle”的比较来量化word co-occrence的贡献。在XNLI中，”Without Pre-training”表示一个与预训练模型结构相同但权重随机初始化的Transformer模型。然后我们用源语言对其进行微调并在目标语言上进行测试。由于Tatoeba没有任何训练数据，我们使用Word Embedding Average作为基线。词的嵌入是从 “shuffle”设置的嵌入层中提取的。词嵌入平均基线的性能仍然归功于word co-occrence，而不是预训练。第二，为了量化修改程度，我们定义了两个度量。<strong>反转率是指修改后的句子中的反义词对的数量，它以句子中的总词对数量为标准。字词移动距离是指句子中每个字词移动的平均距离，以每个句子的长度为标准。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/ea918ce7f9a2465599318c7467b0117c.png" srcset="/img/loading.gif" lazyload alt="表3"></p>
+<p>如表3所示，经过Constituent shuffle和word shuffle的句子在两个指标上几乎相同，都比修改局部constituent order的句子高得多。这说明Constituent shuffle也会对word order进行大量的修改，并且具有很高的随机性。</p>
+<h3 id="2-Contribution-of-Each-Part"><a href="#2-Contribution-of-Each-Part" class="headerlink" title="2.Contribution of Each Part"></a>2.Contribution of Each Part</h3><p><img src="https://img-blog.csdnimg.cn/7eb36b2d760e4395af1ae08953201bab.png" srcset="/img/loading.gif" lazyload alt="表4"></p>
+<p><img src="https://img-blog.csdnimg.cn/fa2e8706bff3477ba77ef1172df1d524.png" srcset="/img/loading.gif" lazyload alt="表5"></p>
+<p>我们在表4和表5中列出了结果。我们可以得出以下三个结论: </p>
+<p><strong>在单语预训练和微调方面，没有composition的预训练仍然取得了良好的效果。</strong>我们可以观察到，无论是去除源语言中的constituent order还是去除composition，在XNLI上仍然显示出有意义的结果（远远高于随机猜测）。<strong>这说明单语语言的文本赋值仅依靠word co-occurrence就可以有很好的表现。</strong></p>
+<p><strong>跨语言转移在有composition的情况下起作用，在没有composition的情况下则不起作用。</strong>当去掉constituent order后，在源语言和目标语言上都只显示出有限的性能损失（3%以内），而且在源语言和目标语言的性能差距上几乎是恒定的。这再次表明，constituent order对跨语言转移的贡献是非常有限的，它不是语言结构的一个关键组成部分。然而，当去除composition后，目标语言的跨语言转移结果只比随机猜测的结果略高。这清楚地表明，<strong>composition是跨语言转移的关键</strong>。至于word co-occurrence，它在XNLI上只贡献了5%，在Tatoeba上贡献了10%到15%。这些结果表明，它确实做出了一些贡献，但贡献非常有限。仅仅依靠word co-occurrence是不足以实现合理的跨语言性能的。</p>
+<p><strong>去掉constituent order，保留composition可能会改善跨语言的转换。</strong>我们在表4中观察到一个有趣的结果。在去除constituent order后，西班牙文和俄文都有大约2%的下降。然而，结果显示在印地语上有0.7%的改善，而英语则下降了2%。<strong>我们认为这是因为该模型依靠所有可能的特征来解决英语任务，但只依靠语言之间的共性来实现跨语言转移</strong>。该模型将使用constituent order和composition特征来解决未经修改的英语的XNLI问题，但在Constituent重排的英语中只能使用composition特征。对于constituent order与英语相似的语言，更多的语言特征可能会导致更好的性能。<strong>但是，对于与英语不同的constituent order的语言，只依靠composition会导致更好的概括能力。这进一步表明，constituent order不是跨语言转换的关键，而composition是所有语言之间最重要的共同点。</strong></p>
+<h3 id="3-Detailed-Analyze-Composition"><a href="#3-Detailed-Analyze-Composition" class="headerlink" title="3.Detailed Analyze Composition"></a>3.Detailed Analyze Composition</h3><p>为了进一步量化composition的影响，我们以不同的程度去除它。如图4所示，我们随机删除组成树中的中间节点的比例α。对于每个被移除的节点，其所有的子节点都与父节点相连。请注意，<strong>一个中间节点被定义为有一个以上子节点的非根节点。</strong>由于篇幅限制，我们只展示了西班牙的结果。</p>
+<p><img src="https://img-blog.csdnimg.cn/ab15d09c7397474bb94584017fd5ba1b.png" srcset="/img/loading.gif" lazyload alt="图4"></p>
+<p>在表6中，我们观察到，当我们删除75%的composition时，在XNLI上的结果仍然高于完全删除时。而在Tatoeba上，随着更多的composition被去除，结果明显下降。</p>
+<p><img src="https://img-blog.csdnimg.cn/d611d97bbded4100b797aaa71852e19f.png" srcset="/img/loading.gif" lazyload alt="表6"></p>
+<p>我们认为这是由于句子长度的不同，XNLI的句子长度比Tatoeba高得多。即使删除了75%的成分，XNLI的保留成分的绝对值仍然要高得多。这一结果表明，<strong>只有一定比例的composition才能达到合理的性能，这再次表明成分对于跨语言转移至关重要。</strong></p>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p><strong>多语言预训练</strong>  <strong>mBERT和XLM-R在不使用任何平行语料库的情况下训练多语言MLM，并显示出强大的跨语言能力。</strong>mBERT是BERT的扩展，它在维基百科100多种语言的数据上进行预训练，以学习多语言共享的语言不变量特征空间。XLM-R（Conneau等人，2020a）是在从Common Crawl（Wenzek等人，2020）中提取的超过100种语言的2.5T数据上训练的，这表明了在大规模语料库中训练的模型的效果。XLM-R在大量下游跨语言任务上的结果表明，大规模的训练语料库可以显著提高多语言模型的性能。</p>
+<p><strong>其他方法在多语言预训练中使用平行语料。</strong>XLM（Conneau和Lample，2019）引入了一个基于平行语料库的翻译语言模型（TLM），该模型在下游任务中显示出明显的改善。Unicoder（Huang等人，2019）引入了一个多任务学习框架，用单语和平行语料库学习跨语言表征，取得了进一步的收益。ALM（Yang等人，2020）允许模型学习跨语言的代码转换句子，增强了转移能力。最近的研究INFOXLM（Chi等人，2021）、HICTL（Wei等人，2021）、VECO（Luo等人，2021）和ERNIE-M（Ouyang等人，2021）使用对比学习、回译和其他技巧进一步提高了多语言模型的性能。我们的工作重点是只研究多语言MLM的模型，而把对平行数据的研究留给未来的工作。</p>
+<p><strong>探究多语言MLM</strong>  <strong>mBERT和XLM-R在不使用任何平行语料的情况下，成功实现了出色的跨语言转换性能。研究人员想知道这种跨语言能力的来源是什么。</strong>(Pires等人，2019）研究了NER（Pan等人，2017）和语篇（POS）标记上的zero-shot跨语言转移性能。他们认为这种成功来自于语言之间共享的anchor词。并非巧合的是，（Wu and Dredze, 2019）也得出了类似的结论。然而，这个结论被（Conneau等人，2020b；K等人，2020）证明是不准确的。他们的实验表明，该模型在完全没有anchor词的语料库上仍然可以学习跨语言转移能力。此外，（Conneau等人，2020b；K等人，2020；Artetxe等人，2020；Libovický等人，2020；Muller等人，2021）从语言相似性、跨语言共享模型参数、模型结构、训练目标、语言标记等方面分析了多语言屏蔽语言模型的跨语言能力。<strong>结果表明，语言间的结构相似性和共享参数对跨语言转移至关重要。在本文中，我们重点分析了语言结构。我们将其分解为constituent order、composition和word co-occrence，并分别研究各部分的影响。</strong></p>
+<p><strong>机器翻译中的词序和屏蔽语言模型</strong> 在目标语言中寻找合适的词序，对统计机器翻译（Tillmann，2004；Chiang，2007）、神经机器翻译（Kawara等人；Zhao等人，2018）和非自动回归神经机器翻译（Ran等人，2019）的机器翻译质量有很大影响。这是因为机器翻译的输入和输出句子有不同的顺序，评价指标也会考虑输出词的顺序。而我们的研究则不同，因为我们只关注分类任务，其输出不需要考虑词序。</p>
+<p>Ji等人2021年的研究表明，调整词序可以获得大约1%的收益。而我们的constituent shuffle也可以获得约1%的收益。但所有这些收益仍然表明，constituent order对跨语言转移并不重要，因为去除composition将导致超过30%的差异。Sinha等人2021年的研究表明，词序对于英语单语预训练并不重要。去除composition后，我们的实验也表明，源语言的性能不会下降很多。但是目标语言的性能会下降30%以上。<strong>这证明了composition不是英语单语预训练的关键，而是跨语言转换的关键。</strong></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>在本文中，我们<strong>从语言结构的角度</strong>研究了多语种掩码语言模型中跨语言能力的来源。我们研究了三种语言结构属性：constituent order、composition和word co-occrence。<strong>实验采用控制变量法进行</strong>。我们通过修改源语言中的属性来创造一种人工语言。我们通过从修改过的语言到目标语言的跨语言转移性能变化来分别量化这三种属性的贡献。<strong>结果显示，constituent order和word co-occrence的贡献非常有限，而composition实际上是跨语言转移的关键</strong>。<strong>如何利用这一发现来加强预先训练好的多语言模型，提高跨语言NLP任务的性能，将是我们未来工作的重点</strong>。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Paper-Reading/">#Paper Reading</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>《Cross-Lingual Ability of Multilingual Masked Language Models：A Study of Language Structure》论文阅读笔记</div>
+      <div>http://example.com/2022/08/06/《Cross-Lingual-Ability-of-Multilingual-Masked-Language-Models：A-Study-of-Language-Structure》论文阅读笔记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月6日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/08/08/%E3%80%8AMulti-Task-Learning-For-Zero-Shot-Performance-Prediction-of-Multilingual-Models%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models》论文阅读笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《Multi Task Learning For Zero Shot Performance Prediction of Multilingual Models》论文阅读笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/04/%E3%80%8ACanine%EF%BC%9APre-training-an-Efficient-Tokenization-Free-Encoder-for-Language-Representation%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation》论文阅读笔记">
+                        <span class="hidden-mobile">《Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation》论文阅读笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

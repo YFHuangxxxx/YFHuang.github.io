@@ -16,16 +16,20 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Paper: https:&#x2F;&#x2F;aclanthology.org&#x2F;2021.emnlp-main.472&#x2F; Code: https:&#x2F;&#x2F;github.com&#x2F;gt-salt&#x2F;multilingual-drs-semantic-parsing  摘要">
+    <meta name="description" content="Paper: https:&#x2F;&#x2F;aclanthology.org&#x2F;2021.emnlp-main.472&#x2F; Code: https:&#x2F;&#x2F;github.com&#x2F;gt-salt&#x2F;multilingual-drs-semantic-parsing  摘要论文的题目名为《令人沮丧的简单但令人惊讶的强大：使用与语言无关的特征进行zero-shot的跨语言语义解析》。 语料库的可用性使得英语语义分析器的训练取得">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Frustrating Simple but Surprisingly strong:Using Language-Independent Features for Zero-shot Cross-lingual Semantic Parsing》论文阅读笔记">
 <meta property="og:url" content="http://example.com/2022/08/02/%E3%80%8AFrustrating-Simple-but-Surprisingly-strong-Using-Language-Independent-Features-for-Zero-shot-Cross-lingual-Semantic-Parsing%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Paper: https:&#x2F;&#x2F;aclanthology.org&#x2F;2021.emnlp-main.472&#x2F; Code: https:&#x2F;&#x2F;github.com&#x2F;gt-salt&#x2F;multilingual-drs-semantic-parsing  摘要">
+<meta property="og:description" content="Paper: https:&#x2F;&#x2F;aclanthology.org&#x2F;2021.emnlp-main.472&#x2F; Code: https:&#x2F;&#x2F;github.com&#x2F;gt-salt&#x2F;multilingual-drs-semantic-parsing  摘要论文的题目名为《令人沮丧的简单但令人惊讶的强大：使用与语言无关的特征进行zero-shot的跨语言语义解析》。 语料库的可用性使得英语语义分析器的训练取得">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/bd2b64481e7240ffb47555635fba16d9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6d5e2f5b9d044be18b4abc831bee7483.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1cd123be137a4dc1b4bd706050636817.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/164caf6cbcd8484bba76ea25db6b23f0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1194092c5ab64b3c8fc0f7f4af7a7778.png">
 <meta property="article:published_time" content="2022-08-02T03:29:49.000Z">
-<meta property="article:modified_time" content="2022-08-13T03:34:58.209Z">
+<meta property="article:modified_time" content="2022-08-14T02:42:50.024Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
@@ -221,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          118 字
+          6.1k 字
         
       </span>
     
@@ -232,7 +236,7 @@
         
         
         
-          1 分钟
+          52 分钟
         
       </span>
     
@@ -278,7 +282,41 @@
                 <p>Paper: <a target="_blank" rel="noopener" href="https://aclanthology.org/2021.emnlp-main.472/">https://aclanthology.org/2021.emnlp-main.472/</a></p>
 <p>Code: <a target="_blank" rel="noopener" href="https://github.com/gt-salt/multilingual-drs-semantic-parsing">https://github.com/gt-salt/multilingual-drs-semantic-parsing</a></p>
 <p><img src="https://img-blog.csdnimg.cn/bd2b64481e7240ffb47555635fba16d9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>论文的题目名为《令人沮丧的简单但令人惊讶的强大：使用与语言无关的特征进行zero-shot的跨语言语义解析》。</p>
+<p>语料库的可用性使得英语语义分析器的训练取得了重大进展。不幸的是，对于英语以外的语言，注释数据是有限的，所开发的解析器的性能也是有限的。<strong>最近，在许多NLP任务中，预训练的多语言模型已被证明对zero-shot的跨语言转移很有用。</strong>将在英语中训练的语义解析器应用于其他语言的zero-shot跨语言语义解析，还需要什么？简单的与语言无关的特征会有帮助吗？为此，我们在英语中实验了六个话语表征结构（DRS）语义分析器，并将其推广到意大利语、德语和荷兰语，这些语言只有少量的人工注释的分析结果可用。广泛的实验表明，尽管它很简单，但<strong>增加通用依存关系（UD）和通用POS标签（UPS）作为模型无关的特征</strong>，在所有解析器上都取得了令人惊讶的强大改进。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>语义解析（semantic parsing）是将自然语言转换为意义表征（meaning representation）的任务，而意义表征又可以通过许多不同的语义形式来表达，包括话语表征理论（DRT）（Kamp和Reyle，2013）、抽象意义表征（AMR）（Banarescu，2013）。反过来又可以通过许多不同的语义形式来表达，包括话语表征理论（DRT）（Kamp和Reyle，2013）、抽象意义表征（AMR）（Banarescu等人，2013）等等。然而，<strong>在一种新的语言中手动注释意义表征是一个艰苦的过程</strong>，这也解释了为什么只有少数数据集可用于英语以外的语言的不同形式主义。例如，在DRT的情况下，即使在最新发布的Parallel Meaning Bank（PMB）（v3.0，Abzianidze等人，2017）中，也没有意大利语和荷兰语的黄金训练数据，而少数有注释的句子被用作意大利语和荷兰语的测试数据。<strong>当训练数据不可用时，如何训练解析器？这项工作通过研究zero-shot的跨语言语义分析所需要的东西来回答了这个问题–学习英语的语义分析器，并在其他语言上测试它。</strong></p>
+<p>之前关于跨语言语义解析的研究利用机器翻译技术来将语义从一种语言映射到另一种语言（Damonte and Cohen, 2018）。然而，这些方法需要平行语料库来提取自动对齐，而这些语料库往往是有噪声的，或者是根本没有的。其他工作利用了参数共享模型。这些模型是基于与语言无关的表征。特别是，跨语言的词嵌入和预训练的多语言模型（Hu et al, 2020）已被用于各种跨语言NLP 任务，包括语义分析（Oepen等人，2020；Sherborne等人，2020）。 2020；Sherborne等人，2020）。<strong>然而，预训练的多语言模型的计算成本很高，而跨语言词嵌入的性能较差。为此，我们建议在zero-shot的跨语言语义分析中添加简单的、与语言无关的特征，这些特征是对所有模型的轻量级扩展，而不是设计具有高时间和空间复杂性的新架构</strong>。</p>
+<p>具体来说，我们探索了跨语言的句法特征，即<strong>通用依赖（UD）</strong>和<strong>通用POS标签（UPS）</strong>（De Marneffe等人，2014年），这些特征已经在90种语言中被广泛注释。由于语义分析器需要很好地理解句子的语法，而UD关系和UPS已被证明是语义角色的有力指标（Reddy等人，2017），我们假设使用UD和UPS作为简单的语言无关和模型无关的特征，可以提高所有模型和语言中zero-shot的跨语言语义分析的性能。<strong>为了测试我们的假设，我们把重点放在PMB上，其中英语、德语、意大利语和荷兰语的句子都被注释了它们的meaning representation</strong>。PMB中的注释是基于话语表征理论（DRT, Kamp and Reyle, 2013)。图1显示了一个使用DRT对句子 “Ich bin schläfrig. (I am sleepy.) “进行注释的例子。</p>
+<p><img src="https://img-blog.csdnimg.cn/6d5e2f5b9d044be18b4abc831bee7483.png" srcset="/img/loading.gif" lazyload alt="图1"></p>
+<p>话语表征结构(DRS)是一个嵌套结构，<strong>由代表语义角色的单数和双数谓词，以及逻辑运算符（如¬）和话语关系（如CONTINUATION）组成</strong>。在这个例子中，我们可以看到，虽然解析器可以在没有UD的情况下理解整个句子的粗略意义，但它在理解一些词汇层面的意义时却很费劲。然而，它成功地将 “schläfrig”识别为事件。作为事件，基于其UD关系标签 “root”。</p>
+<p>我们<strong>在6个DRS解析器上进行了实验</strong>，以测试不同的架构（LSTM与变形器）以及不同的解码策略（顺序与粗略到细微）。原有的解析器使用了具有单语表征的顺序神经编码器，而我们则试验了跨语言表征（即跨语言的词嵌入和多语言的预训练编码器），以及与语言无关的特征（即UPOS、UD关系和结构）。我们还使用基于树的编码器来代替顺序编码器，以评估建立语法模型是否有益。<strong>结果表明，增加UD关系和UPOS作为特征，尽管它的简单性令人沮丧，但却导致了令人惊讶的强大的zero-shot跨语言语义分析器，即使UD是编码过程中使用的唯一输入。另外，UD还进一步提高了强大的预训练多语言模型的性能。令人惊讶的是，在某些语言中，带有UD关系和UPS的小型非预训练的精心设计的粗到细的解码模型甚至超过了大型预训多语言模型。</strong></p>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><h3 id="1-models"><a href="#1-models" class="headerlink" title="1.models"></a>1.models</h3><p><strong>我们的模型都是encoder-decoder结构</strong>，它们将自然语言句子S&#x3D;s1…s|S|作为输入，并将线性化的DRS L输出为一串标记y1…y|L|。每个模型在所使用的特定编码器或解码器方面都有所不同，如本节其余部分所述。</p>
+<p><strong>（1）Coarse-to-fine Decoding Models:</strong> 我们的第一组模型是基于Liu等人（2018）的Coarse-to-fine的编码器-解码器架构。</p>
+<p><strong>Encoder.</strong> 我们首先用<strong>一个BiLSTM编码器</strong>（C2F-BiLSTM）进行实验。在跨语言设置中，我们将跨语言嵌入与UD关系嵌入和可选的通用POS嵌入连接起来作为模型输入。为了直接对依赖结构进行建模，我们还用child-sum tree-LSTM（Tai等人，2015）作为BiLSTM<strong>（C2F-TreeLSTM）</strong>的替代品进行测试，其中输入句子中的每个词都对应于依赖树中的一个节点。然而，在TreeLSTM中完全摒弃词序和上下文可能会损害性能。因此，<strong>我们将treeLSTM和BiLSTM结合起来，得到C2F-Bi&#x2F;TreeLSTM</strong>，其中tree-LSTM输入使用Bi-LSTM的最后一层进行初始化（Chen等人，2017）。</p>
+<p><strong>Decoder.</strong> 在解码时，我们遵循Liu等人（2018）的做法，在三个步骤中从粗到细地重建线性化的DRS表示，每个步骤都以前一个步骤为条件：首先，我们预测外部DRS标签，这些标签对应于谓词将被置于的语义环境（例如 “盒子”）。然后，系统预测单数和二数谓词，在最后一步，预测它们的论据。解码器还利用复制机制来预测那些在输入句中也是词组的谓语（如 “schläfrig”）。关于更多的细节，我们请读者参考原始论文。</p>
+<p><strong>（2）Sequential Decoding Models:</strong> van Noord等人（2018）介绍了另一种无损线性化DRS的方法，以及一个专门的分析器。谓词、逻辑运算符和话语关系，以及它们的参数，不是用括号表示，而是用特殊符号”|||”分隔的标记序列表示。每个变量参数被表示为一个相对索引，指向它的参照物，如果已经被引入的话。关于更多的细节，我们请读者参考原始论文。</p>
+<p>为了生成这样的线性化意义表征，我们<strong>使用带有复制机制的词级LSTM编码器-解码器模型（LSTMN）</strong>，或者按照Liu等人（2019）的做法，<strong>用带有复制机制的变形器编码器-解码器架构（Transformer-N）</strong>取代LSTM。鉴于最近多语言预训练模型在Zeroshot NLP任务中的竞争性表现（Hu等人，2020），<strong>我们也用XLM-R这个最先进的预训练多语言模型进行实验</strong>。为了在我们的编码器-解码器语义分析器中适应这种NLU模型，<strong>我们使用XLM-R来初始化编码器并随机初始化Transformer解码器（XLM-R-Enc-N）</strong></p>
+<h3 id="2-Language-Independent-Features"><a href="#2-Language-Independent-Features" class="headerlink" title="2.Language-Independent Features"></a>2.Language-Independent Features</h3><p>为了使模型能够直接转移到德语、意大利语和荷兰语的测试数据中，我们同时使用了</p>
+<p>（1）<strong>基于英语、德语、意大利语和荷兰语的UD解析的UD关系和结构（D）</strong>以及</p>
+<p>（2）<strong>通用POS标签（P）</strong>（Petrov等人，2011）。</p>
+<p>这两个特征都是用UDPipe（Straka and Straková, 2017）提取的。</p>
+<p>所有的模型都是基于以下的跨语言表征：</p>
+<p>（1）<strong>跨语言词嵌入（W）</strong>，<strong>我们使用MUSE</strong>（Conneau等人，2017）预训练的跨语言词嵌入；（2）<strong>多语言预训练模型</strong>，<strong>使用XLM-R</strong>（Conneau等人，2019），考虑到XLM-R在大多数跨语言NLU任务中的表现比XLM（Lample和Conneau，2019）和mBERT（Wu和Dredze，2019）更好。</p>
+<h2 id="Experiments-and-Results"><a href="#Experiments-and-Results" class="headerlink" title="Experiments and Results"></a>Experiments and Results</h2><p><strong>Data and Evaluation</strong>  我们使用<strong>PMB v.2.1.0</strong>进行第一个系列的实验，其中可以使用coarse-to-fine解码器模型。数据集包括4405个英语、1173个德语、633个意大利语和583个荷兰语句子。我们<strong>将英语句子分为3072个训练句，663个开发句和670个测试句</strong>。<strong>我们将所有其他语言的句子视为测试集。</strong>我们还使用PMB v.3.0进行了实验，其中考虑了预设条件和意义标签。然而，这些额外的标签与coarse-to-fine解码器模型中使用的括号结构不兼容，因此我们使用 <strong>PMB v.3.0</strong>来评估顺序解码模型。<strong>对于英语，有6620个训练句，885个开发句和898个测试句</strong>。<strong>测试集中有403个德语、547个意大利语和483个荷兰语句子</strong>。我们使用Counter（Van Noord等人，2018）来评估我们模型的性能。Counter使用随机爬坡的图形匹配算法来寻找预测和黄金DRS之间的最佳对齐方式，并计算<strong>精度、召回率和F1</strong>。关于进一步的细节，读者可以参考Van Noord等人（2018）。</p>
+<h3 id="1-Using-Language-Independent-Features-in-Coarse-to-fine-Decoding-Models"><a href="#1-Using-Language-Independent-Features-in-Coarse-to-fine-Decoding-Models" class="headerlink" title="1.Using Language-Independent Features in Coarse-to-fine Decoding Models"></a>1.Using Language-Independent Features in Coarse-to-fine Decoding Models</h3><p>为了探索各种与语言无关的特征在zero-shot跨语言语义解析中的作用，我们<strong>以C2F-BiLSTM为baseline，与C2F TreeLSTM和C2FBi&#x2F;TreeLSTM进行比较</strong>。我们还对所使用的特征进行了消融研究。如表1所示，我们发现:</p>
+<p><img src="https://img-blog.csdnimg.cn/1cd123be137a4dc1b4bd706050636817.png" srcset="/img/loading.gif" lazyload alt="表1"></p>
+<p>**(1) **  <strong>UD关系特征对于Zero-shot跨语言语义分析至关重要</strong>  添加UD关系大大改善了所有三种语言的coarse-to-fine解码器模型的性能，与单独使用跨语言的word embedding相比。单独使用UD关系嵌入的模型（D）表现良好，因为删除跨语言词word embedding后，性能并没有下降很多。然而，通过树形编码器对UD结构进行建模，并不能帮助zero-shot的跨语言语义解析持续地进行。</p>
+<p>**(2) **  <strong>UPOS特征进一步提高了性能</strong>  在加入UPOS（P）之后，所有coarse-to-fine解码器模型都表现得更好，达到了最先进的水平，尽管改进的幅度没有在跨语言词嵌入中加入UD那么大。</p>
+<h3 id="2-Using-UD-Relations-in-All-Models"><a href="#2-Using-UD-Relations-in-All-Models" class="headerlink" title="2.Using UD Relations in All Models"></a>2.Using UD Relations in All Models</h3><p>在表1中，我们还通过在德语、意大利语和荷兰语的所有六个基线模型中加入UD关系，来检验UD关系所带来的巨大改进是否与模型无关。我们发现，UD关系带来了一致的、稳健的改进。PMB 2.1中的结果显示，添加UD关系特征可以提高所有三种语言和六个模型的性能。尽管XLM-REnc-N模型比仅有跨语言嵌入的非预训练模型表现更好，但在德语和意大利语中，带有UD特征的简单的非预训练粗到细模型的表现超过了那个大型预训练多语言模型。考虑到表2中的<strong>非预训练模型所需的模型大小和训练&#x2F;推理时间要少得多，在特意设计的非预训练模型中使用UD特征比大型预训练多语言模型有其优势。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/164caf6cbcd8484bba76ea25db6b23f0.png" srcset="/img/loading.gif" lazyload alt="表2"></p>
+<p>对于PMB 3.0来说，<strong>UD关系特征在所有的模型和语言中都能提高性能，甚至在预训练的多语言模型中也有明显的改善。</strong>无论PMB 2.1和3.0中评估和线性化DRS意义表示的方式如何，这种改进也是一致的。</p>
+<h3 id="3-Error-Analysis"><a href="#3-Error-Analysis" class="headerlink" title="3.Error Analysis"></a>3.Error Analysis</h3><p>我们使用<strong>C2F-BiLSTM，即PMB 2.1中最好的跨语言模型</strong>，进行误差分析，以评估对运算符（即逻辑运算符如 “Not “以及话语关系 “Contrast”）、单数非词汇谓词（如time(t)）、二数非词汇谓词（如Agent（e,x））和词汇谓词（如open(e)）的预测质量。</p>
+<p><img src="https://img-blog.csdnimg.cn/1194092c5ab64b3c8fc0f7f4af7a7778.png" srcset="/img/loading.gif" lazyload alt="表3"></p>
+<p>表3中的结果显示，与其他两类相比，预测运算符和二元谓词是困难的。词性谓词的预测相对较好，尽管测试集中的大多数标记在训练期间从未见过。这可以归因于在预测过程中直接从输入中转移标记的复制机制。</p>
+<h2 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h2><p>以前的工作探索了两种主要的跨语言语义理解方法。<strong>一种方法需要平行语料库（也就是源语言的语料库和目标语言的语料库），利用机器翻译提取源语言和目标语言之间的排列组合</strong>（Padó和Lapata，2005；Damonte和Cohen，2017；Zhang等人，2018；Xu等人，2020），之后往往要进行语义表示的投影（Reddy等人，2017）。<strong>另一种方法是使用基于跨语言表征的参数共享模型，如跨语言词嵌入</strong>（Duong等人，2017；Susanto和Lu，2017；Mulcaire等人，2018；Hershcovich等人，2019；Cai和Lapata，2020），<strong>预训练的多语言模型</strong>（Zhu等人，2020；Li等人，2020；Oepen等人，2020），<strong>以及通用POS标签</strong>（Blloshmi等人，2020）。最近，Ozaki等人（2020）；Samuel和Straka（2020）；Dou等人（2020）用预先训练的多语言模型进行了有监督的德语DRS解析，但他们并没有探索zero-shot的跨语言语义解析。<strong>此外，尽管UD在其他跨语言任务中被证明是有用的（Subburathinam等人，2019），但它在跨语言的语义分析中探索不足。</strong></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>这项工作<strong>提出了使用简单的与语言无关的特征来完成zeros-shot的跨语言语义解析的任务。我们表明，简单的UD和UPOS特征可以显著提高基于coarse-to-fine解码器技术或预训练的多语言模型的跨语言语义分析器的性能。</strong>在未来，我们计划将这种特征用于其他语义形式（如AMR）和其他语言（如中文）。</p>
+<p><strong>我的想法：</strong> 这里实验的还是英语的语义解析器在同语系上的语言进行的测试，实际上对于差异很大的语言，比如中文和英文，还设法让模型学到不同语言间共享的语法结构。</p>
+
                 
               </div>
             
@@ -344,6 +382,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/08/04/%E3%80%8ACanine%EF%BC%9APre-training-an-Efficient-Tokenization-Free-Encoder-for-Language-Representation%E3%80%8B%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" title="《Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation》论文阅读笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">《Canine：Pre-training an Efficient Tokenization-Free Encoder for Language Representation》论文阅读笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/860cd9e92b764d9e97d35adce275be56.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/bbac81e033b748c4b87d14455df0a550.png">
 <meta property="article:published_time" content="2022-07-18T03:22:02.000Z">
-<meta property="article:modified_time" content="2022-08-03T15:45:03.010Z">
+<meta property="article:modified_time" content="2022-08-13T03:47:41.143Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Paper Reading">
 <meta name="twitter:card" content="summary_large_image">
@@ -349,8 +349,8 @@
 <li>GrIPS（Prasad等人，2022）：作为一种离散提示枚举方法，对指令进行短语级别的编辑，并选择最好的一个。</li>
 <li>AutoPrompt（Shin等人，2020）：将离散的触发标记作为提示，并通过梯度引导的搜索迭代更新提示。</li>
 </ul>
-<h4 id="1-5-Experiment-Setup"><a href="#1-5-Experiment-Setup" class="headerlink" title="**1.5 Experiment Setup **"></a>**1.5 Experiment Setup **</h4><p>我们使用<strong>RoBERTa-large</strong>（Liu等人，2019）作为我们的backbone模型。对于方法，我们设置提示的长度L&#x3D;2，并在与我们的手动提示相同的位置插入提示标记（Schick和Schütze，2021a；Tam等人，2021）。 我们使用<strong>distilGPT2</strong>作为策略网络的冻结基础。更多训练细节请见文章中的附录。</p>
-<h4 id="1-6-Results"><a href="#1-6-Results" class="headerlink" title="**1.6 Results **"></a>**1.6 Results **</h4><p>我们在表3中列出了few-shot的分类结果：<strong>与现有的离散提示优化框架（GrIPS和AutoPrompt）相比</strong>，我们的方法找到了更强大的提示，在所有基准上都取得了大幅提高的准确性；<strong>当与soft prompt tuning比较时</strong>，RLPROMPT实现了更高和更稳定（例如，更低的std-dev）的准确性，因为我们的方法不存在对初始化的敏感性，这是soft prompt tuning在few-shot设置中的常见问题（Gu等人，2021；Vu等人，2021；Su等人，2021；李和梁，2021）；<strong>我们的方法实现了与Black Box Tuning的可比性</strong>，Black Box Tuning是一种混合提示方法，专门tune提示的soft的部分。探索整合以实现离散和软优化是很有趣的。在少数情况下与模型fine-tune的比较表明，我们的方法在大多数基准中取得了更高的性能和更好的稳定性。除了在微调中因参数变化而扰乱LM的原始知识外，提示方法能更好地激发LM的力量，而不损害其固有的通用能力。</p>
+<h4 id="1-5-Experiment-Setup"><a href="#1-5-Experiment-Setup" class="headerlink" title="1.5 Experiment Setup"></a>1.5 Experiment Setup</h4><p>我们使用<strong>RoBERTa-large</strong>（Liu等人，2019）作为我们的backbone模型。对于方法，我们设置提示的长度L&#x3D;2，并在与我们的手动提示相同的位置插入提示标记（Schick和Schütze，2021a；Tam等人，2021）。 我们使用<strong>distilGPT2</strong>作为策略网络的冻结基础。更多训练细节请见文章中的附录。</p>
+<h4 id="1-6-Results"><a href="#1-6-Results" class="headerlink" title="1.6 Results"></a>1.6 Results</h4><p>我们在表3中列出了few-shot的分类结果：<strong>与现有的离散提示优化框架（GrIPS和AutoPrompt）相比</strong>，我们的方法找到了更强大的提示，在所有基准上都取得了大幅提高的准确性；<strong>当与soft prompt tuning比较时</strong>，RLPROMPT实现了更高和更稳定（例如，更低的std-dev）的准确性，因为我们的方法不存在对初始化的敏感性，这是soft prompt tuning在few-shot设置中的常见问题（Gu等人，2021；Vu等人，2021；Su等人，2021；李和梁，2021）；<strong>我们的方法实现了与Black Box Tuning的可比性</strong>，Black Box Tuning是一种混合提示方法，专门tune提示的soft的部分。探索整合以实现离散和软优化是很有趣的。在少数情况下与模型fine-tune的比较表明，我们的方法在大多数基准中取得了更高的性能和更好的稳定性。除了在微调中因参数变化而扰乱LM的原始知识外，提示方法能更好地激发LM的力量，而不损害其固有的通用能力。</p>
 <h3 id="2-Text-Style-Transfer"><a href="#2-Text-Style-Transfer" class="headerlink" title="2.Text Style Transfer"></a>2.Text Style Transfer</h3><p>长期以来，控制生成文本的属性一直是自然语言生成的一个挑战问题（Yu等人，2017；Hu等人，2017）。具体来说，<strong>文本风格转移（TST）的目标是（1）改变输入句子的风格，同时（2）保留其内容，通常无法获得监督的训练数据</strong>。例如，在一个情感转移任务中，给定一个负面的句子 “The food is disgusting”，一个好的输出将是正面的句子 “The food is delicious”。然而，训练数据只包括负面和正面的句子，没有输入-输出关系。</p>
 <p><strong>即使没有监督数据，我们的方法也能以弱监督信号作为奖励函数来学习提示语</strong>，这在以前的提示语优化方法中是不可能的。与之前从头开始训练模型的TST工作（Dai等人，2019；Luo等人，2019；Madaan等人，2020等）或微调预训练的LM（Liu等人，2021e）相比，我们的方法提出了一个更有效的解决方案，<strong>在不更新LM的参数的情况下为其学习离散的提示语</strong>。</p>
 <h4 id="2-1-Reward-Function"><a href="#2-1-Reward-Function" class="headerlink" title="2.1 Reward Function"></a><strong>2.1 Reward Function</strong></h4><p>给定输入句子x，文本风格转移的目标是生成输出y∗，保留x中的信息，同时显示风格属性s∗。按照这些优先次序，<strong>我们将任务奖励定义为内容保存和目标风格强度的简单总和</strong>，正式描述如下：</p>
